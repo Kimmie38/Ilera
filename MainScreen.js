@@ -41,13 +41,14 @@ const styles = StyleSheet.create({
     paddingBottom: 80, // Leave space for bottom tab
   },
   noAnimalsText: {
+    fontFamily: 'Kodchasan-Bold',
     fontSize: 16,
-    fontWeight: 'bold',
     marginBottom: 10,
     color: '#000',
     textAlign: 'center',
   },
   subText: {
+    fontFamily: 'Kodchasan-Regular',
     fontSize: 14,
     color: '#666',
     textAlign: 'center',
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   registerButtonText: {
+    fontFamily: 'Kodchasan-Regular',
     color: '#fff',
     fontSize: 14,
     fontWeight: '600',

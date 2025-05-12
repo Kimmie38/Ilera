@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import MenuIcon from './assets/icons/menu.svg';
 import BellIcon from './assets/icons/bell.svg';
 import HomeIcon from './assets/icons/home.svg';
@@ -22,18 +22,17 @@ export default function HeaderAndTab({ onMenuPress, onBellPress, activeTab = 'Ho
 
       {/* Bottom Tab Bar */}
       <View style={styles.tabBar}>
-        <TouchableOpacity onPress={() => onTabPress('Home')}>
-          <HomeIcon width={24} height={24} fill={activeTab === 'Home' ? 'green' : 'gray'} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => onTabPress('Vet')}>
-          <VetIcon width={24} height={24} fill={activeTab === 'Vet' ? 'green' : 'gray'} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => onTabPress('Videos')}>
-          <VideosIcon width={24} height={24} fill={activeTab === 'Videos' ? 'green' : 'gray'} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => onTabPress('Profile')}>
-          <ProfileIcon width={24} height={24} fill={activeTab === 'Profile' ? 'green' : 'gray'} />
-        </TouchableOpacity>
+        {[
+          { name: 'Home', Icon: HomeIcon },
+          { name: 'Vet', Icon: VetIcon },
+          { name: 'Videos', Icon: VideosIcon },
+          { name: 'Profile', Icon: ProfileIcon },
+        ].map(({ name, Icon }) => (
+          <TouchableOpacity key={name} onPress={() => onTabPress(name)} style={styles.tabItem}>
+            <Icon width={24} height={24} fill={activeTab === name ? 'green' : 'gray'} />
+            <Text style={[styles.tabLabel, { color: activeTab === name ? 'green' : 'gray' }]}>{name}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </>
   );
@@ -48,14 +47,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tabBar: {
+    fontFamily: 'Kodchasan-Regular',
     position: 'absolute',
     bottom: 0,
     backgroundColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    paddingVertical: 10,
+    paddingVertical: 8,
     borderTopColor: '#ccc',
     borderTopWidth: 1,
+  },
+  tabItem: {
+    alignItems: 'center',
+  },
+  tabLabel: {
+    fontFamily: 'Kodchasan-Regular',
+    fontSize: 12,
+    marginTop: 2,
   },
 });

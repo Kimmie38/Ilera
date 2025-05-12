@@ -1,8 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function CodeVerificationScreen({ navigation }) {
   const [code, setCode] = useState(['', '', '', '', '', ]);
+  const [timeLeft, setTimeLeft] = useState(180); // 3 minutes
+  const [isResendEnabled, setIsResendEnabled] = useState(false);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      setIsResendEnabled(true);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeLeft(prevTime => prevTime - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
 
   const handleChange = (value, index) => {
     const newCode = [...code];
@@ -11,6 +32,13 @@ export default function CodeVerificationScreen({ navigation }) {
   };
 
   const isCodeComplete = code.every(digit => digit !== '');
+
+  const handleResendOTP = () => {
+    // Your logic to resend OTP
+    console.log('Resending OTP...');
+    setTimeLeft(180); // Reset timer to 3 minutes
+    setIsResendEnabled(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -31,19 +59,24 @@ export default function CodeVerificationScreen({ navigation }) {
       </View>
 
       <View style={styles.resendContainer}>
-        <Text style={styles.resendText}>Resend Code</Text>
-        <TouchableOpacity>
-          <Text style={styles.resendLink}>Resend OTP</Text>
-        </TouchableOpacity>
+        <Text style={styles.resendText}>
+          {isResendEnabled ? (
+            <TouchableOpacity onPress={handleResendOTP}>
+              <Text style={styles.resendLink}>Resend OTP</Text>
+            </TouchableOpacity>
+          ) : (
+            `Time Remaining: ${formatTime(timeLeft)}`
+          )}
+        </Text>
       </View>
 
       {isCodeComplete && (
         <TouchableOpacity
-        style={styles.verifyButton}
-        onPress={() => navigation.navigate('MainScreen')}
-      >
-        <Text style={styles.verifyButtonText}>Verify</Text>
-      </TouchableOpacity>
+          style={styles.verifyButton}
+          onPress={() => navigation.navigate('MainScreen')}
+        >
+          <Text style={styles.verifyButtonText}>Verify</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
