@@ -1,78 +1,67 @@
-// MainScreen.js
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, StyleSheet } from 'react-native';
-
-// Import your actual screen components here
-import HomeScreen from './HomeScreen';
-import VetScreen from './VetScreen';
-import VideosScreen from './VideosScreen';
-import ProfileScreen from './ProfileScreen';
-
-const Tab = createBottomTabNavigator();
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import HeaderAndTab from './HeaderAndTab'; // adjust path if needed
 
 export default function MainScreen() {
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        headerShown: false,
-        tabBarShowLabel: true,
-        tabBarLabelStyle: {
-          fontFamily: 'Kodchasan-Regular', // use your font
-          fontSize: 12,
-          marginBottom: 5,
-        },
-        tabBarStyle: styles.tabBar,
-        tabBarIcon: ({ focused }) => {
-          let iconSource;
+    <View style={styles.container}>
+      {/* Header and Bottom Tabs */}
+      <HeaderAndTab
+        onMenuPress={() => console.log('Hamburger clicked')}
+        onBellPress={() => console.log('Bell clicked')}
+        activeTab="Home"
+        onTabPress={(tab) => console.log(`${tab} tab clicked`)}
+      />
 
-          switch (route.name) {
-            case 'Home':
-              iconSource = require('./assets/Home.svg');
-              break;
-            case 'Vet':
-              iconSource = require('./assets/Vet.svg');
-              break;
-            case 'Videos':
-              iconSource = require('./assets/Resources.svg');
-              break;
-            case 'Profile':
-              iconSource = require('./assets/Profile.svg');
-              break;
-            default:
-              iconSource = require('./assets/Home.svg');
-          }
+      {/* Body */}
+      <View style={styles.body}>
+        <Text style={styles.noAnimalsText}>No Animals Registered</Text>
+        <Text style={styles.subText}>
+          Please Click the register button{"\n"}to register your animals and{"\n"}track their health
+        </Text>
 
-          return (
-            <Image
-              source={iconSource}
-              style={[
-                styles.icon,
-                { tintColor: focused ? '#37833b' : '#999' },
-              ]}
-            />
-          );
-        },
-      })}
-    >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Vet" component={VetScreen} />
-      <Tab.Screen name="Videos" component={VideosScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-    </Tab.Navigator>
+        <TouchableOpacity style={styles.registerButton} onPress={() => console.log('Register Pressed')}>
+          <Text style={styles.registerButtonText}>Register Animals</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  tabBar: {
-    height: 60,
+  container: {
+    flex: 1,
     backgroundColor: '#fff',
-    borderTopWidth: 0.5,
-    borderTopColor: '#ccc',
+    position: 'relative',
   },
-  icon: {
-    width: 24,
-    height: 24,
-    marginTop: 8,
+  body: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 80, // Leave space for bottom tab
+  },
+  noAnimalsText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#000',
+    textAlign: 'center',
+  },
+  subText: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 40,
+  },
+  registerButton: {
+    backgroundColor: 'green',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+  },
+  registerButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
