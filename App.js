@@ -1,28 +1,23 @@
-// App.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-// Screens (we'll create these files next)
-import RegisterScreen from './screens/RegisterScreen';
-import LoginScreen from './screens/LoginScreen';
+import FirstScreen from './FirstScreen';
+import SecondScreen from './SecondScreen';
+import ThirdScreen from './ThirdScreen';
+import RegistryScreen from './RegistryScreen';
+import SignupScreen from './SignupScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Register">
-        <Stack.Screen 
-          name="Register" 
-          component={RegisterScreen} 
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen 
-          name="Login" 
-          component={LoginScreen} 
-          options={{ headerShown: false }}
-        />
+      <Stack.Navigator initialRouteName="First">
+        <Stack.Screen name="First" component={FirstScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Second" component={SecondScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Third" component={ThirdScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="RegistryScreen" component={RegistryScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
