@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 export default function RegistryScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Register your account as a</Text>
+      <Text style={styles.title}>Register your account as a :</Text>
 
       <TouchableOpacity
         style={styles.button}
@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 25,
+    fontFamily: 'Kodchasan-Regular',
+    fontSize: 22,
     fontWeight: '600',
     marginBottom: 30,
     color: '#000',
@@ -49,11 +50,13 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   buttonText: {
+    fontFamily: 'Kodchasan-Regular',
     color: '#fff',
     fontSize: 16,
     fontWeight: '500',
   },
   infoText: {
+    fontFamily: 'Kodchasan-Regular',
     marginTop: 20,
     fontSize: 12,
     color: '#666',

@@ -1,73 +1,112 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, CheckBox } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, CheckBox } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function SignupScreen() {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-  const [agreeTerms, setAgreeTerms] = useState(false);
+export default function SignupScreen({ navigation }) {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [agree, setAgree] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const handleRegister = () => {
+    if (!agree) {
+      alert('You must agree to the Terms of Service and Privacy Policy.');
+      return;
+    }
+    console.log('Registering with:', { firstName, lastName, phone, password, confirmPassword });
+  };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity style={styles.backButton}>
+    <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
 
-      <Text style={styles.title}>Create your new{'\n'}account as a Farmer</Text>
+      <Text style={styles.title}>Create your new account as a Farmer</Text>
       <Text style={styles.subtitle}>Create an account to start monitoring your livestock health</Text>
 
-      <View style={styles.inputRow}>
-        <TextInput placeholder="First name" style={[styles.input, { flex: 1, marginRight: 8 }]} />
-        <TextInput placeholder="Last name" style={[styles.input, { flex: 1, marginLeft: 8 }]} />
+      <View style={styles.row}>
+        <TextInput
+          style={[styles.input, { flex: 1, marginRight: 8 }]}
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={setFirstName}
+        />
+        <TextInput
+          style={[styles.input, { flex: 1 }]}
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+        />
       </View>
 
-      <TextInput placeholder="Phone number" style={styles.input} keyboardType="phone-pad" />
+      <TextInput
+        style={styles.input}
+        placeholder="Phone number"
+        value={phone}
+        onChangeText={setPhone}
+        keyboardType="phone-pad"
+      />
 
-      <View style={styles.inputWithIcon}>
+      <View style={styles.passwordContainer}>
         <TextInput
-          placeholder="Password"
           style={styles.input}
-          secureTextEntry={!passwordVisible}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
         />
-        <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)} style={styles.eyeIcon}>
-          <Ionicons name={passwordVisible ? 'eye-off' : 'eye'} size={20} color="#555" />
+        <TouchableOpacity
+          style={styles.eyeIcon}
+          onPress={() => setShowPassword(!showPassword)}
+        >
+          <Ionicons name={showPassword ? 'eye' : 'eye-off'} size={20} color="#666" />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.inputWithIcon}>
+      <View style={styles.passwordContainer}>
         <TextInput
-          placeholder="Confirm Password"
           style={styles.input}
-          secureTextEntry={!confirmPasswordVisible}
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry={!showConfirmPassword}
         />
-        <TouchableOpacity onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)} style={styles.eyeIcon}>
-          <Ionicons name={confirmPasswordVisible ? 'eye-off' : 'eye'} size={20} color="#555" />
+        <TouchableOpacity
+          style={styles.eyeIcon}
+          onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+        >
+          <Ionicons name={showConfirmPassword ? 'eye' : 'eye-off'} size={20} color="#666" />
         </TouchableOpacity>
       </View>
 
       <View style={styles.checkboxContainer}>
-        <CheckBox
-          value={agreeTerms}
-          onValueChange={setAgreeTerms}
-        />
-        <Text style={styles.termsText}>
+        <CheckBox value={agree} onValueChange={setAgree} />
+        <Text style={styles.checkboxText}>
           I Agree with <Text style={styles.link}>Terms of Service</Text> and <Text style={styles.link}>Privacy Policy</Text>
         </Text>
       </View>
 
-      <TouchableOpacity style={styles.registerButton}>
+      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
         <Text style={styles.registerButtonText}>Register</Text>
       </TouchableOpacity>
 
-      <Text style={styles.signInText}>
-        Already have an account? <Text style={styles.signInLink}>Sign In</Text>
-      </Text>
-    </ScrollView>
+      <TouchableOpacity onPress={() => console.log('Navigate to Sign In')}>
+        <Text style={styles.signInText}>
+          Already have an account? <Text style={styles.link}>Sign In</Text>
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 20,
     backgroundColor: '#fff',
   },
@@ -75,59 +114,59 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '600',
-    marginBottom: 10,
     color: '#000',
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: '#555',
-    marginBottom: 20,
+    color: '#666',
+    marginBottom: 24,
   },
-  inputRow: {
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    fontSize: 14,
+    marginBottom: 16,
+    flex: 1,
+  },
+  row: {
     flexDirection: 'row',
     marginBottom: 16,
   },
-  input: {
-    backgroundColor: '#f2f2f2',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    fontSize: 14,
-    flex: 1,
-  },
-  inputWithIcon: {
+  passwordContainer: {
     position: 'relative',
-    marginBottom: 16,
   },
   eyeIcon: {
     position: 'absolute',
     right: 16,
-    top: 14,
+    top: 16,
   },
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 24,
   },
-  termsText: {
-    marginLeft: 10,
+  checkboxText: {
+    marginLeft: 8,
     fontSize: 12,
-    color: '#555',
-    flex: 1,
-    flexWrap: 'wrap',
+    color: '#444',
+    flexShrink: 1,
   },
   link: {
     color: '#37833b',
-    textDecorationLine: 'underline',
+    fontWeight: '500',
   },
   registerButton: {
     backgroundColor: '#37833b',
-    borderRadius: 24,
+    borderRadius: 20,
     paddingVertical: 12,
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   registerButtonText: {
     color: '#fff',
@@ -136,11 +175,7 @@ const styles = StyleSheet.create({
   },
   signInText: {
     textAlign: 'center',
-    fontSize: 14,
-    color: '#555',
-  },
-  signInLink: {
-    color: '#37833b',
-    textDecorationLine: 'underline',
+    fontSize: 12,
+    color: '#444',
   },
 });

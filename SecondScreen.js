@@ -49,11 +49,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
+    fontFamily: 'Kodchasan-Regular',
     fontSize: 18,
     fontWeight: '600',
     color: '#37833b',
   },
   subtitle: {
+    fontFamily: 'Kodchasan-Regular',
     marginTop: 10,
     fontSize: 14,
     color: '#555',
