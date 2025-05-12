@@ -9,6 +9,9 @@ import SecondScreen from './SecondScreen';
 import ThirdScreen from './ThirdScreen';
 import RegistryScreen from './RegistryScreen';
 import SignupScreen from './SignupScreen';
+import CodeVerificationScreen from './CodeVerificationScreen';
+import LoginScreen from './LoginScreen';
+import MainScreen from './MainScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +21,8 @@ export default function App() {
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
-        'Kodchasan-Regular': require('./assets/fonts/Kodchasan-Regular.ttf'), // 👈 Replace with your actual font
+        'Kodchasan-Regular': require('./assets/fonts/Kodchasan-Regular.ttf'),
+        'Kodchasan-Bold': require('./assets/fonts/Kodchasan-Bold.ttf'), // 👈 Replace with your actual font
       });
       setFontsLoaded(true);
     }
@@ -42,6 +46,10 @@ export default function App() {
         <Stack.Screen name="Third" component={ThirdScreen} options={{ headerShown: false }} />
         <Stack.Screen name="RegistryScreen" component={RegistryScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="CodeVerificationScreen" component={CodeVerificationScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

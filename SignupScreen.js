@@ -1,27 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, CheckBox } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Checkbox } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SignupScreen({ navigation }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agree, setAgree] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const handleRegister = () => {
-    if (!agree) {
-      alert('You must agree to the Terms of Service and Privacy Policy.');
-      return;
-    }
-    console.log('Registering with:', { firstName, lastName, phone, password, confirmPassword });
-  };
+  const [secureText, setSecureText] = useState(true);
+  const [secureConfirmText, setSecureConfirmText] = useState(true);
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
@@ -29,9 +22,9 @@ export default function SignupScreen({ navigation }) {
       <Text style={styles.title}>Create your new account as a Farmer</Text>
       <Text style={styles.subtitle}>Create an account to start monitoring your livestock health</Text>
 
-      <View style={styles.row}>
+      <View style={styles.inputRow}>
         <TextInput
-          style={[styles.input, { flex: 1, marginRight: 8 }]}
+          style={[styles.input, { flex: 1, marginRight: 10 }]}
           placeholder="First Name"
           value={firstName}
           onChangeText={setFirstName}
@@ -47,24 +40,24 @@ export default function SignupScreen({ navigation }) {
       <TextInput
         style={styles.input}
         placeholder="Phone number"
-        value={phone}
-        onChangeText={setPhone}
         keyboardType="phone-pad"
+        value={phoneNumber}
+        onChangeText={setPhoneNumber}
       />
 
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.input}
           placeholder="Password"
+          secureTextEntry={secureText}
           value={password}
           onChangeText={setPassword}
-          secureTextEntry={!showPassword}
         />
         <TouchableOpacity
           style={styles.eyeIcon}
-          onPress={() => setShowPassword(!showPassword)}
+          onPress={() => setSecureText(!secureText)}
         >
-          <Ionicons name={showPassword ? 'eye' : 'eye-off'} size={20} color="#666" />
+          <Ionicons name={secureText ? 'eye-off' : 'eye'} size={20} color="#999" />
         </TouchableOpacity>
       </View>
 
@@ -72,110 +65,118 @@ export default function SignupScreen({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
+          secureTextEntry={secureConfirmText}
           value={confirmPassword}
           onChangeText={setConfirmPassword}
-          secureTextEntry={!showConfirmPassword}
         />
         <TouchableOpacity
           style={styles.eyeIcon}
-          onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+          onPress={() => setSecureConfirmText(!secureConfirmText)}
         >
-          <Ionicons name={showConfirmPassword ? 'eye' : 'eye-off'} size={20} color="#666" />
+          <Ionicons name={secureConfirmText ? 'eye-off' : 'eye'} size={20} color="#999" />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.checkboxContainer}>
-        <CheckBox value={agree} onValueChange={setAgree} />
+      <View style={styles.checkboxRow}>
+        <Checkbox
+          status={agree ? 'checked' : 'unchecked'}
+          onPress={() => setAgree(!agree)}
+          color="#37833b"
+        />
         <Text style={styles.checkboxText}>
-          I Agree with <Text style={styles.link}>Terms of Service</Text> and <Text style={styles.link}>Privacy Policy</Text>
+          I Agree with <Text style={styles.linkText}>Terms of Service</Text> and <Text style={styles.linkText}>Privacy Policy</Text>
         </Text>
       </View>
 
-      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-        <Text style={styles.registerButtonText}>Register</Text>
-      </TouchableOpacity>
+      <TouchableOpacity
+  style={[styles.registerButton, { backgroundColor: agree ? '#37833b' : '#ccc' }]}
+  disabled={!agree}
+  onPress={() => navigation.navigate('CodeVerificationScreen')}
+>
+  <Text style={styles.registerText}>Register</Text>
+</TouchableOpacity>
 
-      <TouchableOpacity onPress={() => console.log('Navigate to Sign In')}>
-        <Text style={styles.signInText}>
-          Already have an account? <Text style={styles.link}>Sign In</Text>
+      <Text style={styles.footerText}>
+        Already have an account?{' '}
+        <Text style={styles.signInLink} onPress={() => navigation.navigate('LoginScreen')}>
+          Login
         </Text>
-      </TouchableOpacity>
-    </View>
+      </Text>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    paddingTop: 60,
   },
   backButton: {
     marginBottom: 20,
   },
   title: {
+    fontFamily: 'Kodchasan-Bold',
     fontSize: 22,
-    fontWeight: '600',
-    color: '#000',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   subtitle: {
+    fontFamily: 'Kodchasan-Regular',
     fontSize: 14,
-    color: '#666',
-    marginBottom: 24,
+    color: '#777',
+    marginBottom: 20,
+  },
+  inputRow: {
+    flexDirection: 'row',
+    marginBottom: 15,
   },
   input: {
+    fontFamily: 'Kodchasan-Regular',
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    fontSize: 14,
-    marginBottom: 16,
-    flex: 1,
-  },
-  row: {
-    flexDirection: 'row',
-    marginBottom: 16,
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 15,
   },
   passwordContainer: {
     position: 'relative',
+    marginBottom: 15,
   },
   eyeIcon: {
     position: 'absolute',
-    right: 16,
-    top: 16,
+    right: 15,
+    top: 15,
   },
-  checkboxContainer: {
+  checkboxRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
   },
   checkboxText: {
-    marginLeft: 8,
-    fontSize: 12,
-    color: '#444',
-    flexShrink: 1,
+    fontFamily: 'Kodchasan-Regular',
+    flex: 1,
+    flexWrap: 'wrap',
   },
-  link: {
+  linkText: {
     color: '#37833b',
-    fontWeight: '500',
+    textDecorationLine: 'underline',
   },
   registerButton: {
-    backgroundColor: '#37833b',
-    borderRadius: 20,
-    paddingVertical: 12,
+    padding: 15,
+    borderRadius: 25,
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 20,
   },
-  registerButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '500',
+  registerText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
-  signInText: {
+  footerText: {
+    fontFamily: 'Kodchasan-Regular',
     textAlign: 'center',
-    fontSize: 12,
-    color: '#444',
+    fontSize: 14,
+  },
+  signInLink: {
+    color: '#37833b',
+    fontWeight: 'bold',
   },
 });
