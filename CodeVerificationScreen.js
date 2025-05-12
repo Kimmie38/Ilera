@@ -38,12 +38,12 @@ export default function CodeVerificationScreen({ navigation }) {
       </View>
 
       {isCodeComplete && (
-          <TouchableOpacity
-          style={styles.verifyButton}
-          onPress={() => navigation.navigate('CodeVerificationScreen')}
-        >
-          <Text style={styles.buttonText}>Verify</Text>
-        </TouchableOpacity>
+        <TouchableOpacity
+        style={styles.verifyButton}
+        onPress={() => navigation.navigate('MainScreen')}
+      >
+        <Text style={styles.verifyButtonText}>Verify</Text>
+      </TouchableOpacity>
       )}
     </View>
   );
