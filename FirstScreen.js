@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '60%',
     borderRadius: 25,
-    marginTop: 23,
+    marginTop: 28,
   },
   textContainer: {
     padding: 20,

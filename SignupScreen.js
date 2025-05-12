@@ -167,8 +167,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   registerText: {
+    fontFamily: 'Kodchasan-Bold',
     color: 'white',
-    fontWeight: 'bold',
   },
   footerText: {
     fontFamily: 'Kodchasan-Regular',
