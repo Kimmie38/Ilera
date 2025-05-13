@@ -12,6 +12,7 @@ import SignupScreen from './SignupScreen';
 import CodeVerificationScreen from './CodeVerificationScreen';
 import LoginScreen from './LoginScreen';
 import MainScreen from './MainScreen';
+import RegisterScreen from './RegisterScreen';
 import HeaderAndTab from './HeaderAndTab';
 
 const Stack = createNativeStackNavigator();
@@ -51,6 +52,8 @@ export default function App() {
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="HeaderAndTab" component={HeaderAndTab} options={{ headerShown: false }} />
         <Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }} />
+        
         
       </Stack.Navigator>
     </NavigationContainer>

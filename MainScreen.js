@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import HeaderAndTab from './HeaderAndTab'; // adjust path if needed
 
-export default function MainScreen() {
+export default function MainScreen({ navigation }) {
   return (
     <View style={styles.container}>
       {/* Header and Bottom Tabs */}
@@ -20,7 +20,10 @@ export default function MainScreen() {
           Please Click the register button{"\n"}to register your animals and{"\n"}track their health
         </Text>
 
-        <TouchableOpacity style={styles.registerButton} onPress={() => console.log('Register Pressed')}>
+        <TouchableOpacity
+          style={styles.registerButton}
+          onPress={() => navigation.navigate('RegisterScreen')}
+        >
           <Text style={styles.registerButtonText}>Register Animals</Text>
         </TouchableOpacity>
       </View>
