@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 // Import your SVG icons
 import TempIcon from './assets/icons/temperature.svg';
@@ -12,49 +13,52 @@ export default function LivestockCard({
   temperature = '23k',
   motion = '40m/s',
   heartRate = '2hb/s',
-  onPressView,
 }) {
+  const navigation = useNavigation(); // ✅ Required to enable navigation
+
   return (
     <View style={styles.section}>
-    <View style={styles.card}>
-      {/* Header */}
-      <View style={styles.headerRow}>
-        <Text style={styles.label}>
-          Animal Type: <Text style={styles.value}>{animalType}</Text>
-        </Text>
-        <Text style={styles.label}>
-          Animal Tag: <Text style={styles.value}>{tag}</Text>
-        </Text>
-      </View>
+      <View style={styles.card}>
+        {/* Header */}
+        <View style={styles.headerRow}>
+          <Text style={styles.label}>
+            Animal Type: <Text style={styles.value}>{animalType}</Text>
+          </Text>
+          <Text style={styles.label}>
+            Animal Tag: <Text style={styles.value}>{tag}</Text>
+          </Text>
+        </View>
 
-      {/* Metrics */}
-      <View style={styles.metricsRow}>
-        <View style={styles.metric}>
-          <View style={styles.iconWrapper}>
-            <TempIcon width={35} height={35} fill="#37833b" />
+        {/* Metrics */}
+        <View style={styles.metricsRow}>
+          <View style={styles.metric}>
+            <View style={styles.iconWrapper}>
+              <TempIcon width={35} height={35} fill="#37833b" />
+            </View>
+            <Text style={styles.metricValue}>{temperature}</Text>
           </View>
-          <Text style={styles.metricValue}>{temperature}</Text>
-        </View>
-        <View style={styles.metric}>
-          <View style={styles.iconWrapper}>
-            <MotionIcon width={35} height={35} fill="#37833b" />
+          <View style={styles.metric}>
+            <View style={styles.iconWrapper}>
+              <MotionIcon width={35} height={35} fill="#37833b" />
+            </View>
+            <Text style={styles.metricValue}>{motion}</Text>
           </View>
-          <Text style={styles.metricValue}>{motion}</Text>
-        </View>
-        <View style={styles.metric}>
-          <View style={styles.iconWrapper}>
-            <HeartIcon width={35} height={35} fill="#37833b" />
+          <View style={styles.metric}>
+            <View style={styles.iconWrapper}>
+              <HeartIcon width={35} height={35} fill="#37833b" />
+            </View>
+            <Text style={styles.metricValue}>{heartRate}</Text>
           </View>
-          <Text style={styles.metricValue}>{heartRate}</Text>
         </View>
-       
-      </View>
 
-      {/* View Button */}
-      <TouchableOpacity style={styles.viewButton} onPress={onPressView}>
-        <Text style={styles.viewButtonText}>View &gt;</Text>
-      </TouchableOpacity>
-    </View>
+        {/* View Button */}
+        <TouchableOpacity
+          style={styles.viewButton}
+          onPress={() => navigation.navigate('GraphScreen')}
+        >
+          <Text style={styles.viewButtonText}>View &gt;</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -62,9 +66,9 @@ export default function LivestockCard({
 const styles = StyleSheet.create({
   section: {
     backgroundColor: '#f6f6f6',
-    },
+  },
   card: {
-    backgroundColor: '#ffff', // light gray background
+    backgroundColor: '#ffff',
     borderRadius: 14,
     padding: 16,
     marginBottom: 20,
