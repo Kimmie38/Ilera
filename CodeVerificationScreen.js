@@ -73,7 +73,7 @@ export default function CodeVerificationScreen({ navigation }) {
       {isCodeComplete && (
         <TouchableOpacity
           style={styles.verifyButton}
-          onPress={() => navigation.navigate('MainScreen')}
+          onPress={() => navigation.navigate('BioScreen')}
         >
           <Text style={styles.verifyButtonText}>Verify</Text>
         </TouchableOpacity>

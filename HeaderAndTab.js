@@ -20,7 +20,7 @@ export default function HeaderAndTab({ onMenuPress, onBellPress, activeTab = 'Ho
         </TouchableOpacity>
       </View>
 
-      {/* Bottom Tab Bar */}
+      {/* TabBar (Fixed Bottom) */}
       <View style={styles.tabBar}>
         {[
           { name: 'Home', Icon: HomeIcon },
@@ -45,21 +45,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#fff',
+    zIndex: 1,
   },
   tabBar: {
-    fontFamily: 'Kodchasan-Regular',
     position: 'absolute',
     bottom: 0,
+    left: 0,
+    right: 0,
     backgroundColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '100%',
     paddingVertical: 8,
     borderTopColor: '#ccc',
     borderTopWidth: 1,
   },
   tabItem: {
     alignItems: 'center',
+    
+     
   },
   tabLabel: {
     fontFamily: 'Kodchasan-Regular',

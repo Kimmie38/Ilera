@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import HeaderAndTab from './HeaderAndTab'; // adjust path if needed
+import { useNavigation } from '@react-navigation/native';
+import HeaderAndTab from './HeaderAndTab';
+
+// Import your SVG icons (adjust the path if necessary)
+import HomeIcon from './assets/icons/home.svg';
+import VetIcon from './assets/icons/vet.svg';
+import VideosIcon from './assets/icons/resources.svg';
+import ProfileIcon from './assets/icons/profile.svg';
 
 export default function RegisterScreen() {
   const [category, setCategory] = useState('');
@@ -10,6 +17,7 @@ export default function RegisterScreen() {
   const [tagNumber, setTagNumber] = useState('');
   const [sensorId, setSensorId] = useState('');
   const [age, setAge] = useState('');
+  const navigation = useNavigation();
 
   const handleRegister = () => {
     console.log('Animal Registered');
@@ -17,80 +25,103 @@ export default function RegisterScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Header and Tab */}
+      {/* Header */}
       <HeaderAndTab
-        onMenuPress={() => console.log('Hamburger clicked')}
+        onMenuPress={() => console.log('Menu clicked')}
         onBellPress={() => console.log('Bell clicked')}
         activeTab="Home"
         onTabPress={(tab) => console.log(`${tab} tab clicked`)}
       />
 
-      <View style={styles.formContainer}>
-        <Text style={styles.label}>Animal Category</Text>
-        <View style={styles.dropdown}>
-          <Picker
-            selectedValue={category}
-            onValueChange={(itemValue) => setCategory(itemValue)}
-          >
-            <Picker.Item label="Select Category" value="" />
-            <Picker.Item label="Cattle" value="cattle" />
-            <Picker.Item label="Goat" value="goat" />
-            <Picker.Item label="Sheep" value="sheep" />
-          </Picker>
-        </View>
+      {/* TouchableWithoutFeedback dismisses keyboard when tapping outside inputs */}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          style={styles.formContainer}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
+          <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
+            <Text style={styles.label}>Animal Category</Text>
+            <View style={styles.dropdown}>
+              <Picker
+                selectedValue={category}
+                onValueChange={(itemValue) => setCategory(itemValue)}
+              >
+                <Picker.Item label="Select Category" value="" />
+                <Picker.Item label="Cattle" value="cattle" />
+                <Picker.Item label="Goat" value="goat" />
+                <Picker.Item label="Sheep" value="sheep" />
+              </Picker>
+            </View>
 
-        <Text style={styles.label}>Animal Breed</Text>
-        <View style={styles.dropdown}>
-          <Picker
-            selectedValue={breed}
-            onValueChange={(itemValue) => setBreed(itemValue)}
-          >
-            <Picker.Item label="Select Breed" value="" />
-            <Picker.Item label="Local" value="local" />
-            <Picker.Item label="Exotic" value="exotic" />
-          </Picker>
-        </View>
+            <Text style={styles.label}>Animal Breed</Text>
+            <View style={styles.dropdown}>
+              <Picker
+                selectedValue={breed}
+                onValueChange={(itemValue) => setBreed(itemValue)}
+              >
+                <Picker.Item label="Select Breed" value="" />
+                <Picker.Item label="Local" value="local" />
+                <Picker.Item label="Exotic" value="exotic" />
+              </Picker>
+            </View>
 
-        <Text style={styles.label}>Gender</Text>
-        <View style={styles.genderContainer}>
-          <TouchableOpacity onPress={() => setGender('male')} style={styles.genderOption}>
-            <View style={[styles.radioCircle, gender === 'male' && styles.selectedRadio]} />
-            <Text style={styles.genderLabel}>Male</Text>
+            <Text style={styles.label}>Gender</Text>
+            <View style={styles.genderContainer}>
+              <TouchableOpacity onPress={() => setGender('male')} style={styles.genderOption}>
+                <View style={[styles.radioCircle, gender === 'male' && styles.selectedRadio]} />
+                <Text style={styles.genderLabel}>Male</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setGender('female')} style={styles.genderOption}>
+                <View style={[styles.radioCircle, gender === 'female' && styles.selectedRadio]} />
+                <Text style={styles.genderLabel}>Female</Text>
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.label}>Tag Number</Text>
+            <TextInput
+              style={styles.input}
+              value={tagNumber}
+              onChangeText={setTagNumber}
+              placeholder="Enter Tag Number"
+            />
+
+            <Text style={styles.label}>Sensor ID Number</Text>
+            <TextInput
+              style={styles.input}
+              value={sensorId}
+              onChangeText={setSensorId}
+              placeholder="Enter Sensor ID"
+            />
+
+            <Text style={styles.label}>Animal's Age</Text>
+            <TextInput
+              style={styles.input}
+              value={age}
+              onChangeText={setAge}
+              placeholder="Enter Age"
+              keyboardType="numeric"
+            />
+
+            <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('DashboardScreen')}>
+              <Text style={styles.registerButtonText}>Register</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+
+      {/* TabBar */}
+      <View style={styles.tabBar}>
+        {[
+          { name: 'Home', Icon: HomeIcon },
+          { name: 'Vet', Icon: VetIcon },
+          { name: 'Videos', Icon: VideosIcon },
+          { name: 'Profile', Icon: ProfileIcon },
+        ].map(({ name, Icon }) => (
+          <TouchableOpacity key={name} onPress={() => console.log(`${name} tab clicked`)} style={styles.tabItem}>
+            <Icon width={24} height={24} fill={name === 'Home' ? 'green' : 'gray'} />
+            <Text style={[styles.tabLabel, { color: name === 'Home' ? 'green' : 'gray' }]}>{name}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setGender('female')} style={styles.genderOption}>
-            <View style={[styles.radioCircle, gender === 'female' && styles.selectedRadio]} />
-            <Text style={styles.genderLabel}>Female</Text>
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.label}>Tag Number</Text>
-        <TextInput
-          style={styles.input}
-          value={tagNumber}
-          onChangeText={setTagNumber}
-          placeholder="Enter Tag Number"
-        />
-
-        <Text style={styles.label}>Sensor ID Number</Text>
-        <TextInput
-          style={styles.input}
-          value={sensorId}
-          onChangeText={setSensorId}
-          placeholder="Enter Sensor ID"
-        />
-
-        <Text style={styles.label}>Animal's Age</Text>
-        <TextInput
-          style={styles.input}
-          value={age}
-          onChangeText={setAge}
-          placeholder="Enter Age"
-          keyboardType="numeric"
-        />
-
-        <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-          <Text style={styles.registerButtonText}>Register</Text>
-        </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
@@ -103,8 +134,10 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1,
+  },
+  scrollContent: {
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingBottom: 100, // Adding space for the bottom TabBar
   },
   label: {
     fontFamily: 'Kodchasan-Bold',
@@ -121,8 +154,6 @@ const styles = StyleSheet.create({
   },
   genderContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
     marginBottom: 20,
   },
   genderOption: {
@@ -144,7 +175,6 @@ const styles = StyleSheet.create({
   genderLabel: {
     fontFamily: 'Kodchasan-Regular',
     fontSize: 14,
-    color: '#000',
   },
   input: {
     borderWidth: 1,
@@ -167,5 +197,22 @@ const styles = StyleSheet.create({
     fontFamily: 'Kodchasan-Regular',
     fontSize: 14,
     fontWeight: '600',
+  },
+  tabBar: {
+    flexShrink: 0, // Ensures the tab bar doesn't shrink
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 8,
+    borderTopColor: '#ccc',
+    borderTopWidth: 1,
+  },
+  tabItem: {
+    alignItems: 'center',
+  },
+  tabLabel: {
+    fontFamily: 'Kodchasan-Regular',
+    fontSize: 12,
+    marginTop: 2,
   },
 });
