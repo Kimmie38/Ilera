@@ -1,13 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-import HeaderAndTab from './HeaderAndTab';  // Your header with menu & bell icon
-import TabBar from './TabBar';              // Your custom bottom tab bar
+import HeaderAndTab from './HeaderAndTab';
+import TabBar from './TabBar';
 import { LineChart } from 'react-native-chart-kit';
-import { Dimensions } from 'react-native'; // Your custom SVG
+import { Dimensions } from 'react-native';
+
+// Placeholder icons (replace with yours later)
+import ThermometerIcon from '../Ilhera/assets/icons/ThermometerIcon';
+import MotionIcon from '../Ilhera/assets/icons/MotionIcon';
+import HeartIcon from '../Ilhera/assets/icons/HeartIcon';
 
 const screenWidth = Dimensions.get('window').width;
 
+const GraphCard = ({ title, value, IconComponent }) => (
+  <View style={styles.graphCard}>
+    <View style={styles.cardHeader}>
+      <View style={styles.iconCircle}>
+        <IconComponent width={35} height={35} style={{ marginRight: 10 }} />
+      </View>
+      <View>
+        <Text style={styles.cardLabel}>{title}</Text>
+        <Text style={styles.cardValue}>{value}</Text>
+      </View>
+      <TouchableOpacity style={styles.dropdownButton}>
+        <Text style={styles.dropdownText}>Daily ▾</Text>
+      </TouchableOpacity>
+    </View>
+
+    <View style={{ overflow: 'hidden', borderRadius: 16 }}>
+      <LineChart
+        data={{
+          labels: ["1", "2", "3", "4", "5", "6", "7"],
+          datasets: [{ data: [0, 0, 0, 0, 0, 0, 0] }],
+        }}
+        width={screenWidth - 72}
+        height={180}
+        fromZero
+        withInnerLines
+        withDots={false}
+        withVerticalLines={false}
+        withShadow={false}
+        chartConfig={{
+          backgroundColor: "#fff",
+          backgroundGradientFrom: "#fff",
+          backgroundGradientTo: "#fff",
+          decimalPlaces: 0,
+          color: () => "#4CAF50",
+          labelColor: () => "#000",
+          propsForBackgroundLines: { stroke: "#E0E0E0" },
+          fillShadowGradientOpacity: 0,
+        }}
+        bezier={false}
+        style={{ marginVertical: 8 }}
+      />
+    </View>
+
+    <View style={styles.yAxisLine} />
+    <View style={styles.dashedLine} />
+  </View>
+);
+
 const GraphScreen = () => {
+  const [activeFilter, setActiveFilter] = useState('All'); // Filter state
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -16,111 +71,64 @@ const GraphScreen = () => {
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           {/* Animal Info Card */}
           <View style={styles.infoCard}>
-            <Text><Text style={styles.bold}>Animal Type: </Text>Cow</Text>
-            <Text><Text style={styles.bold}>Animal Tag: </Text>250</Text>
-            <Text><Text style={styles.bold}>Gender: </Text>M</Text>
-            <Text><Text style={styles.bold}>Age: </Text>4</Text>
-            <Text><Text style={styles.bold}>Sensor ID: </Text>DF-0013</Text>
-            <TouchableOpacity style={styles.viewButton}>
-              <Text style={styles.viewButtonText}>View</Text>
-            </TouchableOpacity>
+            <Text style={styles.infoItem}>
+              <Text style={styles.bold}>Animal Type: - </Text>
+            </Text>
+            <Text style={styles.infoItem}>
+              <Text style={styles.bold}>Animal Tag: - </Text>
+            </Text>
+            <Text style={styles.infoItem}>
+              <Text style={styles.bold}>Gender: - </Text>
+            </Text>
+            <Text style={styles.infoItem}>
+              <Text style={styles.bold}>Age: - </Text>
+            </Text>
+            <Text style={styles.infoItem}>
+              <Text style={styles.bold}>Sensor ID: - </Text>
+            </Text>
           </View>
 
           {/* Filter Tabs */}
           <View style={styles.filterTabs}>
-            <TouchableOpacity style={[styles.filterBtn, styles.activeFilter]}>
-              <Text style={styles.activeFilterText}>All</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filterBtn}>
-              <Text style={styles.filterText}>With Trackers</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filterBtn}>
-              <Text style={styles.filterText}>Without Trackers</Text>
-            </TouchableOpacity>
+            {['All', 'With Trackers', 'Without Trackers'].map((filter) => (
+              <TouchableOpacity
+                key={filter}
+                style={[
+                  styles.filterBtn,
+                  activeFilter === filter && styles.activeFilter,
+                ]}
+                onPress={() => setActiveFilter(filter)}
+              >
+                <Text
+                  style={
+                    activeFilter === filter
+                      ? styles.activeFilterText
+                      : styles.filterText
+                  }
+                >
+                  {filter}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
 
-          {/* Temperature Card */}
-          <View style={styles.temperatureCard}>
-  <View style={styles.tempHeader}>
-    <View style={styles.iconCircle}>
-      {/* <ThermometerIcon width={16} height={16} /> */}
-    </View>
-    <View>
-      <Text style={styles.tempLabel}>Temperature</Text>
-      <Text style={styles.tempValue}>23k</Text>
-    </View>
-    <TouchableOpacity style={styles.dropdownButton}>
-      <Text style={styles.dropdownText}>Hour ▾</Text>
-    </TouchableOpacity>
-  </View>
-
-
-  <LineChart
-    data={{
-      labels: ["1", "2", "3", "4", "5", "6", "7"],
-      datasets: [{ data: [0, 10000, 20000, 30000, 40000, 35000, 25000] }],
-    }}
-    width={screenWidth - 40}
-    height={180}
-    withInnerLines
-    withDots={false}
-    withVerticalLines={false}
-    chartConfig={{
-      backgroundColor: "#fff",
-      backgroundGradientFrom: "#fff",
-      backgroundGradientTo: "#fff",
-      decimalPlaces: 0,
-      color: () => "#4CAF50",
-      labelColor: () => "#000",
-      propsForBackgroundLines: { stroke: "#E0E0E0" },
-      fillShadowGradient: "#C8E6C9",
-      fillShadowGradientOpacity: 0.2,
-      yAxisLabel: "",
-    }}
-    bezier={false}
-    style={{ borderRadius: 16 }}
-  />
-
-  {/* Manual Y-axis vertical line */}
-  <View
-    style={{
-      position: 'absolute',
-      top: 20, // Matches chart padding top
-      bottom: 30, // Matches chart padding bottom
-      left: 40, // Aligned to labels area (adjust if needed)
-      width: 1,
-      backgroundColor: '#E0E0E0',
-    }}
-  />
-
-  {/* Optional: Vertical dashed reading line at index 6 */}
-  <View
-    style={{
-      position: 'absolute',
-      top: 20,
-      bottom: 30,
-      left: ((screenWidth - 40 - 60) / 7) * 5.5 + 40, // 60 = padding (left+right)
-      width: 1,
-      borderLeftWidth: 1,
-      borderLeftColor: '#4CAF50',
-      borderStyle: 'dashed',
-    }}
-  />
-</View>
-
+          {/* Graph Cards */}
+          <GraphCard title="Temperature" value="0k" IconComponent={ThermometerIcon} />
+          <GraphCard title="Motion" value="0m/s" IconComponent={MotionIcon} />
+          <GraphCard title="Heart Rate" value="0bps" IconComponent={HeartIcon} />
         </ScrollView>
 
-        {/* Bottom TabBar from TopBar Component */}
         <TabBar />
       </View>
     </SafeAreaView>
   );
 };
 
+// Styles
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#f9f9f9' },
-  container: { flex: 1 },
-  scrollContainer: { paddingBottom: 100 },
+  safeArea: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#fff' },
+  scrollContainer: { paddingBottom: 100, backgroundColor: '#fff' },
 
   infoCard: {
     backgroundColor: '#fff',
@@ -133,17 +141,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
-  bold: { fontWeight: 'bold' },
-  viewButton: {
-    alignSelf: 'flex-end',
-    marginTop: 10,
-    borderWidth: 1,
-    borderColor: '#888',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 4,
+  infoItem: {
+    marginBottom: 8,
   },
-  viewButtonText: { fontSize: 12 },
+  bold: {
+    fontSize: 17,
+    fontFamily: 'Kodchasan-Bold',
+  },
 
   filterTabs: {
     flexDirection: 'row',
@@ -168,7 +172,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
   },
-  temperatureCard: {
+
+  graphCard: {
     backgroundColor: '#fff',
     borderRadius: 16,
     margin: 16,
@@ -179,22 +184,22 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
-  tempHeader: {
+  cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
   },
   iconCircle: {
-    width: 32,
-    height: 32,
+    width: 35,
+    height: 35,
     borderRadius: 16,
-    backgroundColor: '#DFF1DC', // Light green background
+    backgroundColor: '#DFF1DC',
+    marginRight: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 8,
   },
-  tempLabel: { fontSize: 14, color: '#444' },
-  tempValue: { fontSize: 18, fontWeight: '600' },
+  cardLabel: { fontSize: 14, color: '#444' },
+  cardValue: { fontSize: 18, fontWeight: '600' },
   dropdownButton: {
     marginLeft: 'auto',
     borderWidth: 1,
@@ -207,28 +212,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#333',
   },
-  
-
-  chartCard: {
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    margin: 16,
-    padding: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+  yAxisLine: {
+    position: 'absolute',
+    top: 20,
+    bottom: 30,
+    left: 40,
+    width: 1,
+    backgroundColor: '#E0E0E0',
   },
-  chartHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
+  dashedLine: {
+    position: 'absolute',
+    top: 20,
+    bottom: 30,
+    left: ((screenWidth - 40 - 60) / 7) * 5.5 + 40,
+    width: 1,
+    borderLeftWidth: 1,
+    borderLeftColor: '#4CAF50',
+    borderStyle: 'dashed',
   },
-  chartTitle: { fontSize: 16, marginLeft: 6 },
-  chartValue: { marginLeft: 'auto', fontSize: 16 },
-  dropdown: { marginLeft: 10 },
-  dropdownText: { fontSize: 14, color: '#888' },
 });
 
 export default GraphScreen;
