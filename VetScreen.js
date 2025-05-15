@@ -3,6 +3,8 @@ import { View, Text, TextInput, StyleSheet, ScrollView, Image, TouchableOpacity 
 import HeaderAndTab from './HeaderAndTab';
 import TabBar from './TabBar';
 
+
+
 const doctors = [
   {
     name: 'Dr. Muhamadu Rufai',
@@ -36,7 +38,7 @@ const doctors = [
   },
 ];
 
-export default function VetScreen() {
+export default function VetScreen({navigation}) {
   return (
     <View style={styles.container}>
       <HeaderAndTab title="Doctor" />
@@ -66,8 +68,8 @@ export default function VetScreen() {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity>
-              <Text style={styles.arrow}>{'>'}</Text>
+           <TouchableOpacity onPress={() => navigation.navigate('MoreScreen', { doctor: doc })}>
+            <Text style={styles.arrow}>{'>'}</Text>     
             </TouchableOpacity>
           </View>
         ))}
