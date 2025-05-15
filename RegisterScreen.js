@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Keyboa
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import HeaderAndTab from './HeaderAndTab';
+import TabBar from './TabBar';             
 
 // Import your SVG icons (adjust the path if necessary)
 import HomeIcon from './assets/icons/home.svg';
@@ -110,19 +111,20 @@ export default function RegisterScreen() {
       </TouchableWithoutFeedback>
 
       {/* TabBar */}
-      <View style={styles.tabBar}>
+      {/* <View style={styles.tabBar}>
         {[
-          { name: 'Home', Icon: HomeIcon },
-          { name: 'Vet', Icon: VetIcon },
-          { name: 'Videos', Icon: VideosIcon },
-          { name: 'Profile', Icon: ProfileIcon },
+          // { name: 'Home', Icon: HomeIcon },
+          // { name: 'Vet', Icon: VetIcon },
+          // { name: 'Videos', Icon: VideosIcon },
+          // { name: 'Profile', Icon: ProfileIcon },
         ].map(({ name, Icon }) => (
           <TouchableOpacity key={name} onPress={() => console.log(`${name} tab clicked`)} style={styles.tabItem}>
             <Icon width={24} height={24} fill={name === 'Home' ? 'green' : 'gray'} />
             <Text style={[styles.tabLabel, { color: name === 'Home' ? 'green' : 'gray' }]}>{name}</Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </View> */}
+        <TabBar />
     </View>
   );
 }

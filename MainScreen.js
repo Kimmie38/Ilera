@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import HeaderAndTab from './HeaderAndTab'; // adjust path if needed
+import TabBar from './TabBar';
 
 export default function MainScreen({ navigation }) {
   return (
@@ -27,6 +28,7 @@ export default function MainScreen({ navigation }) {
           <Text style={styles.registerButtonText}>Register Animals</Text>
         </TouchableOpacity>
       </View>
+              <TabBar />
     </View>
   );
 }

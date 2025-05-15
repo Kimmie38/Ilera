@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
 import MenuIcon from './assets/icons/menu.svg';
 import BellIcon from './assets/icons/bell.svg';
 import HomeIcon from './assets/icons/home.svg';
@@ -7,7 +9,40 @@ import VetIcon from './assets/icons/vet.svg';
 import VideosIcon from './assets/icons/resources.svg';
 import ProfileIcon from './assets/icons/profile.svg';
 
-export default function HeaderAndTab({ onMenuPress, onBellPress, activeTab = 'Home', onTabPress }) {
+export default function HeaderAndTab({ onMenuPress, onBellPress }) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const [activeTab, setActiveTab] = useState(route.name);
+
+  useEffect(() => {
+    setActiveTab(route.name);
+  }, [route.name]);
+
+  const handleTabPress = (tabName) => {
+    setActiveTab(tabName);
+    switch (tabName) {
+      case 'Home':
+        navigation.navigate('MainScreen');
+        break;
+      case 'Vet':
+        navigation.navigate('VetScreen');
+        break;
+      case 'Videos':
+        navigation.navigate('VideoScreen');
+        break;
+      case 'Profile':
+        navigation.navigate('ProfileScreen');
+        break;
+    }
+  };
+
+  const TABS = [
+    { name: 'Home', Icon: HomeIcon },
+    { name: 'Vet', Icon: VetIcon },
+    { name: 'Videos', Icon: VideosIcon },
+    { name: 'Profile', Icon: ProfileIcon },
+  ];
+
   return (
     <>
       {/* Header */}
@@ -20,17 +55,14 @@ export default function HeaderAndTab({ onMenuPress, onBellPress, activeTab = 'Ho
         </TouchableOpacity>
       </View>
 
-      {/* TabBar (Fixed Bottom) */}
+      {/* TabBar */}
       <View style={styles.tabBar}>
-        {[
-          { name: 'Home', Icon: HomeIcon },
-          { name: 'Vet', Icon: VetIcon },
-          { name: 'Videos', Icon: VideosIcon },
-          { name: 'Profile', Icon: ProfileIcon },
-        ].map(({ name, Icon }) => (
-          <TouchableOpacity key={name} onPress={() => onTabPress(name)} style={styles.tabItem}>
-            <Icon width={24} height={24} fill={activeTab === name ? 'green' : 'gray'} />
-            <Text style={[styles.tabLabel, { color: activeTab === name ? 'green' : 'gray' }]}>{name}</Text>
+        {TABS.map(({ name, Icon }) => (
+          <TouchableOpacity key={name} onPress={() => handleTabPress(name)} style={styles.tabItem}>
+            <Icon width={24} height={24} fill={activeTab === name + 'Screen' ? 'green' : 'gray'} />
+            <Text style={[styles.tabLabel, { color: activeTab === name + 'Screen' ? 'green' : 'gray' }]}>
+              {name}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -44,7 +76,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
     backgroundColor: '#fff',
     zIndex: 1,
   },
@@ -62,8 +93,6 @@ const styles = StyleSheet.create({
   },
   tabItem: {
     alignItems: 'center',
-    
-     
   },
   tabLabel: {
     fontFamily: 'Kodchasan-Regular',

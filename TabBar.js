@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
 import HomeIcon from './assets/icons/home.svg';
 import VetIcon from './assets/icons/vet.svg';
 import VideosIcon from './assets/icons/resources.svg';
 import ProfileIcon from './assets/icons/profile.svg';
 
 export default function TabBar() {
-  const activeTab = 'Home'; // Replace this with actual active tab logic
+  const navigation = useNavigation();
+  const route = useRoute();
+  const [activeTab, setActiveTab] = useState(route.name);
+
+  useEffect(() => {
+    setActiveTab(route.name);
+  }, [route.name]);
+
+  const handleTabPress = (tabName) => {
+    setActiveTab(tabName);
+    switch (tabName) {
+      case 'Home':
+        navigation.navigate('MainScreen');
+        break;
+      case 'Vet':
+        navigation.navigate('VetScreen');
+        break;
+      case 'Videos':
+        navigation.navigate('VideoScreen');
+        break;
+      case 'Profile':
+        navigation.navigate('ProfileScreen');
+        break;
+    }
+  };
 
   const tabs = [
     { name: 'Home', Icon: HomeIcon },
@@ -18,11 +44,11 @@ export default function TabBar() {
   return (
     <View style={styles.tabBar}>
       {tabs.map(({ name, Icon }) => {
-        const isActive = name === activeTab;
+        const isActive = activeTab === name + 'Screen';
         return (
           <TouchableOpacity
             key={name}
-            onPress={() => console.log(`${name} tab clicked`)}
+            onPress={() => handleTabPress(name)}
             style={styles.tabItem}
           >
             <Icon width={26} height={26} fill={isActive ? '#4CAF50' : '#999'} />

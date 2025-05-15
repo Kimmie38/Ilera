@@ -17,6 +17,7 @@ import BioScreen from './BioScreen';
 import DashboardScreen from './DashboardScreen';
 import GraphScreen from './GraphScreen';
 import HeaderAndTab from './HeaderAndTab';
+import VetScreen from './VetScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +60,7 @@ export default function App() {
         <Stack.Screen name="BioScreen" component={BioScreen} options={{ headerShown: false }} />
         <Stack.Screen name="DashboardScreen" component={DashboardScreen} options={{ headerShown: false }} />
         <Stack.Screen name="GraphScreen" component={GraphScreen} options={{headerShown: false}} />
+        <Stack.Screen name="VetScreen" component={VetScreen} options={{headerShown: false}} />
         
       </Stack.Navigator>
     </NavigationContainer>
