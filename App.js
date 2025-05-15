@@ -20,6 +20,8 @@ import HeaderAndTab from './HeaderAndTab';
 import VetScreen from './VetScreen';
 import MoreScreen from './MoreScreen';
 import ProfileScreen from './ProfileScreen';
+import PersonalScreen from './PersonalScreen';
+import VideoScreen from './VideoScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -64,8 +66,10 @@ export default function App() {
         <Stack.Screen name="DashboardScreen" component={DashboardScreen} options={{ headerShown: false }} />
         <Stack.Screen name="GraphScreen" component={GraphScreen} options={{headerShown: false}} />
         <Stack.Screen name="VetScreen" component={VetScreen} options={{headerShown: false}} />
+         <Stack.Screen name="VideoScreen" component={VideoScreen} options={{headerShown: false}} />
         <Stack.Screen name="MoreScreen" component={MoreScreen} options={{headerShown: false}} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
+        <Stack.Screen name="PersonalScreen" component={PersonalScreen} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
