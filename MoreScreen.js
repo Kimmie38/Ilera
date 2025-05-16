@@ -73,7 +73,7 @@ export default function MoreScreen({ route }) {
       </ScrollView>
 
       {/* Bottom tab bar */}
-      <TabBar />
+      <TabBar activeTab="Vet" />
     </View>
   );
 }

@@ -7,8 +7,8 @@ import {
   FlatList,
 } from 'react-native';
 
-import HeaderAndTab from './HeaderAndTab'; // Top header
-import TabBar from './TabBar';             // Bottom bar
+import HeaderAndTab from './HeaderAndTab'; 
+import TabBar from './TabBar';             
 import LivestockCard from './LivestockCard';
 
 const livestockData = [
@@ -87,7 +87,7 @@ export default function DashboardScreen() {
         <View style={{ height: 80 }} />
       </ScrollView>
 
-      <TabBar />
+      <TabBar activeTab="Home" />
     </View>
   );
 }

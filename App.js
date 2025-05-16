@@ -22,6 +22,7 @@ import MoreScreen from './MoreScreen';
 import ProfileScreen from './ProfileScreen';
 import PersonalScreen from './PersonalScreen';
 import VideoScreen from './VideoScreen';
+import Signout from './Signout';
 
 
 const Stack = createNativeStackNavigator();
@@ -70,6 +71,8 @@ export default function App() {
         <Stack.Screen name="MoreScreen" component={MoreScreen} options={{headerShown: false}} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
         <Stack.Screen name="PersonalScreen" component={PersonalScreen} options={{headerShown: false}} />
+                <Stack.Screen name="Signout" component={Signout} options={{headerShown: false}} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

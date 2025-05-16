@@ -7,14 +7,29 @@ import VetIcon from './assets/icons/vet.svg';
 import VideosIcon from './assets/icons/resources.svg';
 import ProfileIcon from './assets/icons/profile.svg';
 
-export default function TabBar() {
+export default function TabBar({ activeTab: externalActiveTab }) {
   const navigation = useNavigation();
   const route = useRoute();
-  const [activeTab, setActiveTab] = useState(route.name);
 
+  const [activeTab, setActiveTab] = useState(externalActiveTab || '');
+
+  const routeNameToTab = {
+    MainScreen: 'Home',
+    VetScreen: 'Vet',
+    VideoScreen: 'Videos',
+    ProfileScreen: 'Profile',
+  };
+
+  // Sync internal activeTab with external prop whenever it changes
   useEffect(() => {
-    setActiveTab(route.name);
-  }, [route.name]);
+    if (externalActiveTab) {
+      setActiveTab(externalActiveTab);
+    } else {
+      // fallback: use current route
+      const tab = routeNameToTab[route.name];
+      if (tab) setActiveTab(tab);
+    }
+  }, [externalActiveTab, route.name]);
 
   const handleTabPress = (tabName) => {
     setActiveTab(tabName);
@@ -44,7 +59,7 @@ export default function TabBar() {
   return (
     <View style={styles.tabBar}>
       {tabs.map(({ name, Icon }) => {
-        const isActive = activeTab === name + 'Screen';
+        const isActive = activeTab === name;
         return (
           <TouchableOpacity
             key={name}

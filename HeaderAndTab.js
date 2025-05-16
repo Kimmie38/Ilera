@@ -27,7 +27,7 @@ export default function HeaderAndTab({ onMenuPress, onBellPress }) {
       case 'Vet':
         navigation.navigate('VetScreen');
         break;
-      case 'Videos':
+      case 'Video':
         navigation.navigate('VideoScreen');
         break;
       case 'Profile':

@@ -101,11 +101,14 @@ export default function ProfileScreen({ navigation }) {
         </View>
 
         {/* Sign Out */}
-        <TouchableOpacity style={styles.signOutButton}>
-          <Text style={styles.signOutText}>
-            <MaterialIcons name="logout" size={16} color="#F00" /> Sign Out
-          </Text>
-        </TouchableOpacity>
+        <TouchableOpacity
+      style={styles.signOutButton}
+      onPress={() => navigation.navigate('Signout')} // 👈 navigate to Signout.js
+    >
+      <Text style={styles.signOutText}>
+        <MaterialIcons name="logout" size={16} color="#F00" /> Sign Out
+      </Text>
+    </TouchableOpacity>
       </ScrollView>
 
       <TabBar activeTab="Profile" />

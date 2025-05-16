@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 
 export default function CodeVerificationScreen({ navigation }) {
   const [code, setCode] = useState(['', '', '', '', '', ]);
-  const [timeLeft, setTimeLeft] = useState(180); // 3 minutes
+  const [timeLeft, setTimeLeft] = useState(180); 
   const [isResendEnabled, setIsResendEnabled] = useState(false);
 
   useEffect(() => {

@@ -118,7 +118,7 @@ const GraphScreen = () => {
           <GraphCard title="Heart Rate" value="0bps" IconComponent={HeartIcon} />
         </ScrollView>
 
-        <TabBar />
+        <TabBar activeTab="Home" />
       </View>
     </SafeAreaView>
   );

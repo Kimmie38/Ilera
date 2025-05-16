@@ -10,7 +10,6 @@ export default function VideoScreen({ navigation }) {
       <HeaderAndTab
         onMenuPress={() => console.log('Hamburger clicked')}
         onBellPress={() => console.log('Bell clicked')}
-        activeTab="Home"
         onTabPress={(tab) => console.log(`${tab} tab clicked`)}
       />
 
@@ -20,15 +19,8 @@ export default function VideoScreen({ navigation }) {
         <Text style={styles.subText}>
           
         </Text>
-
-        {/* <TouchableOpacity
-          style={styles.registerButton}
-          onPress={() => navigation.navigate('')}
-        >
-          <Text style={styles.registerButtonText}>No Available Videos</Text>
-        </TouchableOpacity> */}
       </View>
-              <TabBar />
+             <TabBar activeTab ="Video" />
     </View>
   );
 }

@@ -28,7 +28,7 @@ export default function MainScreen({ navigation }) {
           <Text style={styles.registerButtonText}>Register Animals</Text>
         </TouchableOpacity>
       </View>
-              <TabBar />
+       <TabBar activeTab="Home" />
     </View>
   );
 }

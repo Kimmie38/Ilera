@@ -43,9 +43,12 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.forgotPassword}>Forgot password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.signInButton}>
-        <Text style={styles.signInText}>Login</Text>
-      </TouchableOpacity>
+     <TouchableOpacity
+      style={styles.signInButton}
+      onPress={() => navigation.navigate('DashboardScreen')} // 👈 Name of your main page
+    >
+      <Text style={styles.signInText}>Login</Text>
+    </TouchableOpacity>
 
       <View style={styles.signupContainer}>
         <Text style={styles.signupText}>Don't have an account? </Text>

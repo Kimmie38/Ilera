@@ -41,7 +41,7 @@ const doctors = [
 export default function VetScreen({navigation}) {
   return (
     <View style={styles.container}>
-      <HeaderAndTab title="Doctor" />
+      <HeaderAndTab title="Vet" />
 
       {/* Search Bar */}
       <TextInput style={styles.searchInput} placeholder="Search for Doctors" />

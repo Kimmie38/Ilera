@@ -25,7 +25,7 @@ export default function FirstScreen() {
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Second')} // 👈 Add this
+          onPress={() => navigation.navigate('Second')} 
         >
           <Text style={styles.buttonText}>next</Text>
         </TouchableOpacity>

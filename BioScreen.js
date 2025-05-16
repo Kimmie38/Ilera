@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import ArrowBackIcon from './assets/icons/arrow-back.svg';  // Back arrow SVG
-import LocationIcon from './assets/icons/location.svg';      // Location SVG
+import ArrowBackIcon from './assets/icons/arrow-back.svg';  
+import LocationIcon from './assets/icons/location.svg';      
 
 export default function BioScreen({navigation}) {
   const [farmAddress, setFarmAddress] = useState('');
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Kodchasan-Regular',
     fontSize: 16,
     color: '#555',
-    marginBottom: 30,  // increased spacing below subtitle
+    marginBottom: 30,  
   },
   inputContainer: {
     marginBottom: 25,
@@ -115,23 +115,23 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   submitButton: {
-    marginTop: 20,            // Adds some space above the button
-    paddingVertical: 12,      // Adds padding on top and bottom of the button
-    paddingHorizontal: 30,    // Adds padding to the left and right of the button
-    borderRadius: 25,         // Makes the corners rounded
-    alignItems: 'center',     // Centers the content (text) inside the button
-    backgroundColor: '#28a745',  // Green background
-    justifyContent: 'center', // Ensures the button is centered vertically
-    elevation: 3,             // Adds a shadow effect (only on Android)
-    shadowColor: '#000',      // Shadow color (for iOS)
-    shadowOffset: { width: 0, height: 2 }, // Shadow offset (for iOS)
-    shadowOpacity: 0.2,       // Shadow opacity (for iOS)
-    shadowRadius: 4,          // Shadow radius (for iOS)
+    marginTop: 20,            
+    paddingVertical: 12,      
+    paddingHorizontal: 30,    
+    borderRadius: 25,         
+    alignItems: 'center',     
+    backgroundColor: '#28a745',  
+    justifyContent: 'center', 
+    elevation: 3,             
+    shadowColor: '#000',      
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.2,       
+    shadowRadius: 4,          
   },
   submitButtonText: {
-    color: '#fff',           // White text color
-    fontSize: 16,            // Font size of the text
-    fontWeight: '600',       // Semi-bold text
-    fontFamily: 'Kodchasan-Regular', // Assuming you are using your custom font
+    color: '#fff',          
+    fontSize: 16,          
+    fontWeight: '600',       
+    fontFamily: 'Kodchasan-Regular', 
   },
 });
