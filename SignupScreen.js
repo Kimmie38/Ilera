@@ -7,6 +7,7 @@ export default function SignupScreen({ navigation }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agree, setAgree] = useState(false);
@@ -43,6 +44,15 @@ export default function SignupScreen({ navigation }) {
         keyboardType="phone-pad"
         value={phoneNumber}
         onChangeText={setPhoneNumber}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        value={email}
+        onChangeText={setEmail}
       />
 
       <View style={styles.passwordContainer}>
@@ -89,12 +99,12 @@ export default function SignupScreen({ navigation }) {
       </View>
 
       <TouchableOpacity
-  style={[styles.registerButton, { backgroundColor: agree ? '#37833b' : '#ccc' }]}
-  disabled={!agree}
-  onPress={() => navigation.navigate('CodeVerificationScreen')}
->
-  <Text style={styles.registerText}>Register</Text>
-</TouchableOpacity>
+        style={[styles.registerButton, { backgroundColor: agree ? '#37833b' : '#ccc' }]}
+        disabled={!agree}
+        onPress={() => navigation.navigate('CodeVerificationScreen')}
+      >
+        <Text style={styles.registerText}>Register</Text>
+      </TouchableOpacity>
 
       <Text style={styles.footerText}>
         Already have an account?{' '}
