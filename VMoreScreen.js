@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   View,
   Text,
@@ -12,6 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons, FontAwesome5, Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import Constants from 'expo-constants';
 
 export default function VMoreScreen({ route }) {
   const { doctor } = route.params;
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   statusBarSpacer: {
-    height: Platform.OS === 'android' ? StatusBar.currentHeight : 44,
+    height: Constants.statusBarHeight,
     backgroundColor: '#fff',
   },
   headerRow: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 20,
     paddingHorizontal: 20,
-    paddingBottom: 160, // extra space for buttons
+    paddingBottom: 160, 
   },
   avatar: {
     width: 140,
@@ -151,25 +151,27 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 30,
   },
-  requestButton: {
-    marginTop: 30,
-    backgroundColor: '#4CAF50',
-    paddingVertical: 14,
-    paddingHorizontal: 60,
-    borderRadius: 30,
-  },
+ requestButton: {
+  marginTop: 30,
+  backgroundColor: '#528C4A',
+  paddingVertical: 16,
+  width: '90%',              
+  borderRadius: 30,
+  alignItems: 'center',
+},
   requestText: {
     color: '#fff',
     fontSize: 15,
     fontWeight: '600',
   },
-  declineButton: {
-    marginTop: 15,
-    backgroundColor: '#FF5252',
-    paddingVertical: 14,
-    paddingHorizontal: 60,
-    borderRadius: 30,
-  },
+declineButton: {
+  marginTop: 16,
+  backgroundColor: '#528C4A',
+  paddingVertical: 16,
+  width: '90%',
+  borderRadius: 30,
+  alignItems: 'center',
+},
   declineText: {
     color: '#fff',
     fontSize: 15,
