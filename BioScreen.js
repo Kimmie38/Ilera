@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import ArrowBackIcon from './assets/icons/arrow-back.svg';  
+import ArrowBackIcon from './assets/icons/back.svg';  
 import LocationIcon from './assets/icons/location.svg';      
 
 export default function BioScreen({navigation}) {

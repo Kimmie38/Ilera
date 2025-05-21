@@ -22,7 +22,13 @@ import MoreScreen from './MoreScreen';
 import ProfileScreen from './ProfileScreen';
 import PersonalScreen from './PersonalScreen';
 import VideoScreen from './VideoScreen';
-import Signout from './Signout';
+import Signout from './Signout'
+import VSignupScreen from './VSignupScreen';
+import VCodeVerification from './VCodeVerification';
+import VMainScreen from './VMainScreen';
+import TaskScreen from './TaskScreen'
+import VProfileScreen from './VProfileScreen';
+import VMoreScreen from './VMoreScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -67,13 +73,19 @@ export default function App() {
         <Stack.Screen name="DashboardScreen" component={DashboardScreen} options={{ headerShown: false }} />
         <Stack.Screen name="GraphScreen" component={GraphScreen} options={{headerShown: false}} />
         <Stack.Screen name="VetScreen" component={VetScreen} options={{headerShown: false}} />
-         <Stack.Screen name="VideoScreen" component={VideoScreen} options={{headerShown: false}} />
+        <Stack.Screen name="VideoScreen" component={VideoScreen} options={{headerShown: false}} />
         <Stack.Screen name="MoreScreen" component={MoreScreen} options={{headerShown: false}} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
         <Stack.Screen name="PersonalScreen" component={PersonalScreen} options={{headerShown: false}} />
-                <Stack.Screen name="Signout" component={Signout} options={{headerShown: false}} />
-
+        <Stack.Screen name="Signout" component={Signout} options={{headerShown: false}} />
+        <Stack.Screen name="VSignup" component={VSignupScreen} options={{headerShown: false}} />
+        <Stack.Screen name="VCodeVerification" component={VCodeVerification} options={{headerShown: false}} />
+        <Stack.Screen name="VMainScreen" component={VMainScreen} options={{headerShown: false}} />
+        <Stack.Screen name="TaskScreen" component={TaskScreen} options={{headerShown: false}} />
+        <Stack.Screen name="VProfileScreen" component={VProfileScreen} options={{headerShown: false}} />
+        <Stack.Screen name="VMoreScreen" component={VMoreScreen} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }

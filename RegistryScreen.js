@@ -15,7 +15,7 @@ export default function RegistryScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Signup')}
+        onPress={() => navigation.navigate('VSignup')}
       >
         <Text style={styles.buttonText}>Veterinary Doctor</Text>
       </TouchableOpacity>

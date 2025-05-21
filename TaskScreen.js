@@ -1,44 +1,44 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import HeaderAndTab from './HeaderAndTab';
-import TabBar from './TabBar';
+import VTabBar from './VTabBar';
 
 
 
 const doctors = [
   {
-    name: 'Dr. Muhamadu Rufai',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('./assets/docs/doc1.jpg'),
+    name: 'Alex Otti',
+    experience: 'A farmer dedicated to livestock farming especially goats....',
+    image: require('./assets/docs/famer1.png'),
+    
+  },
+  {
+    name: 'Dotun Babangida',
+    experience: 'A farmer dedicated to livestock farming especially goats....',
+    image: require('./assets/docs/famer2.png'),
     available: false,
   },
   {
-    name: 'Dr. Olu Kolapo',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('./assets/docs/doc2.jpg'),
+    name: 'Desmond Tinibu',
+    experience: 'A farmer dedicated to livestock farming especially goats....',
+    image: require('./assets/docs/famer3.png'),
     available: false,
   },
   {
-    name: 'Dr. Ikenna Chidi',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('./assets/docs/doc3.jpg'),
+    name: 'Justice Adam',
+    experience: 'A farmer dedicated to livestock farming especially goats....',
+    image: require('./assets/docs/famer4.png'),
     available: false,
   },
   {
-    name: 'Dr. Fabura Amaka',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('./assets/docs/doc4.jpg'),
-    available: false,
-  },
-  {
-    name: 'Dr. Tanko Amina',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('./assets/docs/doc5.jpg'),
+    name: 'Jigga',
+    experience: 'A farmer dedicated to livestock farming especially goats....',
+    image: require('./assets/docs/farmers5.jpg'),
     available: false,
   },
 ];
 
-export default function VetScreen({navigation}) {
+export default function TaskScreen({navigation}) {
   return (
     <View style={styles.container}>
       <HeaderAndTab/>
@@ -47,7 +47,7 @@ export default function VetScreen({navigation}) {
       <TextInput style={styles.searchInput} placeholder="Search for Doctors" />
 
       {/* Section Title */}
-      <Text style={styles.sectionTitle}>Vet Doctors Near You</Text>
+      <Text style={styles.sectionTitle}>Farmers at your service</Text>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
         {doctors.map((doc, index) => (
@@ -58,23 +58,16 @@ export default function VetScreen({navigation}) {
               <Text style={styles.experience}>{doc.experience}</Text>
               <View style={styles.statusRow}>
                 <View
-                  style={[
-                    styles.statusDot,
-                    { backgroundColor: doc.avaible? '#32cd32' : '#ccc' },
-                  ]}
                 />
-                <Text style={styles.statusText}>
-                  {doc.available ? 'Available' : 'Unavailable'}
-                </Text>
               </View>
             </View>
-           <TouchableOpacity onPress={() => navigation.navigate('MoreScreen', { doctor: doc })}>
+           <TouchableOpacity onPress={() => navigation.navigate('VMoreScreen', { doctor: doc })}>
             <Text style={styles.arrow}>{'>'}</Text>     
             </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
-              <TabBar activeTab="Vet" />
+     <VTabBar activeTab="Task" />
     </View>
   );
 }
@@ -94,10 +87,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Kodchasan-Regular',
   },
   sectionTitle: {
-    marginHorizontal: 20,
+    marginHorizontal: 50,
     marginVertical: 12,
     fontSize: 16,
-    fontWeight: 'bold',
     fontFamily: 'Kodchasan-Bold',
     color: '#333',
   },
@@ -120,7 +112,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    fontWeight: 'bold',
     fontSize: 14,
     fontFamily: 'Kodchasan-Bold',
     color: '#111',

@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert 
 import { Checkbox } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function SignupScreen({ navigation }) {
+export default function VSignupScreen({ navigation }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -31,7 +31,7 @@ export default function SignupScreen({ navigation }) {
     }
 
     // All validations passed
-    navigation.navigate('CodeVerificationScreen');
+    navigation.navigate('VCodeVerification');
   };
 
   return (
@@ -40,8 +40,8 @@ export default function SignupScreen({ navigation }) {
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
 
-      <Text style={styles.title}>Create your new account as a Farmer</Text>
-      <Text style={styles.subtitle}>Create an account to start monitoring your livestock health</Text>
+      <Text style={styles.title}>Create your new account as a Vet</Text>
+      <Text style={styles.subtitle}>Create an account to start rendering your services to livestock</Text>
 
       <View style={styles.inputRow}>
         <TextInput
@@ -127,7 +127,7 @@ export default function SignupScreen({ navigation }) {
 
       <Text style={styles.footerText}>
         Already have an account?{' '}
-        <Text style={styles.signInLink} onPress={() => navigation.navigate('LoginScreen')}>
+        <Text style={styles.signInLink} onPress={() => navigation.navigate('VCodeVerification')}>
           Login
         </Text>
       </Text>

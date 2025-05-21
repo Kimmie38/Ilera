@@ -7,50 +7,45 @@ import {
   TouchableOpacity,
   ScrollView,
   ToastAndroid,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import { Ionicons, FontAwesome5, Entypo } from '@expo/vector-icons';
-import HeaderAndTab from './HeaderAndTab'; // adjust path as needed
-// import TabBar from './TabBar'; // adjust path as needed
+import { useNavigation } from '@react-navigation/native';
 
-export default function MoreScreen({ route }) {
+export default function VMoreScreen({ route }) {
   const { doctor } = route.params;
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
-      <HeaderAndTab title="Doctor" />
+      {/* StatusBar space */}
+      <View style={styles.statusBarSpacer} />
+
+      {/* Header with back button */}
+      <View style={styles.headerRow}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#333" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Centered Title */}
+      <Text style={styles.headerTitle}>Farmer's Profile</Text>
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Doctor photo */}
         <Image source={doctor.image} style={styles.avatar} />
 
-        {/* Doctor name */}
         <Text style={styles.name}>{doctor.name}</Text>
 
-        {/* Availability status */}
-        <View style={styles.statusRow}>
-          <Text style={styles.statusText}>
-            {doctor.available ? 'Available' : 'Unavailable'}
-          </Text>
-          <View
-            style={[
-              styles.statusDot,
-              { backgroundColor: doctor.available ? 'green' : 'gray' },
-            ]}
-          />
-        </View>
-
-        {/* Description */}
         <Text style={styles.bio}>
-          10 years working experience goats, cows, pigs and lots of animals. Dr {doctor.name.split(' ')[1]} holds a Masters in animals Science from the University of Kaduna, Kafanchan.
+          A famer dedicated to livestock farming especially goats, holds a number of 80 Goats, 10 Sheeps and 50 Cows 
         </Text>
 
-        {/* Location */}
         <View style={styles.locationRow}>
           <Entypo name="location-pin" size={20} color="#000" />
           <Text style={styles.location}>PRTV Junction Rayfield</Text>
         </View>
 
-        {/* Contact buttons */}
         <View style={styles.contactRow}>
           <TouchableOpacity style={styles.iconButton}>
             <Ionicons name="call" size={22} color="#333" />
@@ -60,19 +55,24 @@ export default function MoreScreen({ route }) {
           </TouchableOpacity>
         </View>
 
-        {/* Request button */}
-       <TouchableOpacity
-             style={styles.requestButton}
-            onPress={() => {
+        <TouchableOpacity
+          style={styles.requestButton}
+          onPress={() => {
             ToastAndroid.show('Service currently unavailable', ToastAndroid.SHORT);
-        }}
+          }}
         >
-    <Text style={styles.requestText}>Request Service</Text>
+          <Text style={styles.requestText}>Request Service</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.declineButton}
+          onPress={() => {
+            ToastAndroid.show('Request declined', ToastAndroid.SHORT);
+          }}
+        >
+          <Text style={styles.declineText}>Decline Request</Text>
         </TouchableOpacity>
       </ScrollView>
-
-      {/* Bottom tab bar */}
-      
     </View>
   );
 }
@@ -82,40 +82,50 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  statusBarSpacer: {
+    height: Platform.OS === 'android' ? StatusBar.currentHeight : 44,
+    backgroundColor: '#fff',
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: '#fff',
+  },
+  backButton: {
+    padding: 6,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontFamily: 'Kodchasan-Bold',
+    fontWeight: '600',
+    color: '#111',
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
   content: {
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingTop: 20,
     paddingHorizontal: 20,
-    paddingBottom: 120,
+    paddingBottom: 160, // extra space for buttons
   },
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 140,
+    height: 140,
+    borderRadius: 70,
     marginBottom: 16,
   },
   name: {
     fontSize: 18,
+    fontFamily: 'Kodchasan-Bold',
     fontWeight: '600',
     color: '#111',
   },
-  statusRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 6,
-  },
-  statusText: {
-    fontSize: 14,
-    color: 'green',
-    marginRight: 6,
-  },
-  statusDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
   bio: {
-    fontSize: 13,
+    fontSize: 15,
+    fontFamily: 'Kodchasan-Regular',
     textAlign: 'center',
     color: '#555',
     marginVertical: 12,
@@ -128,6 +138,7 @@ const styles = StyleSheet.create({
   },
   location: {
     fontSize: 13,
+    fontFamily: 'Kodchasan-Bold',
     color: '#333',
   },
   contactRow: {
@@ -152,10 +163,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
-  requestButtonText: {
-  color: '#fff',
-  fontSize: 16,
-  fontWeight: 'bold',
-  textAlign: 'center',
-},
+  declineButton: {
+    marginTop: 15,
+    backgroundColor: '#FF5252',
+    paddingVertical: 14,
+    paddingHorizontal: 60,
+    borderRadius: 30,
+  },
+  declineText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '600',
+  },
 });
