@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {
   View,
   Text,
@@ -9,15 +9,25 @@ import {
   ToastAndroid,
 } from 'react-native';
 import { Ionicons, FontAwesome5, Entypo } from '@expo/vector-icons';
-import HeaderAndTab from './HeaderAndTab'; // adjust path as needed
-// import TabBar from './TabBar'; // adjust path as needed
 
-export default function MoreScreen({ route }) {
+export default function MoreScreen({ route, navigation }) {
   const { doctor } = route.params;
 
   return (
     <View style={styles.container}>
-      <HeaderAndTab title="Doctor" />
+      {/* Custom Header */}
+     <View style={styles.header}>
+      <TouchableOpacity onPress={() => {
+  if (navigation.canGoBack()) {
+    navigation.goBack();
+  } else {
+    navigation.navigate('VetScreen'); // Fallback
+  }
+}} style={styles.backButton}>
+           <Ionicons name="arrow-back" size={24} color="#333" />
+         </TouchableOpacity>
+      <Text style={styles.headerTitle}>Doctor's Profile</Text>
+      </View>
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {/* Doctor photo */}
@@ -41,7 +51,7 @@ export default function MoreScreen({ route }) {
 
         {/* Description */}
         <Text style={styles.bio}>
-          10 years working experience goats, cows, pigs and lots of animals. Dr {doctor.name.split(' ')[1]} holds a Masters in animals Science from the University of Kaduna, Kafanchan.
+          10 years working experience with goats, cows, pigs and lots of animals. Dr {doctor.name.split(' ')[1]} holds a Masters in Animal Science from the University of Kaduna, Kafanchan.
         </Text>
 
         {/* Location */}
@@ -61,18 +71,15 @@ export default function MoreScreen({ route }) {
         </View>
 
         {/* Request button */}
-       <TouchableOpacity
-             style={styles.requestButton}
-            onPress={() => {
+        <TouchableOpacity
+          style={styles.requestButton}
+          onPress={() => {
             ToastAndroid.show('Service currently unavailable', ToastAndroid.SHORT);
-        }}
+          }}
         >
-    <Text style={styles.requestText}>Request Service</Text>
+          <Text style={styles.requestText}>Request Service</Text>
         </TouchableOpacity>
       </ScrollView>
-
-      {/* Bottom tab bar */}
-      
     </View>
   );
 }
@@ -82,6 +89,39 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+ header: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  paddingHorizontal: 16,
+  paddingTop: 50,
+  paddingBottom: 12,
+  backgroundColor: '#fff',
+  position: 'relative',
+},
+headerTitle: {
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  top: 60, // ⬅️ aligns vertically with the back button
+  textAlign: 'center',
+  fontSize: 18,
+  fontWeight: '600',
+  color: '#000',
+},
+backButton: {
+  padding: 8,
+  backgroundColor: '#DDDDDE',
+  borderRadius: 30,
+
+  // Shadow for iOS
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+
+  // Elevation for Android
+  elevation: 5,
+},
   content: {
     alignItems: 'center',
     paddingVertical: 20,
@@ -152,10 +192,4 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
-  requestButtonText: {
-  color: '#fff',
-  fontSize: 16,
-  fontWeight: 'bold',
-  textAlign: 'center',
-},
 });

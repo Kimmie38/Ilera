@@ -29,6 +29,7 @@ import VMainScreen from './VMainScreen';
 import TaskScreen from './TaskScreen'
 import VProfileScreen from './VProfileScreen';
 import VMoreScreen from './VMoreScreen';
+import LivestockScreen from './LivestockScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -84,6 +85,7 @@ export default function App() {
         <Stack.Screen name="TaskScreen" component={TaskScreen} options={{headerShown: false}} />
         <Stack.Screen name="VProfileScreen" component={VProfileScreen} options={{headerShown: false}} />
         <Stack.Screen name="VMoreScreen" component={VMoreScreen} options={{headerShown: false}} />
+               <Stack.Screen name="LivestockScreen" component={LivestockScreen} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
 

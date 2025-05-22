@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import HeaderAndTab from './HeaderAndTab';
 import TabBar from './TabBar';
+import { Ionicons } from '@expo/vector-icons';
 
 
 
@@ -60,7 +61,7 @@ export default function VetScreen({navigation}) {
                 <View
                   style={[
                     styles.statusDot,
-                    { backgroundColor: doc.avaible? '#32cd32' : '#ccc' },
+                    { backgroundColor: doc.available? '#32cd32' : '#ccc' },
                   ]}
                 />
                 <Text style={styles.statusText}>
@@ -68,8 +69,9 @@ export default function VetScreen({navigation}) {
                 </Text>
               </View>
             </View>
-           <TouchableOpacity onPress={() => navigation.navigate('MoreScreen', { doctor: doc })}>
-            <Text style={styles.arrow}>{'>'}</Text>     
+           <TouchableOpacity onPress={() => navigation.push('MoreScreen', { doctor: doc })}
+            style={styles.frontButton}>
+                       <Ionicons name="arrow-forward" size={15} color="#333" />
             </TouchableOpacity>
           </View>
         ))}
@@ -115,6 +117,21 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     marginRight: 14,
+  },
+  frontButton:{
+      padding: 6,
+  backgroundColor: '#DDDDDE',
+  borderRadius: 30,
+  marginTop:50,
+
+  // Shadow for iOS
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+
+  // Elevation for Android
+  elevation: 5,
   },
   info: {
     flex: 1,

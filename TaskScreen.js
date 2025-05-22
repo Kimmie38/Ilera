@@ -3,8 +3,6 @@ import { View, Text, TextInput, StyleSheet, ScrollView, Image, TouchableOpacity 
 import HeaderAndTab from './HeaderAndTab';
 import VTabBar from './VTabBar';
 
-
-
 const doctors = [
   {
     name: 'Alex Otti',
