@@ -14,7 +14,7 @@ export default function VSignout() {
   };
 
   const handleLogout = () => {
-    navigation.navigate('LoginScreen'); 
+    navigation.navigate('VLoginScreen'); 
   };
 
   return (
@@ -40,7 +40,7 @@ export default function VSignout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: 'rgba(0,0,0,0.2)', 
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,

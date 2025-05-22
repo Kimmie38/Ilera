@@ -2,11 +2,25 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import HeaderAndTab from './HeaderAndTab'; // adjust path if needed
 import TabBar from './TabBar';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 
 export default function MainScreen({ navigation }) {
+  useFocusEffect(
+  React.useCallback(() => {
+    const onBackPress = () => {
+      navigation.replace('LoginScreen'); 
+      return true;
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+    return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+  }, [])
+);
   return (
     <View style={styles.container}>
-      {/* Header and Bottom Tabs */}
+
       <HeaderAndTab
         onMenuPress={() => console.log('Hamburger clicked')}
         onBellPress={() => console.log('Bell clicked')}
@@ -14,7 +28,7 @@ export default function MainScreen({ navigation }) {
         onTabPress={(tab) => console.log(`${tab} tab clicked`)}
       />
 
-      {/* Body */}
+      
       <View style={styles.body}>
         <Text style={styles.noAnimalsText}>No Animals Registered</Text>
         <Text style={styles.subText}>
@@ -43,7 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 80, // Leave space for bottom tab
+    paddingBottom: 80,
   },
   noAnimalsText: {
     fontFamily: 'Kodchasan-Bold',

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function CodeVerificationScreen({ navigation }) {
   const [code, setCode] = useState(['', '', '', '', '', ]);
+  const inputRefs = useRef([]);
   const [timeLeft, setTimeLeft] = useState(180); 
   const [isResendEnabled, setIsResendEnabled] = useState(false);
 
@@ -26,17 +27,21 @@ export default function CodeVerificationScreen({ navigation }) {
   };
 
   const handleChange = (value, index) => {
-    const newCode = [...code];
-    newCode[index] = value;
-    setCode(newCode);
-  };
+  const newCode = [...code];
+  newCode[index] = value;
+  setCode(newCode);
+
+  if (value && index < code.length - 1) {
+    inputRefs.current[index + 1]?.focus();
+  }
+};
 
   const isCodeComplete = code.every(digit => digit !== '');
 
   const handleResendOTP = () => {
-    // Your logic to resend OTP
+
     console.log('Resending OTP...');
-    setTimeLeft(180); // Reset timer to 3 minutes
+    setTimeLeft(180); 
     setIsResendEnabled(false);
   };
 
@@ -47,14 +52,15 @@ export default function CodeVerificationScreen({ navigation }) {
 
       <View style={styles.otpContainer}>
         {code.map((digit, index) => (
-          <TextInput
-            key={index}
-            style={styles.otpInput}
-            keyboardType="numeric"
-            maxLength={1}
-            value={digit}
-            onChangeText={(value) => handleChange(value, index)}
-          />
+       <TextInput
+      key={index}
+       ref={(el) => (inputRefs.current[index] = el)}
+      style={styles.otpInput}
+      keyboardType="numeric"
+      maxLength={1}
+       value={digit}
+      onChangeText={(value) => handleChange(value, index)}
+/>
         ))}
       </View>
 

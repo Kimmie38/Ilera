@@ -34,15 +34,13 @@ export default function RegisterScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+      
       <HeaderAndTab
         onMenuPress={() => console.log('Menu clicked')}
         onBellPress={() => console.log('Bell clicked')}
         activeTab="Home"
         onTabPress={(tab) => console.log(`${tab} tab clicked`)}
       />
-
-      {/* KeyboardAwareScrollView to handle keyboard behavior */}
       <KeyboardAwareScrollView
         style={styles.formContainer}
         contentContainerStyle={styles.scrollContent}

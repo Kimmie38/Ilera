@@ -1,12 +1,27 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import HeaderAndTab from './HeaderAndTab'; // adjust path if needed
+import { View, Text,  StyleSheet } from 'react-native';
+import HeaderAndTab from './HeaderAndTab'; 
 import TabBar from './TabBar';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
+
 
 export default function VideoScreen({ navigation }) {
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        navigation.navigate('MainScreen'); 
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
   return (
     <View style={styles.container}>
-      {/* Header and Bottom Tabs */}
       <HeaderAndTab
         onMenuPress={() => console.log('Hamburger clicked')}
         onBellPress={() => console.log('Bell clicked')}
@@ -35,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 80, // Leave space for bottom tab
+    paddingBottom: 80,
   },
   noAnimalsText: {
     fontFamily: 'Kodchasan-Bold',

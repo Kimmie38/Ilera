@@ -1,7 +1,21 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 
 export default function RegistryScreen({ navigation }) {
+   useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        navigation.replace('Third');
+        return true; 
+      };
+  
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+  
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Register your account as a :</Text>

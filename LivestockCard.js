@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// Import your SVG icons
 import TempIcon from './assets/icons/temperature.svg';
 import MotionIcon from './assets/icons/motion.svg';
 import HeartIcon from './assets/icons/heart.svg';
@@ -14,12 +13,11 @@ export default function LivestockCard({
   motion = '40m/s',
   heartRate = '2hb/s',
 }) {
-  const navigation = useNavigation(); // ✅ Required to enable navigation
+  const navigation = useNavigation(); 
 
   return (
     <View style={styles.section}>
       <View style={styles.card}>
-        {/* Header */}
         <View style={styles.headerRow}>
           <Text style={styles.label}>
             Animal Type: <Text style={styles.value}>{animalType}</Text>
@@ -29,7 +27,6 @@ export default function LivestockCard({
           </Text>
         </View>
 
-        {/* Metrics */}
         <View style={styles.metricsRow}>
           <View style={styles.metric}>
             <View style={styles.iconWrapper}>

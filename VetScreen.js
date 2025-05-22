@@ -3,6 +3,8 @@ import { View, Text, TextInput, StyleSheet, ScrollView, Image, TouchableOpacity 
 import HeaderAndTab from './HeaderAndTab';
 import TabBar from './TabBar';
 import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 
 
 
@@ -40,6 +42,19 @@ const doctors = [
 ];
 
 export default function VetScreen({navigation}) {
+   useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        navigation.navigate('MainScreen'); 
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
   return (
     <View style={styles.container}>
       <HeaderAndTab/>
@@ -96,10 +111,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Kodchasan-Regular',
   },
   sectionTitle: {
-    marginHorizontal: 20,
+    marginHorizontal: 80,
     marginVertical: 12,
     fontSize: 16,
-    fontWeight: 'bold',
     fontFamily: 'Kodchasan-Bold',
     color: '#333',
   },
@@ -123,14 +137,10 @@ const styles = StyleSheet.create({
   backgroundColor: '#DDDDDE',
   borderRadius: 30,
   marginTop:50,
-
-  // Shadow for iOS
   shadowColor: '#000',
   shadowOffset: { width: 0, height: 2 },
   shadowOpacity: 0.2,
   shadowRadius: 4,
-
-  // Elevation for Android
   elevation: 5,
   },
   info: {

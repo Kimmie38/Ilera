@@ -14,12 +14,10 @@ const InfoScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-        {/* Back Arrow */}
         <TouchableOpacity style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
 
-        {/* Title */}
         <Text style={styles.title}>Verify that you are a Vet</Text>
         <Text style={styles.subtitle}>
           Fill the form below with the correct details
@@ -33,7 +31,6 @@ const InfoScreen = ({navigation}) => {
           placeholderTextColor="#999"
         />
 
-        {/* Farm Address */}
         <Text style={styles.label}>Farm Address</Text>
         <View style={styles.inputWithIcon}>
           <TextInput
@@ -44,7 +41,6 @@ const InfoScreen = ({navigation}) => {
           <Ionicons name="location-sharp" size={20} color="black" />
         </View>
 
-        {/* Bio */}
         <Text style={styles.label}>Bio</Text>
         <Text style={styles.subLabel}>
           write a little about your experience as a vet doctor
@@ -56,7 +52,6 @@ const InfoScreen = ({navigation}) => {
           textAlignVertical="top"
         />
 
-        {/* Register Button */}
          <TouchableOpacity
       style={styles.button}
       onPress={() => navigation.navigate('VMainScreen')}
@@ -83,8 +78,8 @@ const styles = StyleSheet.create({
   backButton: {
      width: 40,
   height: 40,
-  borderRadius: 20, // makes it circular
-  backgroundColor: '#DDDDDE', // light gray background
+  borderRadius: 20, 
+  backgroundColor: '#DDDDDE', 
   justifyContent: 'center',
   alignItems: 'center',
   marginBottom: 20,

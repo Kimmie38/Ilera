@@ -18,7 +18,6 @@ export default function BioScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-    {/* Back Arrow */}
     <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
       <ArrowBackIcon width={30} height={30} />
     </TouchableOpacity>
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 50, // shifted everything down
+    paddingTop: 50, 
     backgroundColor: '#fff',
     paddingLeft: 10,
   },
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
   },
   
   textArea: {
-    height: 150, // made the Bio input bigger
+    height: 150,
     textAlignVertical: 'top',
   },
   submitButton: {

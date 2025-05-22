@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 
 export default function LoginScreen({ navigation }) {
+  useFocusEffect(
+  React.useCallback(() => {
+    const onBackPress = () => {
+      BackHandler.exitApp();
+      return true; 
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+  }, [])
+);
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -45,7 +60,7 @@ export default function LoginScreen({ navigation }) {
 
      <TouchableOpacity
       style={styles.signInButton}
-      onPress={() => navigation.navigate('DashboardScreen')} // 👈 Name of your main page
+      onPress={() => navigation.navigate('DashboardScreen')}
     >
       <Text style={styles.signInText}>Login</Text>
     </TouchableOpacity>

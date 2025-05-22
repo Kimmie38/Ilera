@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   View,
   Text,
@@ -81,9 +80,6 @@ export default function DashboardScreen() {
       scrollEnabled={false}
     />
   </View>
-
-
-        {/* Padding space below list */}
         <View style={{ height: 80 }} />
       </ScrollView>
 
@@ -118,7 +114,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   livestockSection: {
-    backgroundColor: '#f6f6f6', // light gray section
+    backgroundColor: '#f6f6f6', 
     borderRadius: 10,
     padding: 12,
     marginTop: 12,

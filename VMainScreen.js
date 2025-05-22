@@ -1,12 +1,25 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import HeaderAndTab from './HeaderAndTab'; 
 import VTabBar from './VTabBar';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 
 export default function VMainScreen({ navigation }) {
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        navigation.replace('VLoginScreen');
+        return true; 
+      };
+  
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+  
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
   return (
     <View style={styles.container}>
-      {/* Header and Bottom Tabs */}
       <HeaderAndTab
         onMenuPress={() => console.log('Hamburger clicked')}
         onBellPress={() => console.log('Bell clicked')}
@@ -16,7 +29,7 @@ export default function VMainScreen({ navigation }) {
 
       {/* Body */}
       <View style={styles.body}>
-        <Text style={styles.noAnimalsText}>no current appointments</Text>
+        <Text style={styles.noAnimalsText}>no current appointment</Text>
         <Text style={styles.subText}>
           Please be patient while farmers request your service
         </Text>
@@ -37,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 80, // Leave space for bottom tab
+    paddingBottom: 80,
   },
   noAnimalsText: {
     fontFamily: 'Kodchasan-Bold',

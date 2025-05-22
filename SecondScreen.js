@@ -2,14 +2,28 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 
 export default function SecondScreen() {
+     useFocusEffect(
+        React.useCallback(() => {
+          const onBackPress = () => {
+            navigation.replace('First'); 
+            return true;
+          };
+      
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      
+          return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+        }, [])
+      );
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
       <Image
-        source={require('./assets/farmer2.png')} // Replace with your image filename
+        source={require('./assets/farmer2.png')} 
         style={styles.image}
         resizeMode="cover"
       />
@@ -64,7 +78,7 @@ const styles = StyleSheet.create({
   },
   pagination: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 30,
     gap: 8,
   },
   dot: {
@@ -82,7 +96,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 8,
     alignSelf: 'flex-end',
-    marginTop: 20,
+    marginBottom: 40,
   },
   buttonText: {
     color: '#fff',

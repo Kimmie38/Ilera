@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import TabBar from './TabBar';
 
 export default function PersonalScreen({ navigation }) {
-  // For now, hardcoded user data
   const userData = {
     fullName: 'Albert Magaji',
     phone: '+234 80419606411',
@@ -14,7 +13,6 @@ export default function PersonalScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Header with back arrow */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="#000" />

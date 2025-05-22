@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Font from 'expo-font';
-import { ActivityIndicator, View } from 'react-native'; // For loading spinner
+import { ActivityIndicator, View } from 'react-native'; 
 
 import FirstScreen from './FirstScreen';
 import SecondScreen from './SecondScreen';
@@ -32,6 +32,7 @@ import VMoreScreen from './VMoreScreen';
 import LivestockScreen from './LivestockScreen';
 import InfoScreen from './InfoScreen';
 import VLoginScreen from './VLoginScreen';
+import VSignout from './VSignout';
 
 
 const Stack = createNativeStackNavigator();
@@ -81,6 +82,7 @@ export default function App() {
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
         <Stack.Screen name="PersonalScreen" component={PersonalScreen} options={{headerShown: false}} />
         <Stack.Screen name="Signout" component={Signout} options={{headerShown: false}} />
+        <Stack.Screen name="VSignout" component={VSignout} options={{headerShown: false}} />
         <Stack.Screen name="VSignup" component={VSignupScreen} options={{headerShown: false}} />
         <Stack.Screen name="VLoginScreen" component={VLoginScreen} options={{headerShown: false}} />
         <Stack.Screen name="VCodeVerification" component={VCodeVerification} options={{headerShown: false}} />

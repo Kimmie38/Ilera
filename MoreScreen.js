@@ -15,13 +15,12 @@ export default function MoreScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Custom Header */}
      <View style={styles.header}>
       <TouchableOpacity onPress={() => {
   if (navigation.canGoBack()) {
     navigation.goBack();
   } else {
-    navigation.navigate('VetScreen'); // Fallback
+    navigation.navigate('VetScreen'); 
   }
 }} style={styles.backButton}>
            <Ionicons name="arrow-back" size={24} color="#333" />
@@ -30,13 +29,13 @@ export default function MoreScreen({ route, navigation }) {
       </View>
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Doctor photo */}
+       
         <Image source={doctor.image} style={styles.avatar} />
 
-        {/* Doctor name */}
+       
         <Text style={styles.name}>{doctor.name}</Text>
 
-        {/* Availability status */}
+      
         <View style={styles.statusRow}>
           <Text style={styles.statusText}>
             {doctor.available ? 'Available' : 'Unavailable'}
@@ -102,7 +101,7 @@ headerTitle: {
   position: 'absolute',
   left: 0,
   right: 0,
-  top: 60, // ⬅️ aligns vertically with the back button
+  top: 60,
   textAlign: 'center',
   fontSize: 18,
   fontWeight: '600',
@@ -112,14 +111,10 @@ backButton: {
   padding: 8,
   backgroundColor: '#DDDDDE',
   borderRadius: 30,
-
-  // Shadow for iOS
   shadowColor: '#000',
   shadowOffset: { width: 0, height: 2 },
   shadowOpacity: 0.2,
   shadowRadius: 4,
-
-  // Elevation for Android
   elevation: 5,
 },
   content: {
@@ -182,7 +177,7 @@ backButton: {
   },
   requestButton: {
     marginTop: 30,
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#528C4A',
     paddingVertical: 14,
     paddingHorizontal: 60,
     borderRadius: 30,

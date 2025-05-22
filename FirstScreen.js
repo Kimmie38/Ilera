@@ -1,15 +1,30 @@
 // FirstScreen.js
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // 👈 Add this
+import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 
 export default function FirstScreen() {
-  const navigation = useNavigation(); // 👈 Add this
+   useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        BackHandler.exitApp(); 
+        return true; 
+      };
+  
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+  
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
+  const navigation = useNavigation(); 
   
   return (
     <View style={styles.container}>
       <Image
-        source={require('./assets/farmer.png')} // Replace with your image path
+        source={require('./assets/farmer.png')} 
         style={styles.image}
         resizeMode="cover"
       />
@@ -68,11 +83,11 @@ const styles = StyleSheet.create({
   },
   pagination: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 30,
     gap: 8,
   },
   dot: {
-    width: 8,
+    width: 8, 
     height: 8,
     borderRadius: 4,
     backgroundColor: '#ccc',
@@ -86,7 +101,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 8,
     alignSelf: 'flex-end',
-    marginTop: 20,
+    marginBottom: 40,
   },
   buttonText: {
     color: '#fff',

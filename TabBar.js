@@ -20,12 +20,10 @@ export default function TabBar({ activeTab: externalActiveTab }) {
     ProfileScreen: 'Profile',
   };
 
-  // Sync internal activeTab with external prop whenever it changes
   useEffect(() => {
     if (externalActiveTab) {
       setActiveTab(externalActiveTab);
     } else {
-      // fallback: use current route
       const tab = routeNameToTab[route.name];
       if (tab) setActiveTab(tab);
     }

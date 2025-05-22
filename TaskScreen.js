@@ -2,6 +2,9 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import HeaderAndTab from './HeaderAndTab';
 import VTabBar from './VTabBar';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 const doctors = [
   {
@@ -37,15 +40,27 @@ const doctors = [
 ];
 
 export default function TaskScreen({navigation}) {
+    useFocusEffect(
+      React.useCallback(() => {
+        const onBackPress = () => {
+          navigation.replace('VMainScreen'); 
+          return true;
+        };
+    
+        BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+        return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      }, [])
+    );
   return (
     <View style={styles.container}>
-      <HeaderAndTab/>
+      <HeaderAndTab
+        onMenuPress={() => console.log('Hamburger clicked')}
+        onBellPress={() => console.log('Bell clicked')}
+        activeTab="Task"
+        onTabPress={(tab) => console.log(`${tab} tab clicked`)}/>
 
-      {/* Search Bar */}
-      <TextInput style={styles.searchInput} placeholder="Search for Doctors" />
-
-      {/* Section Title */}
-      <Text style={styles.sectionTitle}>Farmers at your service</Text>
+      <Text style={styles.sectionTitle}>Farmers Requesting your Service</Text>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
         {doctors.map((doc, index) => (
@@ -59,8 +74,9 @@ export default function TaskScreen({navigation}) {
                 />
               </View>
             </View>
-           <TouchableOpacity onPress={() => navigation.navigate('VMoreScreen', { doctor: doc })}>
-            <Text style={styles.arrow}>{'>'}</Text>     
+           <TouchableOpacity onPress={() => navigation.push('VMoreScreen', { doctor: doc })}
+            style={styles.frontButton}>
+              <Ionicons name="arrow-forward" size={15} color="#333" />
             </TouchableOpacity>
           </View>
         ))}
@@ -84,10 +100,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Kodchasan-Regular',
   },
+   frontButton:{
+      padding: 6,
+  backgroundColor: '#DDDDDE',
+  borderRadius: 30,
+  marginTop:50,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+  elevation: 5,
+  },
   sectionTitle: {
     marginHorizontal: 50,
     marginVertical: 12,
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: 'Kodchasan-Bold',
     color: '#333',
   },

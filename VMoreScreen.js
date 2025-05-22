@@ -135,14 +135,10 @@ headerRow: {
       padding: 6,
   backgroundColor: '#DDDDDE',
   borderRadius: 30,
-
-  // iOS shadow
   shadowColor: '#000',
   shadowOffset: { width: 0, height: 2 },
   shadowOpacity: 0.2,
   shadowRadius: 3,
-
-  // Android shadow
   elevation: 4,
   },
   headerTitle: {
@@ -155,7 +151,7 @@ headerRow: {
     color: '#111',
     fontFamily: 'Kodchasan-Bold',
     top: 30,
-    transform: [{ translateY: -9 }], // vertically center the text
+    transform: [{ translateY: -9 }], 
   },
 
   content: {

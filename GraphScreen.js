@@ -5,7 +5,6 @@ import TabBar from './TabBar';
 import { LineChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
 
-// Placeholder icons (replace with yours later)
 import ThermometerIcon from '../Ilhera/assets/icons/ThermometerIcon';
 import MotionIcon from '../Ilhera/assets/icons/MotionIcon';
 import HeartIcon from '../Ilhera/assets/icons/HeartIcon';
@@ -61,7 +60,7 @@ const GraphCard = ({ title, value, IconComponent }) => (
 );
 
 const GraphScreen = () => {
-  const [activeFilter, setActiveFilter] = useState('All'); // Filter state
+  const [activeFilter, setActiveFilter] = useState('All'); 
 
   return (
     <SafeAreaView style={styles.safeArea}>

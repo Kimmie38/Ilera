@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Checkbox } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SignupScreen({ navigation }) {
+   useFocusEffect(
+      React.useCallback(() => {
+        const onBackPress = () => {
+          navigation.navigate('RegistryScreen'); 
+          return true;
+        };
+  
+        BackHandler.addEventListener('hardwareBackPress', onBackPress);
+  
+        return () =>
+          BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      }, [])
+    );
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -30,7 +45,7 @@ export default function SignupScreen({ navigation }) {
       return;
     }
 
-    // All validations passed
+    
     navigation.navigate('CodeVerificationScreen');
   };
 

@@ -33,7 +33,7 @@ export default function VTabBar({ activeTab: externalActiveTab }) {
       case 'Home':
         navigation.navigate('VMainScreen');
         break;
-      case 'Task':
+      case 'Request':
         navigation.navigate('TaskScreen');
         break;
       case 'Profile':
@@ -44,7 +44,7 @@ export default function VTabBar({ activeTab: externalActiveTab }) {
 
   const tabs = [
     { name: 'Home', Icon: HomeIcon },
-    { name: 'Task', Icon: TaskIcon },
+    { name: 'Request', Icon: TaskIcon },
     { name: 'Profile', Icon: ProfileIcon },
   ];
 

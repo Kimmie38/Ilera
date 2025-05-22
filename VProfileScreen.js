@@ -7,14 +7,29 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  BackHandler,
 } from 'react-native';
 import HeaderAndTab from './HeaderAndTab';
 import VTabBar from './VTabBar';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function VProfileScreen({ navigation }) {
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        navigation.replace('VMainScreen');
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
+
   const [image, setImage] = useState(null);
+  const [availability, setAvailability] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -45,20 +60,16 @@ export default function VProfileScreen({ navigation }) {
     }
   };
 
-  // Handler when option item pressed
   const handleOptionPress = (option) => {
     switch (option) {
       case 'Personal Data':
-        navigation.navigate('PersonalScreen'); // Make sure this route exists in your navigator
+        navigation.navigate('PersonalScreen');
         break;
       case 'Help Center':
-        // navigation.navigate('HelpCenter');
         break;
       case 'Request Account Deletion':
-        // navigation.navigate('AccountDeletion');
         break;
       case 'Add another account':
-        // navigation.navigate('AddAccount');
         break;
       default:
         break;
@@ -70,7 +81,6 @@ export default function VProfileScreen({ navigation }) {
       <HeaderAndTab title="Profile" />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Profile Image Section */}
         <View style={styles.profileSection}>
           <TouchableOpacity onPress={pickImage} style={styles.profileImageWrapper}>
             <Image
@@ -88,27 +98,46 @@ export default function VProfileScreen({ navigation }) {
           <Text style={styles.userName}>Albert Magaji</Text>
         </View>
 
-        {/* Options */}
         <View style={styles.optionsList}>
-          {['Personal Data', 'Help Center', 'Request Account Deletion', 'Add another account'].map((label) => (
-            <OptionItem
-              key={label}
-              label={label}
-              icon={getIconForLabel(label)}
-              onPress={() => handleOptionPress(label)}
-            />
-          ))}
+          {['Personal Data', 'Help Center', 'Request Account Deletion', 'Add another account'].map(
+            (label) => (
+              <OptionItem
+                key={label}
+                label={label}
+                icon={getIconForLabel(label)}
+                onPress={() => handleOptionPress(label)}
+              />
+            )
+          )}
         </View>
-
-        {/* Sign Out */}
+        <View style={styles.availabilityRow}>
+          <View style={styles.availabilityLeft}>
+            <Ionicons name="accessibility-outline" size={20} style={styles.optionIcon} />
+            <Text style={styles.optionLabel}>Availability</Text>
+          </View>
+          <TouchableOpacity
+            style={[
+              styles.toggleContainer,
+              availability ? styles.toggleOn : styles.toggleOff,
+            ]}
+            onPress={() => setAvailability(!availability)}
+          >
+            <View
+              style={[
+                styles.toggleThumb,
+                availability ? styles.toggleThumbOn : styles.toggleThumbOff,
+              ]}
+            />
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity
-      style={styles.signOutButton}
-      onPress={() => navigation.navigate('Signout')} // 👈 navigate to Signout.js
-    >
-      <Text style={styles.signOutText}>
-        <MaterialIcons name="logout" size={16} color="#F00" /> Sign Out
-      </Text>
-    </TouchableOpacity>
+          style={styles.signOutButton}
+          onPress={() => navigation.navigate('VSignout')}
+        >
+          <Text style={styles.signOutText}>
+            <MaterialIcons name="logout" size={16} color="#F00" /> Sign Out
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
 
       <VTabBar activeTab="Profile" />
@@ -184,6 +213,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#ddd',
+    fontFamily:"Kodchasan-Regular",
   },
   optionItem: {
     flexDirection: 'row',
@@ -199,22 +229,69 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     color: '#333',
+    fontFamily:"Kodchasan-Bold",
   },
   optionArrow: {
     color: '#999',
   },
-  signOutButton: {
-    marginTop: 30,
-    borderWidth: 1,
-    borderColor: '#f00',
-    borderRadius: 30,
-    alignSelf: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 10,
+  availabilityRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 15,
+    borderBottomColor: '#eee',
+    borderBottomWidth: 1,
+    paddingHorizontal: 2,
   },
-  signOutText: {
-    color: '#f00',
-    fontSize: 16,
-    fontWeight: '500',
+  availabilityLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
+  toggleContainer: {
+    width: 42,
+    height: 24,
+    borderRadius: 12,
+    padding: 2,
+    justifyContent: 'center',
+  },
+  toggleOn: {
+    backgroundColor: '#4CAF50',
+  },
+  toggleOff: {
+    backgroundColor: '#ccc',
+  },
+  toggleThumb: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    position: 'absolute',
+  },
+  toggleThumbOn: {
+    right: 2,
+  },
+  toggleThumbOff: {
+    left: 2,
+  },
+ signOutButton: {
+  marginTop: 100,
+  borderWidth: 1,
+  borderColor: '#D6D6D6',
+  borderRadius: 30,
+  alignSelf: 'center',
+  width: '80%',           
+  paddingVertical: 12,
+  alignItems: 'center',   
+  justifyContent: 'center', 
+  flexDirection: 'row',   
+  gap: 6,                 
+},
+
+signOutText: {
+  color: '#f00',
+  fontSize: 16,
+  fontWeight: '500',
+},
+
 });
