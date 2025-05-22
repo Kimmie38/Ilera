@@ -58,6 +58,14 @@ export default function VSignupScreen({ navigation }) {
         />
       </View>
 
+       <TextInput
+        style={styles.input}
+        placeholder="Phone number"
+        keyboardType="phone-pad"
+        value={phoneNumber}
+        onChangeText={setPhoneNumber}
+      />
+
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -66,13 +74,7 @@ export default function VSignupScreen({ navigation }) {
         onChangeText={setEmail}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Phone number"
-        keyboardType="phone-pad"
-        value={phoneNumber}
-        onChangeText={setPhoneNumber}
-      />
+     
 
       <View style={styles.passwordContainer}>
         <TextInput
@@ -127,7 +129,7 @@ export default function VSignupScreen({ navigation }) {
 
       <Text style={styles.footerText}>
         Already have an account?{' '}
-        <Text style={styles.signInLink} onPress={() => navigation.navigate('VCodeVerification')}>
+        <Text style={styles.signInLink} onPress={() => navigation.navigate('VLoginScreen')}>
           Login
         </Text>
       </Text>

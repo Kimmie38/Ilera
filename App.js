@@ -30,6 +30,8 @@ import TaskScreen from './TaskScreen'
 import VProfileScreen from './VProfileScreen';
 import VMoreScreen from './VMoreScreen';
 import LivestockScreen from './LivestockScreen';
+import InfoScreen from './InfoScreen';
+import VLoginScreen from './VLoginScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -80,12 +82,14 @@ export default function App() {
         <Stack.Screen name="PersonalScreen" component={PersonalScreen} options={{headerShown: false}} />
         <Stack.Screen name="Signout" component={Signout} options={{headerShown: false}} />
         <Stack.Screen name="VSignup" component={VSignupScreen} options={{headerShown: false}} />
+        <Stack.Screen name="VLoginScreen" component={VLoginScreen} options={{headerShown: false}} />
         <Stack.Screen name="VCodeVerification" component={VCodeVerification} options={{headerShown: false}} />
         <Stack.Screen name="VMainScreen" component={VMainScreen} options={{headerShown: false}} />
         <Stack.Screen name="TaskScreen" component={TaskScreen} options={{headerShown: false}} />
         <Stack.Screen name="VProfileScreen" component={VProfileScreen} options={{headerShown: false}} />
         <Stack.Screen name="VMoreScreen" component={VMoreScreen} options={{headerShown: false}} />
-               <Stack.Screen name="LivestockScreen" component={LivestockScreen} options={{headerShown: false}} />
+        <Stack.Screen name="LivestockScreen" component={LivestockScreen} options={{headerShown: false}} />
+        <Stack.Screen name="InfoScreen" component={InfoScreen} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
 

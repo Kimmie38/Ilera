@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     color: '#333'
   },
   iconButton:{
-         backgroundColor: '#f0f0f0',
+     backgroundColor: '#f0f0f0',
     padding: 12,
     borderRadius: 30,
   },

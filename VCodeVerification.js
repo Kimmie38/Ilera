@@ -73,7 +73,7 @@ export default function VCodeVerification({ navigation }) {
       {isCodeComplete && (
         <TouchableOpacity
           style={styles.verifyButton}
-          onPress={() => navigation.navigate('VMainScreen')}
+          onPress={() => navigation.navigate('InfoScreen')}
         >
           <Text style={styles.verifyButtonText}>Verify</Text>
         </TouchableOpacity>
