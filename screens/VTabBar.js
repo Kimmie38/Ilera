@@ -2,22 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import HomeIcon from './assets/icons/home.svg';
-import VetIcon from './assets/icons/vet.svg';
-import VideosIcon from './assets/icons/resources.svg';
-import ProfileIcon from './assets/icons/profile.svg';
+import HomeIcon from '../assets/icons/home.svg';
+import TaskIcon from '../assets/icons/task.svg';
+import ProfileIcon from '../assets/icons/profile.svg';
 
-export default function TabBar({ activeTab: externalActiveTab }) {
+export default function VTabBar({ activeTab: externalActiveTab }) {
   const navigation = useNavigation();
   const route = useRoute();
 
   const [activeTab, setActiveTab] = useState(externalActiveTab || '');
 
   const routeNameToTab = {
-    MainScreen: 'Home',
-    VetScreen: 'Vet',
-    VideoScreen: 'Videos',
-    ProfileScreen: 'Profile',
+    VMainScreen: 'Home',
+    TaskScreen: 'Task',
+    VProfileScreen: 'Profile',
   };
 
   useEffect(() => {
@@ -33,44 +31,40 @@ export default function TabBar({ activeTab: externalActiveTab }) {
     setActiveTab(tabName);
     switch (tabName) {
       case 'Home':
-        navigation.navigate('MainScreen');
+        navigation.navigate('VMainScreen');
         break;
-      case 'Vet':
-        navigation.navigate('VetScreen');
-        break;
-      case 'Videos':
-        navigation.navigate('VideoScreen');
+      case 'Request':
+        navigation.navigate('TaskScreen');
         break;
       case 'Profile':
-        navigation.navigate('ProfileScreen');
+        navigation.navigate('VProfileScreen');
         break;
     }
   };
 
   const tabs = [
     { name: 'Home', Icon: HomeIcon },
-    { name: 'Vet', Icon: VetIcon },
-    { name: 'Videos', Icon: VideosIcon },
+    { name: 'Request', Icon: TaskIcon },
     { name: 'Profile', Icon: ProfileIcon },
   ];
 
   return (
     <View style={styles.tabBar}>
       {tabs.map(({ name, Icon }) => {
-        const isActive = activeTab === name;
-        return (
-          <TouchableOpacity
-            key={name}
-            onPress={() => handleTabPress(name)}
-            style={styles.tabItem}
-          >
-            <Icon width={26} height={26} fill={isActive ? '#4CAF50' : '#999'} />
-            <Text style={[styles.tabLabel, { color: isActive ? '#4CAF50' : '#999' }]}>
-              {name}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
+  const isActive = activeTab === name;
+  return (
+    <TouchableOpacity
+      key={name}
+      onPress={() => handleTabPress(name)}
+      style={styles.tabItem}
+    >
+      <Icon width={26} height={26} fill={isActive ? '#4CAF50' : '#999'} />
+      <Text style={[styles.tabLabel, { color: isActive ? '#4CAF50' : '#999' }]}>
+        {name}
+      </Text>
+    </TouchableOpacity>
+  );
+})}
     </View>
   );
 }

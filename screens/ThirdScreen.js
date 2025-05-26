@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
 
+
 export default function ThirdScreen({ navigation }) {
    useFocusEffect(
       React.useCallback(() => {
@@ -19,7 +20,7 @@ export default function ThirdScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Image
-        source={require('./assets/farmer3.png')}
+        source={require('../assets/docs/farmer3.png')}
         style={styles.image}
         resizeMode="cover"
       />

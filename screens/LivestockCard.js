@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import TempIcon from './assets/icons/temperature.svg';
-import MotionIcon from './assets/icons/motion.svg';
-import HeartIcon from './assets/icons/heart.svg';
+import TempIcon from '../assets/icons/temperature.svg';
+import MotionIcon from '../assets/icons/motion.svg';
+import HeartIcon from '../assets/icons/heart.svg';
 
 export default function LivestockCard({
   animalType = 'Cow',

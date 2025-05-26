@@ -5,9 +5,9 @@ import TabBar from './TabBar';
 import { LineChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
 
-import ThermometerIcon from '../Ilhera/assets/icons/ThermometerIcon';
-import MotionIcon from '../Ilhera/assets/icons/MotionIcon';
-import HeartIcon from '../Ilhera/assets/icons/HeartIcon';
+import ThermometerIcon from '../assets/icons/ThermometerIcon.svg';
+import MotionIcon from '../assets/icons/MotionIcon.svg';
+import HeartIcon from '../assets/icons/HeartIcon.svg';
 
 const screenWidth = Dimensions.get('window').width;
 

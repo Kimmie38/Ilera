@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import ArrowBackIcon from './assets/icons/back.svg';  
-import LocationIcon from './assets/icons/location.svg';      
+import ArrowBackIcon from '../assets/icons/back.svg';  
+import LocationIcon from '../assets/icons/location.svg';      
 
 export default function BioScreen({navigation}) {
   const [farmAddress, setFarmAddress] = useState('');
@@ -58,6 +58,7 @@ export default function BioScreen({navigation}) {
 </TouchableOpacity>
     </View>
     </View>
+    
   );
 }
 
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,    
     borderRadius: 25,         
     alignItems: 'center',     
-    backgroundColor: '#28a745',  
+    backgroundColor: '#528C4A',  
     justifyContent: 'center', 
     elevation: 3,             
     shadowColor: '#000',      

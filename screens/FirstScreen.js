@@ -1,44 +1,48 @@
-// SecondScreen.js
+// FirstScreen.js
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
 
-export default function SecondScreen() {
-     useFocusEffect(
-        React.useCallback(() => {
-          const onBackPress = () => {
-            navigation.replace('First'); 
-            return true;
-          };
-      
-          BackHandler.addEventListener('hardwareBackPress', onBackPress);
-      
-          return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-        }, [])
-      );
-  const navigation = useNavigation();
-
+export default function FirstScreen() {
+   useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        BackHandler.exitApp(); 
+        return true; 
+      };
+  
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+  
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
+  const navigation = useNavigation(); 
+  
   return (
     <View style={styles.container}>
       <Image
-        source={require('./assets/farmer2.png')} 
+        source={require('../assets/docs/farmer.png')} 
         style={styles.image}
         resizeMode="cover"
       />
       <View style={styles.textContainer}>
-        <Text style={styles.title}>Stay Ahead of Outbreaks</Text>
+        <Text style={styles.title}>Monitor Livestock Health Effortlessly</Text>
         <Text style={styles.subtitle}>
-          Get instant alerts and insights to prevent illness before it spreads. Keep your farm safe and thriving.
+          Monitor your animals health in real-time with smart wearable sensors—no paperwork, just precision.
         </Text>
         <View style={styles.pagination}>
-          <View style={styles.dot} />
           <View style={[styles.dot, styles.activeDot]} />
           <View style={styles.dot} />
+          <View style={styles.dot} />
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Third')}>
-         <Text style={styles.buttonText}>Next</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Second')} 
+        >
+          <Text style={styles.buttonText}>next</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -54,15 +58,16 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   image: {
-    borderRadius: 25,
     width: '100%',
     height: '60%',
+    borderRadius: 25,
     marginTop: 28,
   },
   textContainer: {
     padding: 20,
     justifyContent: 'space-between',
     flex: 1,
+    
   },
   title: {
     fontFamily: 'Kodchasan-Regular',
@@ -82,7 +87,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   dot: {
-    width: 8,
+    width: 8, 
     height: 8,
     borderRadius: 4,
     backgroundColor: '#ccc',

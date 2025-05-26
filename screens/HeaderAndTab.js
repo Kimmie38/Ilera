@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import MenuIcon from './assets/icons/menu.svg';
-import BellIcon from './assets/icons/bell.svg';
+import MenuIcon from '../assets/icons/menu.svg';
+import BellIcon from '../assets/icons/bell.svg';
 
 export default function HeaderAndTab({ onMenuPress, onBellPress }) {
   return (
@@ -25,4 +25,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     zIndex: 1,
   },
+  inputWithIcon: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  borderColor: '#ddd',
+  borderWidth: 1,
+  borderRadius: 5,
+  paddingLeft: 10,
+  marginTop: 5,
+},
 });

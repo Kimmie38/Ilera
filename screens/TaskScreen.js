@@ -1,69 +1,66 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import HeaderAndTab from './HeaderAndTab';
-import TabBar from './TabBar';
-import { Ionicons } from '@expo/vector-icons';
+import VTabBar from './VTabBar';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
-
-
+import { Ionicons } from '@expo/vector-icons';
 
 const doctors = [
   {
-    name: 'Dr. Muhamadu Rufai',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('./assets/docs/doc1.jpg'),
+    name: 'Alex Otti',
+    experience: 'A farmer dedicated to livestock farming especially goats....',
+    image: require('../assets/docs/famer1.png'),
+    
+  },
+  {
+    name: 'Dotun Babangida',
+    experience: 'A farmer dedicated to livestock farming especially goats....',
+    image: require('../assets/docs/famer2.png'),
     available: false,
   },
   {
-    name: 'Dr. Olu Kolapo',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('./assets/docs/doc2.jpg'),
+    name: 'Desmond Tinibu',
+    experience: 'A farmer dedicated to livestock farming especially goats....',
+    image: require('../assets/docs/famer3.png'),
     available: false,
   },
   {
-    name: 'Dr. Ikenna Chidi',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('./assets/docs/doc3.jpg'),
+    name: 'Justice Adam',
+    experience: 'A farmer dedicated to livestock farming especially goats....',
+    image: require('../assets/docs/famer4.png'),
     available: false,
   },
   {
-    name: 'Dr. Fabura Amaka',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('./assets/docs/doc4.jpg'),
-    available: false,
-  },
-  {
-    name: 'Dr. Tanko Amina',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('./assets/docs/doc5.jpg'),
+    name: 'Jigga',
+    experience: 'A farmer dedicated to livestock farming especially goats....',
+    image: require('../assets/docs/farmers5.jpg'),
     available: false,
   },
 ];
 
-export default function VetScreen({navigation}) {
-   useFocusEffect(
-    React.useCallback(() => {
-      const onBackPress = () => {
-        navigation.navigate('MainScreen'); 
-        return true;
-      };
-
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, [])
-  );
+export default function TaskScreen({navigation}) {
+    useFocusEffect(
+      React.useCallback(() => {
+        const onBackPress = () => {
+          navigation.replace('VMainScreen'); 
+          return true;
+        };
+    
+        BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+        return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      }, [])
+    );
   return (
     <View style={styles.container}>
-      <HeaderAndTab/>
+      <HeaderAndTab
+        onMenuPress={() => console.log('Hamburger clicked')}
+        onBellPress={() => console.log('Bell clicked')}
+        activeTab="Task"
+        onTabPress={(tab) => console.log(`${tab} tab clicked`)}/>
 
-      {/* Search Bar */}
-      <TextInput style={styles.searchInput} placeholder="Search for Doctors" />
-
-      {/* Section Title */}
-      <Text style={styles.sectionTitle}>Vet Doctors Near You</Text>
+      <Text style={styles.sectionTitle}>Farmers Requesting your Service</Text>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
         {doctors.map((doc, index) => (
@@ -74,24 +71,17 @@ export default function VetScreen({navigation}) {
               <Text style={styles.experience}>{doc.experience}</Text>
               <View style={styles.statusRow}>
                 <View
-                  style={[
-                    styles.statusDot,
-                    { backgroundColor: doc.available? '#32cd32' : '#ccc' },
-                  ]}
                 />
-                <Text style={styles.statusText}>
-                  {doc.available ? 'Available' : 'Unavailable'}
-                </Text>
               </View>
             </View>
-           <TouchableOpacity onPress={() => navigation.push('MoreScreen', { doctor: doc })}
+           <TouchableOpacity onPress={() => navigation.push('VMoreScreen', { doctor: doc })}
             style={styles.frontButton}>
-                       <Ionicons name="arrow-forward" size={15} color="#333" />
+              <Ionicons name="arrow-forward" size={15} color="#333" />
             </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
-              <TabBar activeTab="Vet" />
+     <VTabBar activeTab="Task" />
     </View>
   );
 }
@@ -110,10 +100,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Kodchasan-Regular',
   },
+   frontButton:{
+      padding: 6,
+  backgroundColor: '#DDDDDE',
+  borderRadius: 30,
+  marginTop:50,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+  elevation: 5,
+  },
   sectionTitle: {
-    marginHorizontal: 80,
+    marginHorizontal: 50,
     marginVertical: 12,
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: 'Kodchasan-Bold',
     color: '#333',
   },
@@ -132,22 +133,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginRight: 14,
   },
-  frontButton:{
-      padding: 6,
-  backgroundColor: '#DDDDDE',
-  borderRadius: 30,
-  marginTop:50,
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.2,
-  shadowRadius: 4,
-  elevation: 5,
-  },
   info: {
     flex: 1,
   },
   name: {
-    fontWeight: 'bold',
     fontSize: 14,
     fontFamily: 'Kodchasan-Bold',
     color: '#111',

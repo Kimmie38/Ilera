@@ -4,35 +4,35 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Font from 'expo-font';
 import { ActivityIndicator, View } from 'react-native'; 
 
-import FirstScreen from './FirstScreen';
-import SecondScreen from './SecondScreen';
-import ThirdScreen from './ThirdScreen';
-import RegistryScreen from './RegistryScreen';
-import SignupScreen from './SignupScreen';
-import CodeVerificationScreen from './CodeVerificationScreen';
-import LoginScreen from './LoginScreen';
-import MainScreen from './MainScreen';
-import RegisterScreen from './RegisterScreen';
-import BioScreen from './BioScreen';
-import DashboardScreen from './DashboardScreen';
-import GraphScreen from './GraphScreen';
-import HeaderAndTab from './HeaderAndTab';
-import VetScreen from './VetScreen';
-import MoreScreen from './MoreScreen';
-import ProfileScreen from './ProfileScreen';
-import PersonalScreen from './PersonalScreen';
-import VideoScreen from './VideoScreen';
-import Signout from './Signout'
-import VSignupScreen from './VSignupScreen';
-import VCodeVerification from './VCodeVerification';
-import VMainScreen from './VMainScreen';
-import TaskScreen from './TaskScreen'
-import VProfileScreen from './VProfileScreen';
-import VMoreScreen from './VMoreScreen';
-import LivestockScreen from './LivestockScreen';
-import InfoScreen from './InfoScreen';
-import VLoginScreen from './VLoginScreen';
-import VSignout from './VSignout';
+import FirstScreen from './screens/FirstScreen';
+import SecondScreen from './screens/SecondScreen';
+import ThirdScreen from './screens/ThirdScreen';
+import RegistryScreen from './screens/RegistryScreen';
+import SignupScreen from './screens/SignupScreen';
+import CodeVerificationScreen from './screens/CodeVerificationScreen';
+import LoginScreen from './screens/LoginScreen';
+import MainScreen from './screens/MainScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import BioScreen from './screens/BioScreen';
+import DashboardScreen from './screens/DashboardScreen';
+import GraphScreen from './screens/GraphScreen';
+import HeaderAndTab from './screens/HeaderAndTab';
+import VetScreen from './screens/VetScreen';
+import MoreScreen from './screens/MoreScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import PersonalScreen from './screens/PersonalScreen';
+import VideoScreen from './screens/VideoScreen';
+import Signout from './screens/Signout'
+import VSignupScreen from './screens/VSignupScreen';
+import VCodeVerification from './screens/VCodeVerification';
+import VMainScreen from './screens/VMainScreen';
+import TaskScreen from './screens/TaskScreen'
+import VProfileScreen from './screens/VProfileScreen';
+import VMoreScreen from './screens/VMoreScreen';
+import LivestockScreen from './screens/LivestockScreen';
+import InfoScreen from './screens/InfoScreen';
+import VLoginScreen from './screens/VLoginScreen';
+import VSignout from './screens/VSignout';
 
 
 const Stack = createNativeStackNavigator();
