@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MainScreen from '../screens/MainScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+// import MainScreen from '../screens/MainScreen';
+// import ProfileScreen from '../screens/ProfileScreen';
 
 import OrderTrackerScreen from '../hamburger/OrderTrackerScreen';
 import CommunityScreen from '../hamburger/CommunityScreen';
@@ -14,7 +14,7 @@ import ArchieveScreen from '../hamburger/ArchieveScreen';
 import SignoutScreen from '../hamburger/SignoutScreen';
 
 // Custom drawer
-import CustomDrawer from '../component/CustomDrawer';
+// import CustomDrawer from '../component/CustomDrawer';
 // import ArchieveScreen from '../hamburger/ArchieveScreen';
 
 const Stack = createNativeStackNavigator();

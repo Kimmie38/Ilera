@@ -34,6 +34,13 @@ import VMoreScreen from './screens/VMoreScreen';
 import LivestockScreen from './screens/LivestockScreen';
 import InfoScreen from './screens/InfoScreen';
 import VLoginScreen from './screens/VLoginScreen';
+import OrderTrackerScreen from './hamburger/OrderTrackerScreen';
+import CommunityScreen from './hamburger/CommunityScreen';
+import SupportScreen from './hamburger/SupportScreen';
+import TerminatedScreen from './hamburger/TerminatedScreen';
+import ArchieveScreen from './hamburger/ArchieveScreen';
+// import SignoutScreen from './hamburger/SignoutScreen';
+
 import VSignout from './screens/VSignout';
 
 
@@ -98,6 +105,13 @@ export default function App() {
       <Stack.Screen name="VMoreScreen" component={VMoreScreen} options={{ headerShown: false }} />
       <Stack.Screen name="LivestockScreen" component={LivestockScreen} options={{ headerShown: false }} />
       <Stack.Screen name="InfoScreen" component={InfoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="OrderTracker" component={OrderTrackerScreen} />
+      <Stack.Screen name="Community" component={CommunityScreen} />
+       <Stack.Screen name="Support" component={SupportScreen} />
+       <Stack.Screen name="Terminated" component={TerminatedScreen} />
+       <Stack.Screen name="Archieve" component={ArchieveScreen} />
+      {/* <Stack.Screen name="Signout" component={SignoutScreen} /> */}
+      
     </Stack.Navigator>
   </NavigationContainer>
 );
