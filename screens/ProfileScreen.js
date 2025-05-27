@@ -81,7 +81,7 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <HeaderAndTab title="Profile" />
+     <HeaderAndTab navigation={navigation} />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.profileSection}>

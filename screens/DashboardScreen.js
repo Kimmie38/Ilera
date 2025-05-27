@@ -26,14 +26,12 @@ export default function DashboardScreen() {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        {/* Filter Tabs */}
+      
         <View style={styles.filtersRow}>
           <Text style={[styles.filterTab, styles.activeFilter]}>All</Text>
-          <Text style={styles.filterTab}>With Trackers</Text>
-          <Text style={styles.filterTab}>Without Trackers</Text>
+          {/* /* <Text style={styles.filterTab}>With Trackers</Text>
+          <Text style={styles.filterTab}>Without Trackers</Text> */ }
         </View>
-
-        {/* Animal Chips */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.animalFilters}>
           {[
             { name: 'Cows', count: '0', active: true },
@@ -57,11 +55,7 @@ export default function DashboardScreen() {
             </View>
           ))}
         </ScrollView>
-
-        {/* Total Count */}
         <Text style={styles.totalCount}>0000</Text>
-
-        {/* Livestock Cards */}
         <View style={styles.livestockSection}>
     <FlatList
       data={livestockData}
