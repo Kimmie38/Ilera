@@ -36,44 +36,41 @@ const currentRoute = route.name;
                 </Text>
                 </TouchableOpacity>
               <TouchableOpacity
-                style={styles.item}
-                onPress={() => {
-                  navigation.navigate('Community');
-                  onClose();
-                }}
-              >
+               style={currentRoute === 'Community' ? styles.itemActive : styles.item}
+        onPress={() => navigation.navigate('Community')} >
+            
                 <FontAwesome5 name="users" size={23} color="#000" style={styles.icon} />
-                <Text style={styles.text}>Community</Text>
+                   <Text style={currentRoute === 'Community' ? styles.textActive : styles.text}>
+                Community
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.item}
-                onPress={() => {
-                  navigation.navigate('Support');
-                  onClose();
-                }}
-              >
+  style={currentRoute === 'Support' ? styles.itemActive : styles.item}
+        onPress={() => navigation.navigate('Support')} >
+
                 <Ionicons name="headset-outline" size={23} color="#000" style={styles.icon} />
-                <Text style={styles.text}>Customer Support</Text>
+                <Text style={currentRoute === 'Support' ? styles.textActive : styles.text}>
+                Support
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.item}
-                onPress={() => {
-                  navigation.navigate('Terminated');
-                  onClose();
-                }}
-              >
+              style={currentRoute === 'Terminated' ? styles.itemActive : styles.item}
+        onPress={() => navigation.navigate('Terminated')} >
+
                 <MaterialCommunityIcons
                   name="calendar-remove-outline"
                   size={23}
                   color="#000"
                   style={styles.icon}
                 />
-                <Text style={styles.text}>Terminated Appointment</Text>
+                 <Text style={currentRoute === 'Terminated' ? styles.textActive : styles.text}>
+                Terminated Appointment
+                </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={styles.item}
                 onPress={() => {
                   navigation.navigate('Archieve');
@@ -82,7 +79,7 @@ const currentRoute = route.name;
               >
                 <Ionicons name="folder-outline" size={23} color="#000" style={styles.icon} />
                 <Text style={styles.text}>Archives Animals</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
 
             <TouchableOpacity

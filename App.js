@@ -34,6 +34,7 @@ import VMoreScreen from './screens/VMoreScreen';
 import LivestockScreen from './screens/LivestockScreen';
 import InfoScreen from './screens/InfoScreen';
 import VLoginScreen from './screens/VLoginScreen';
+import SideMenu from './component/SideMenu';
 import OrderTrackerScreen from './hamburger/OrderTrackerScreen';
 import CommunityScreen from './hamburger/CommunityScreen';
 import SupportScreen from './hamburger/SupportScreen';
@@ -108,10 +109,11 @@ export default function App() {
       <Stack.Screen name="InfoScreen" component={InfoScreen} options={{ headerShown: false }} />
       <Stack.Screen name="OrderTracker" component={OrderTrackerScreen}options={{ headerShown: false }} />
       <Stack.Screen name="Community" component={CommunityScreen}options={{ headerShown: false }} />
-       <Stack.Screen name="Support" component={SupportScreen}options={{ headerShown: false }} />
-       <Stack.Screen name="Terminated" component={TerminatedScreen}options={{ headerShown: false }} />
-       <Stack.Screen name="Archieve" component={ArchieveScreen}options={{ headerShown: false }} />
+      <Stack.Screen name="Support" component={SupportScreen}options={{ headerShown: false }} />
+      <Stack.Screen name="Terminated" component={TerminatedScreen}options={{ headerShown: false }} />
+      <Stack.Screen name="Archieve" component={ArchieveScreen}options={{ headerShown: false }} />
       <Stack.Screen name="Proceed" component={ProceedScreen}options={{ headerShown: false }} />
+       <Stack.Screen name="SideMenu" component={SideMenu}options={{ headerShown: false }} />
       
     </Stack.Navigator>
   </NavigationContainer>
