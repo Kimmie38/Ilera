@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import DrawerNavigator from './navigation/DrawerNavigator';
+// import DrawerNavigator from './navigation/DrawerNavigator';
 import * as Font from 'expo-font';
 import 'react-native-gesture-handler';
 import { ActivityIndicator, View } from 'react-native'; 
@@ -39,7 +39,8 @@ import CommunityScreen from './hamburger/CommunityScreen';
 import SupportScreen from './hamburger/SupportScreen';
 import TerminatedScreen from './hamburger/TerminatedScreen';
 import ArchieveScreen from './hamburger/ArchieveScreen';
-// import SignoutScreen from './hamburger/SignoutScreen';
+import ProceedScreen from './hamburger/ProceedScreen';
+
 
 import VSignout from './screens/VSignout';
 
@@ -83,7 +84,7 @@ export default function App() {
       <Stack.Screen name="CodeVerificationScreen" component={CodeVerificationScreen} options={{ headerShown: false }} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="HeaderAndTab" component={HeaderAndTab} options={{ headerShown: false }} />
-      <Stack.Screen name="MainDrawer" component={DrawerNavigator} options={{ headerShown: false }} />
+      {/* <Stack.Screen name="MainDrawer" component={DrawerNavigator} options={{ headerShown: false }} /> */}
       <Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name="BioScreen" component={BioScreen} options={{ headerShown: false }} />
@@ -105,12 +106,12 @@ export default function App() {
       <Stack.Screen name="VMoreScreen" component={VMoreScreen} options={{ headerShown: false }} />
       <Stack.Screen name="LivestockScreen" component={LivestockScreen} options={{ headerShown: false }} />
       <Stack.Screen name="InfoScreen" component={InfoScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="OrderTracker" component={OrderTrackerScreen} />
-      <Stack.Screen name="Community" component={CommunityScreen} />
-       <Stack.Screen name="Support" component={SupportScreen} />
-       <Stack.Screen name="Terminated" component={TerminatedScreen} />
-       <Stack.Screen name="Archieve" component={ArchieveScreen} />
-      {/* <Stack.Screen name="Signout" component={SignoutScreen} /> */}
+      <Stack.Screen name="OrderTracker" component={OrderTrackerScreen}options={{ headerShown: false }} />
+      <Stack.Screen name="Community" component={CommunityScreen}options={{ headerShown: false }} />
+       <Stack.Screen name="Support" component={SupportScreen}options={{ headerShown: false }} />
+       <Stack.Screen name="Terminated" component={TerminatedScreen}options={{ headerShown: false }} />
+       <Stack.Screen name="Archieve" component={ArchieveScreen}options={{ headerShown: false }} />
+      <Stack.Screen name="Proceed" component={ProceedScreen}options={{ headerShown: false }} />
       
     </Stack.Navigator>
   </NavigationContainer>

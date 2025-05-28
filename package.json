@@ -12,7 +12,7 @@
   "dependencies": {
     "@expo/cli": "^0.24.13",
     "@expo/vector-icons": "^14.0.2",
-    "@react-native-community/checkbox": "^0.5.17",
+    "@react-native-community/checkbox": "^0.5.20",
     "@react-native-community/cli-server-api": "^18.0.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-picker/picker": "^2.9.0",
