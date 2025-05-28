@@ -41,21 +41,21 @@ export default function SupportScreen() {
 
       {/* Contact Options */}
       <View style={styles.optionRow}>
-        <Ionicons name="call-outline" size={30} color="#000" />
+        <Ionicons name="call-outline" size={40} color="#000" />
         <Text style={styles.phoneText} onPress={dialNumber}>
           {phoneNumber}
         </Text>
       </View>
 
       <View style={styles.optionRow}>
-        <FontAwesome name="whatsapp" size={30} color="#25D366" />
+        <FontAwesome name="whatsapp" size={40} color="#25D366" />
         <Text style={styles.phoneText} onPress={openWhatsApp}>
           {phoneNumber}
         </Text>
       </View>
 
       <View style={styles.optionRow}>
-        <MaterialCommunityIcons name="message-outline" size={30} color="#000" />
+        <MaterialCommunityIcons name="message-outline" size={40} color="#000" />
         <Text style={styles.phoneText} onPress={sendMessage}>
           {phoneNumber}
         </Text>
@@ -96,8 +96,9 @@ container: {
   },
   description: {
     color: '#888',
-    fontSize: 13,
+    fontSize: 14,
     marginBottom: 30,
+    fontFamily:'Kodchasan-Regular',
   },
   optionRow: {
     flexDirection: 'row',
@@ -105,8 +106,9 @@ container: {
     marginBottom: 25,
   },
   phoneText: {
-    fontSize: 16,
+    fontSize: 18,
     marginLeft: 12,
     color: '#000',
+    fontFamily:'Kodchasan-Regular',
   },
 });

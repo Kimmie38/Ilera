@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#DCE9EC',
     paddingVertical: 20,
     justifyContent: 'space-between',
-     paddingHorizontal: 13,
-    paddingTop: 50, 
+     paddingHorizontal: 12,
+    paddingTop: 60, 
   },
   menuContent: {
     paddingHorizontal: 15,

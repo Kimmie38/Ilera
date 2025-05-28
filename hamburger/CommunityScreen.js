@@ -26,22 +26,22 @@ export default function CommunityScreen({ navigation }) {
       </Text>
 
       <TouchableOpacity style={styles.item} onPress={() => openLink('https://wa.me/123456789')}>
-        <WhatsappIcon width={30} height={30} />
+        <WhatsappIcon width={40} height={40} />
         <Text style={styles.text}>Whatsapp</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.item} onPress={() => openLink('https://instagram.com')}>
-        <InstagramIcon width={30} height={30} />
+        <InstagramIcon width={40} height={40} />
         <Text style={styles.text}>Instagram</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.item} onPress={() => openLink('https://twitter.com')}>
-        <TwitterIcon width={30} height={30} />
+        <TwitterIcon width={40} height={40} />
         <Text style={styles.text}>X/Twitter</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.item} onPress={() => openLink('https://telegram.org')}>
-        <TelegramIcon width={30} height={30} />
+        <TelegramIcon width={40} height={40} />
         <Text style={styles.text}>Telegram</Text>
       </TouchableOpacity>
     </View>
@@ -82,15 +82,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#888',
     marginBottom: 20,
-    fontSize: 13,
+    fontSize: 15,
+    fontFamily:'Kodchasan-Regular',
   },
   item: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   text: {
     marginLeft: 10,
     fontSize: 16,
+    fontFamily:'Kodchasan-Regular',
+    fontWeight:600 ,
   },
 });

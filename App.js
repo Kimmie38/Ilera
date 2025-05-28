@@ -39,7 +39,6 @@ import OrderTrackerScreen from './hamburger/OrderTrackerScreen';
 import CommunityScreen from './hamburger/CommunityScreen';
 import SupportScreen from './hamburger/SupportScreen';
 import TerminatedScreen from './hamburger/TerminatedScreen';
-import ArchieveScreen from './hamburger/ArchieveScreen';
 import ProceedScreen from './hamburger/ProceedScreen';
 
 
@@ -111,7 +110,6 @@ export default function App() {
       <Stack.Screen name="Community" component={CommunityScreen}options={{ headerShown: false }} />
       <Stack.Screen name="Support" component={SupportScreen}options={{ headerShown: false }} />
       <Stack.Screen name="Terminated" component={TerminatedScreen}options={{ headerShown: false }} />
-      <Stack.Screen name="Archieve" component={ArchieveScreen}options={{ headerShown: false }} />
       <Stack.Screen name="Proceed" component={ProceedScreen}options={{ headerShown: false }} />
        <Stack.Screen name="SideMenu" component={SideMenu}options={{ headerShown: false }} />
       
