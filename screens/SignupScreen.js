@@ -6,7 +6,6 @@ import {
 import { Checkbox } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import api from '../utils/api';
 
@@ -179,11 +178,29 @@ export default function SignupScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, paddingTop: 60 },
-  backButton: { marginBottom: 20 },
-  title: { fontFamily: 'Kodchasan-Bold', fontSize: 22, marginBottom: 10 },
-  subtitle: { fontFamily: 'Kodchasan-Regular', fontSize: 14, color: '#777', marginBottom: 20 },
-  inputRow: { flexDirection: 'row', marginBottom: 15 },
+  container:
+   { padding: 20, 
+    paddingTop: 60
+   },
+  backButton: 
+  { marginBottom: 20
+
+   },
+  title: 
+  { fontFamily: 'Kodchasan-Bold',
+     fontSize: 22,
+      marginBottom: 10
+   },
+  subtitle: 
+  { fontFamily: 'Kodchasan-Regular',
+     fontSize: 14, 
+     color: '#777',
+      marginBottom: 20
+   },
+  inputRow: 
+  { flexDirection: 'row',
+     marginBottom: 15
+   },
   input: {
     fontFamily: 'Kodchasan-Regular',
     borderWidth: 1,
@@ -192,17 +209,56 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 15,
   },
-  passwordContainer: { position: 'relative', marginBottom: 15 },
-  eyeIcon: { position: 'absolute', right: 15, top: 15 },
-  checkboxRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
-  checkboxText: { fontFamily: 'Kodchasan-Regular', flex: 1, flexWrap: 'wrap' },
-  linkText: { color: '#37833b', textDecorationLine: 'underline' },
-  registerButton: { padding: 15, borderRadius: 25, alignItems: 'center', marginBottom: 20 },
-  registerText: { fontFamily: 'Kodchasan-Bold', color: 'white' },
-  footerText: { fontFamily: 'Kodchasan-Regular', textAlign: 'center', fontSize: 14 },
-  signInLink: { color: '#37833b', fontWeight: 'bold' },
-  pickerContainer: { marginBottom: 15 },
-  pickerLabel: { fontFamily: 'Kodchasan-Regular', marginBottom: 5 },
+  passwordContainer: {
+     position: 'relative',
+      marginBottom: 15
+ },
+  eyeIcon: {
+     position: 'absolute',
+      right: 15,
+       top: 15
+ },
+  checkboxRow: {
+     flexDirection: 'row',
+      alignItems: 'center',
+       marginBottom: 20 
+  },
+  checkboxText: { 
+    fontFamily: 'Kodchasan-Regular',
+     flex: 1, 
+     flexWrap: 'wrap'
+ },
+  linkText: {
+     color: '#37833b',
+      textDecorationLine: 
+      'underline' 
+  },
+  registerButton: {
+     padding: 15,
+      borderRadius: 25, 
+      alignItems: 'center',
+       marginBottom: 20
+ },
+  registerText: {
+     fontFamily: 'Kodchasan-Bold',
+      color: 'white'
+ },
+  footerText: {
+     fontFamily: 'Kodchasan-Regular',
+      textAlign: 'center',
+       fontSize: 14
+ },
+  signInLink: { 
+    color: '#37833b',
+     fontWeight: 'bold' 
+  },
+  pickerContainer: {
+     marginBottom: 15
+ },
+  pickerLabel: { 
+    fontFamily: 'Kodchasan-Regular', 
+    marginBottom: 5
+ },
   picker: {
     borderWidth: 1,
     borderColor: '#ccc',
