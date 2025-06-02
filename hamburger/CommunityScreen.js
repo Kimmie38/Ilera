@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
   },
   subText: {
-    textAlign: 'center',
     color: '#888',
     marginBottom: 20,
     fontSize: 15,

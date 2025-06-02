@@ -136,7 +136,7 @@ container: {
   },
   proceedButton: {
     backgroundColor: '#528C4A',
-    paddingVertical: 18,
+    paddingVertical: 13,
     borderRadius: 40,
     alignItems: 'center',
     marginTop:'30',

@@ -13,7 +13,7 @@ export default function RegisterScreen({navigation}) {
   const [age, setAge] = useState('');
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
-  const handleRegister = () => {
+  const handleAnimalRegister = () => {
     console.log('Animal Registered');
   };
   useEffect(() => {

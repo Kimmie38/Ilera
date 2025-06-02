@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import DrawerNavigator from './navigation/DrawerNavigator';
 import * as Font from 'expo-font';
 import 'react-native-gesture-handler';
 import { ActivityIndicator, View } from 'react-native'; 
+
 
 import FirstScreen from './screens/FirstScreen';
 import SecondScreen from './screens/SecondScreen';
@@ -84,7 +84,6 @@ export default function App() {
       <Stack.Screen name="CodeVerificationScreen" component={CodeVerificationScreen} options={{ headerShown: false }} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="HeaderAndTab" component={HeaderAndTab} options={{ headerShown: false }} />
-      {/* <Stack.Screen name="MainDrawer" component={DrawerNavigator} options={{ headerShown: false }} /> */}
       <Stack.Screen name="MainScreen" component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name="BioScreen" component={BioScreen} options={{ headerShown: false }} />
