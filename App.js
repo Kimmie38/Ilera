@@ -6,6 +6,7 @@ import 'react-native-gesture-handler';
 import { ActivityIndicator, View } from 'react-native'; 
 
 
+
 import FirstScreen from './screens/FirstScreen';
 import SecondScreen from './screens/SecondScreen';
 import ThirdScreen from './screens/ThirdScreen';
@@ -34,14 +35,13 @@ import VMoreScreen from './screens/VMoreScreen';
 import LivestockScreen from './screens/LivestockScreen';
 import InfoScreen from './screens/InfoScreen';
 import VLoginScreen from './screens/VLoginScreen';
+import SplashScreen from './screens/SplashScreen';
 import SideMenu from './component/SideMenu';
 import OrderTrackerScreen from './hamburger/OrderTrackerScreen';
 import CommunityScreen from './hamburger/CommunityScreen';
 import SupportScreen from './hamburger/SupportScreen';
 import TerminatedScreen from './hamburger/TerminatedScreen';
 import ProceedScreen from './hamburger/ProceedScreen';
-
-
 import VSignout from './screens/VSignout';
 
 
@@ -54,7 +54,7 @@ export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
-    async function loadFonts() {
+    async function loadFonts () {
       await Font.loadAsync({
         'Kodchasan-Regular': require('./assets/fonts/Kodchasan-Regular.ttf'),
         'Kodchasan-Bold': require('./assets/fonts/Kodchasan-Bold.ttf'), // 👈 Replace with your actual font
@@ -67,9 +67,11 @@ export default function App() {
 
   if (!fontsLoaded) {
     return (
+      
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
       </View>
+      
     );
   }
 
