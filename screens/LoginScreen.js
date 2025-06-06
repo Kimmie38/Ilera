@@ -1,41 +1,55 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
+import api from '../utils/api'; // Your Axios instance file
 
 export default function LoginScreen({ navigation }) {
   useFocusEffect(
-  React.useCallback(() => {
-    const onBackPress = () => {
-      BackHandler.exitApp();
-      return true; 
-    };
+    React.useCallback(() => {
+      const onBackPress = () => {
+        BackHandler.exitApp();
+        return true;
+      };
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
 
-    BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-    return () =>
-      BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-  }, [])
-);
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+ const handleLogin = async () => {
+  try {
+    const res = await api.post('/api/v1/auth/login/', {
+      email,
+      password,
+    });
+
+    console.log('Login successful:', res.data);
+    navigation.navigate('DashboardScreen');
+  } catch (error) {
+    console.error('Login error:', error.response?.data || error.message);
+    Alert.alert('Login Failed', error.response?.data?.message || 'Invalid email or password');
+  }
+};
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login to your{"\n"}account as a Farmer</Text>
       <Text style={styles.subtitle}>Please sign in to your account</Text>
 
-      <Text style={styles.label}>Phone Number</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="E.g 08034567890"
-        keyboardType="phone-pad"
-        value={phone}
-        onChangeText={setPhone}
-      />
-
+     <Text style={styles.label}>Email Address</Text>
+<TextInput
+  style={styles.input}
+  placeholder="E.g johndoe@gmail.com"
+  keyboardType="email-address"
+  autoCapitalize="none"
+  value={email}
+  onChangeText={setEmail}
+/>
       <Text style={styles.label}>Password</Text>
       <View style={styles.passwordContainer}>
         <TextInput
@@ -46,11 +60,7 @@ export default function LoginScreen({ navigation }) {
           onChangeText={setPassword}
         />
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Ionicons
-            name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-            size={24}
-            color="gray"
-          />
+          <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={24} color="gray" />
         </TouchableOpacity>
       </View>
 
@@ -58,12 +68,9 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.forgotPassword}>Forgot password?</Text>
       </TouchableOpacity>
 
-     <TouchableOpacity
-      style={styles.signInButton}
-      onPress={() => navigation.navigate('DashboardScreen')}
-    >
-      <Text style={styles.signInText}>Login</Text>
-    </TouchableOpacity>
+      <TouchableOpacity style={styles.signInButton} onPress={handleLogin}>
+        <Text style={styles.signInText}>Login</Text>
+      </TouchableOpacity>
 
       <View style={styles.signupContainer}>
         <Text style={styles.signupText}>Don't have an account? </Text>
@@ -74,6 +81,8 @@ export default function LoginScreen({ navigation }) {
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {

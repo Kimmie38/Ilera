@@ -108,18 +108,20 @@ export default function SignupScreen({ navigation }) {
         onChangeText={setPhoneNumber}
       />
 
-      <View style={styles.pickerContainer}>
-        <Text style={styles.pickerLabel}>Select Role</Text>
-        <Picker
-          selectedValue={role}
-          onValueChange={(itemValue) => setRole(itemValue)}
-          style={styles.picker}
-        >
-          <Picker.Item label="Farmer" value="FARMER" />
-          <Picker.Item label="Vet" value="VET" />
-          <Picker.Item label="Admin" value="ADMIN" />
-        </Picker>
-      </View>
+    <View style={styles.pickerContainer}>
+  <Text style={styles.pickerLabel}>Select Role</Text>
+  <View style={styles.pickerWrapper}>
+    <Picker
+      selectedValue={role}
+      onValueChange={(itemValue) => setRole(itemValue)}
+      style={styles.picker}
+    >
+      <Picker.Item label="Farmer" value="FARMER" style={styles.pickerItem} />
+      <Picker.Item label="Vet" value="VET" style={styles.pickerItem} />
+    </Picker>
+  </View>
+</View>
+
 
       <View style={styles.passwordContainer}>
         <TextInput
@@ -252,17 +254,26 @@ const styles = StyleSheet.create({
     color: '#37833b',
      fontWeight: 'bold' 
   },
-  pickerContainer: {
-     marginBottom: 15
- },
-  pickerLabel: { 
-    fontFamily: 'Kodchasan-Regular', 
-    marginBottom: 5
- },
-  picker: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 10,
-    backgroundColor: '#f9f9f9',
+   pickerContainer: {
+    marginBottom: 15,
   },
+  pickerLabel: {
+    fontFamily: 'Kodchasan-Regular',
+    marginBottom: 5,
+  },
+  pickerWrapper: {
+    borderWidth: 1,
+    borderColor: '#d1d5db', // like Tailwind gray-200
+    borderRadius: 10,
+    backgroundColor: '#f3f4f6',
+  },
+  picker: {
+    height: 50,
+    color: '#000', // optional: text color
+  },
+    pickerItem: {
+    fontFamily: 'Kodchasan-Regular',
+    fontSize: 14,
+    color: '#1f2937',
+},
 });

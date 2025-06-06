@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import api from '../utils/api'; // adjust the path if needed
 
 export default function CodeVerificationScreen({ navigation }) {
-  const [code, setCode] = useState(['', '', '', '', '', ]);
+  const [code, setCode] = useState(['', '', '', '', '']);
   const inputRefs = useRef([]);
-  const [timeLeft, setTimeLeft] = useState(180); 
+  const [timeLeft, setTimeLeft] = useState(180);
   const [isResendEnabled, setIsResendEnabled] = useState(false);
 
   useEffect(() => {
@@ -27,22 +28,39 @@ export default function CodeVerificationScreen({ navigation }) {
   };
 
   const handleChange = (value, index) => {
-  const newCode = [...code];
-  newCode[index] = value;
-  setCode(newCode);
+    const newCode = [...code];
+    newCode[index] = value;
+    setCode(newCode);
 
-  if (value && index < code.length - 1) {
-    inputRefs.current[index + 1]?.focus();
-  }
-};
+    if (value && index < code.length - 1) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
 
   const isCodeComplete = code.every(digit => digit !== '');
 
-  const handleResendOTP = () => {
+  const handleVerify = async () => {
+    const otp = code.join('');
+    try {
+      const response = await api.post('otp/', { otp });
 
+      if (response.status === 200) {
+        navigation.navigate('BioScreen');
+      } else {
+        console.warn('OTP verification failed');
+      }
+    } catch (error) {
+      console.error('Verification error:', error.response?.data || error.message);
+    }
+  };
+
+  const handleResendOTP = () => {
     console.log('Resending OTP...');
-    setTimeLeft(180); 
+    setTimeLeft(180);
     setIsResendEnabled(false);
+
+    // If you later add a resend OTP API:
+    // await api.post('resend-otp/', { email });
   };
 
   return (
@@ -52,15 +70,15 @@ export default function CodeVerificationScreen({ navigation }) {
 
       <View style={styles.otpContainer}>
         {code.map((digit, index) => (
-       <TextInput
-      key={index}
-       ref={(el) => (inputRefs.current[index] = el)}
-      style={styles.otpInput}
-      keyboardType="numeric"
-      maxLength={1}
-       value={digit}
-      onChangeText={(value) => handleChange(value, index)}
-/>
+          <TextInput
+            key={index}
+            ref={(el) => (inputRefs.current[index] = el)}
+            style={styles.otpInput}
+            keyboardType="numeric"
+            maxLength={1}
+            value={digit}
+            onChangeText={(value) => handleChange(value, index)}
+          />
         ))}
       </View>
 
@@ -77,10 +95,7 @@ export default function CodeVerificationScreen({ navigation }) {
       </View>
 
       {isCodeComplete && (
-        <TouchableOpacity
-          style={styles.verifyButton}
-          onPress={() => navigation.navigate('BioScreen')}
-        >
+        <TouchableOpacity style={styles.verifyButton} onPress={handleVerify}>
           <Text style={styles.verifyButtonText}>Verify</Text>
         </TouchableOpacity>
       )}
