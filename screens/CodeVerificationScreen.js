@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import api from '../utils/api';
 
 export default function CodeVerificationScreen({ route, navigation }) {
-  const { phone } = route.params; // ✅ Receiving phone from previous screen
+  const { phone } = route.params;
   const [code, setCode] = useState(['', '', '', '', '']);
   const inputRefs = useRef([]);
   const [timeLeft, setTimeLeft] = useState(180);
@@ -43,9 +43,9 @@ export default function CodeVerificationScreen({ route, navigation }) {
   const handleVerify = async () => {
     const codeString = code.join('');
     try {
-      const response = await api.post('/api/v1/otp/', {
-        phone,        // ✅ send phone
-        code: codeString // ✅ send code
+      const response = await api.post('/api/v1/otp/verify/', {
+        phone,
+        code: codeString 
       });
 
       if (response.status === 200) {
