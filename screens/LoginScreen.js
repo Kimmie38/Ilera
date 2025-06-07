@@ -23,7 +23,7 @@ export default function LoginScreen({ navigation }) {
 
  const handleLogin = async () => {
   try {
-    const res = await api.post('/api/v1/auth/login/', {
+    const res = await api.post('https://ilera.onrender.com/api/v1/login/', {
       email,
       password,
     });

@@ -59,9 +59,8 @@ export default function SignupScreen({ navigation }) {
         role,
       });
 
-      // Navigate to CodeVerification only if signup succeeded
-      navigation.navigate('CodeVerificationScreen' 
-        ,{phone});
+// after successful signup
+navigation.navigate('CodeVerificationScreen', { phoneNumber});
 
     } catch (err) {
       console.error('Registration error:', err.response?.data || err.message);
