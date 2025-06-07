@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import api from '../utils/api'; // adjust the path if needed
+import api from '../utils/api';
 
-export default function CodeVerificationScreen({ navigation }) {
+export default function CodeVerificationScreen({ route, navigation }) {
+  const { phone } = route.params; // ✅ Receiving phone from previous screen
   const [code, setCode] = useState(['', '', '', '', '']);
   const inputRefs = useRef([]);
   const [timeLeft, setTimeLeft] = useState(180);
@@ -40,9 +41,12 @@ export default function CodeVerificationScreen({ navigation }) {
   const isCodeComplete = code.every(digit => digit !== '');
 
   const handleVerify = async () => {
-    const otp = code.join('');
+    const codeString = code.join('');
     try {
-      const response = await api.post('otp/', { otp });
+      const response = await api.post('/api/v1/otp/', {
+        phone,        // ✅ send phone
+        code: codeString // ✅ send code
+      });
 
       if (response.status === 200) {
         navigation.navigate('BioScreen');
@@ -59,14 +63,13 @@ export default function CodeVerificationScreen({ navigation }) {
     setTimeLeft(180);
     setIsResendEnabled(false);
 
-    // If you later add a resend OTP API:
-    // await api.post('resend-otp/', { email });
+    // Optional: Trigger resend endpoint here
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Code Verification</Text>
-      <Text style={styles.subtitle}>Please enter the code we sent to your phone number.</Text>
+      <Text style={styles.subtitle}>Please enter the code sent to {phone}.</Text>
 
       <View style={styles.otpContainer}>
         {code.map((digit, index) => (

@@ -60,7 +60,8 @@ export default function SignupScreen({ navigation }) {
       });
 
       // Navigate to CodeVerification only if signup succeeded
-      navigation.navigate('CodeVerificationScreen');
+      navigation.navigate('CodeVerificationScreen' 
+        ,{ phone });
 
     } catch (err) {
       console.error('Registration error:', err.response?.data || err.message);
