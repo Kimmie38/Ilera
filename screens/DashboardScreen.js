@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,14 +11,38 @@ import HeaderAndTab from './HeaderAndTab';
 import TabBar from './TabBar';             
 import LivestockCard from './LivestockCard';
 
-const livestockData = [
+export default function DashboardScreen({ route }) {
+  // Start with existing animals or empty list
+  const [livestockData, setLivestockData] = useState([
     { id: '1', type: 'Cow', tag: 250, temp: '-', motion: '-', heart: '-' },
     { id: '2', type: 'Goat', tag: 183, temp: '-', motion:'-', heart: '-' },
     { id: '3', type: 'Pig', tag: 145, temp: '-', motion: '-', heart: '-' },
     { id: '4', type: 'Sheep', tag: 322, temp: '-', motion: '-', heart: '-' },
-  ];
+  ]);
 
-export default function DashboardScreen() {
+  // Add new animal passed from register screen (if any)
+  useEffect(() => {
+    if (route.params?.newAnimal) {
+      setLivestockData(prev => [...prev, route.params.newAnimal]);
+    }
+  }, [route.params?.newAnimal]);
+
+  const minAnimals = 10;
+
+  // Fill placeholders if less than minAnimals
+  const displayedAnimals = [...livestockData];
+  while (displayedAnimals.length < minAnimals) {
+    displayedAnimals.push({
+      id: `placeholder-${displayedAnimals.length}`,
+      type: 'Add animal',
+      tag: '-',
+      temp: '-',
+      motion: '-',
+      heart: '-',
+      isPlaceholder: true,
+    });
+  }
+
   return (
     <View style={styles.container}>
       <HeaderAndTab title="Home" />
@@ -55,25 +80,26 @@ export default function DashboardScreen() {
             </View>
           ))}
         </ScrollView>
-        <Text style={styles.totalCount}>0000</Text>
+        <Text style={styles.totalCount}>{displayedAnimals.length}</Text>
         <View style={styles.livestockSection}>
-    <FlatList
-      data={livestockData}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <View style={styles.cardWrapper}>
-          <LivestockCard
-            animalType={item.type}
-            tag={item.tag}
-            temperature={item.temp}
-            motion={item.motion}
-            heartRate={item.heart}
+          <FlatList
+            data={displayedAnimals}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.cardWrapper}>
+                <LivestockCard
+                  animalType={item.isPlaceholder ? 'Add animal' : item.type}
+                  tag={item.tag}
+                  temperature={item.temp}
+                  motion={item.motion}
+                  heartRate={item.heart}
+                  // Optionally you could style placeholder cards differently inside LivestockCard
+                />
+              </View>
+            )}
+            scrollEnabled={false}
           />
         </View>
-      )}
-      scrollEnabled={false}
-    />
-  </View>
         <View style={{ height: 80 }} />
       </ScrollView>
 

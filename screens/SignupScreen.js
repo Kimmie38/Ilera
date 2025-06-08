@@ -8,6 +8,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import api from '../utils/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignupScreen({ navigation }) {
   useFocusEffect(
@@ -51,13 +52,15 @@ export default function SignupScreen({ navigation }) {
 
     try {
       const res = await api.post('https://ilera.onrender.com/api/v1/signup/', {
+
         first_name: firstName,
         last_name: lastName,
         email,
         phone: phoneNumber,
         password,
         role,
-      });
+      })
+       await AsyncStorage.setItem('hasSignedUp', 'true');;
 
 // after successful signup
 navigation.navigate('CodeVerificationScreen', { phoneNumber});

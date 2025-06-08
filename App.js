@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Font from 'expo-font';
@@ -52,20 +53,26 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [initialRoute, setInitialRoute] = useState(null);
 
-  useEffect(() => {
-    async function loadFonts () {
-      await Font.loadAsync({
-        'Kodchasan-Regular': require('./assets/fonts/Kodchasan-Regular.ttf'),
-        'Kodchasan-Bold': require('./assets/fonts/Kodchasan-Bold.ttf'), // 👈 Replace with your actual font
-      });
-      setFontsLoaded(true);
-    }
 
-    loadFonts();
-  }, []);
+ useEffect(() => {
+  async function loadResources() {
+    await Font.loadAsync({
+      'Kodchasan-Regular': require('./assets/fonts/Kodchasan-Regular.ttf'),
+      'Kodchasan-Bold': require('./assets/fonts/Kodchasan-Bold.ttf'),
+    });
 
-  if (!fontsLoaded) {
+    const hasSignedUp = await AsyncStorage.getItem('hasSignedUp');
+    setInitialRoute(hasSignedUp === 'true' ? 'LoginScreen' : 'First');
+
+    setFontsLoaded(true);
+  }
+
+  loadResources();
+}, []);
+
+  if (!fontsLoaded, !initialRoute) {
     return (
       
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -77,7 +84,7 @@ export default function App() {
 
   return (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName="First">
+    <Stack.Navigator initialRouteName={initialRoute}>
       <Stack.Screen name="First" component={FirstScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Second" component={SecondScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Third" component={ThirdScreen} options={{ headerShown: false }} />

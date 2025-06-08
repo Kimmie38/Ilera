@@ -90,7 +90,7 @@ export default function RegisterScreen({navigation}) {
           style={styles.input}
           value={tagNumber}
           onChangeText={setTagNumber}
-          placeholder="Enter Tag Number"
+          placeholder="Enter Tag Number (optional)"
         />
 
         <Text style={styles.label}>Sensor ID Number</Text>
@@ -98,7 +98,7 @@ export default function RegisterScreen({navigation}) {
           style={styles.input}
           value={sensorId}
           onChangeText={setSensorId}
-          placeholder="Enter Sensor ID"
+          placeholder="Enter Sensor ID (optional)"
         />
 
         <Text style={styles.label}>Animal's Age</Text>
