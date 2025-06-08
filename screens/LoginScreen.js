@@ -17,14 +17,14 @@ export default function LoginScreen({ navigation }) {
     }, [])
   );
 
-  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
  const handleLogin = async () => {
   try {
-    const res = await api.post('https://ilera.onrender.com/api/v1/login/', {
-      email,
+    const res = await api.post('/auth/login/', {
+      phone: phoneNumber, // ✅ match the backend expectation exactly
       password,
     });
 
@@ -32,7 +32,7 @@ export default function LoginScreen({ navigation }) {
     navigation.navigate('DashboardScreen');
   } catch (error) {
     console.error('Login error:', error.response?.data || error.message);
-    Alert.alert('Login Failed', error.response?.data?.message || 'Invalid email or password');
+    Alert.alert('Login Failed', error.response?.data?.message || 'Invalid phone number or password');
   }
 };
 
@@ -42,13 +42,14 @@ export default function LoginScreen({ navigation }) {
       <Text style={styles.subtitle}>Please sign in to your account</Text>
 
      <Text style={styles.label}>Email Address</Text>
+<Text style={styles.label}>Phone Number</Text>
 <TextInput
   style={styles.input}
-  placeholder="E.g johndoe@gmail.com"
-  keyboardType="email-address"
+  placeholder="E.g. 08012345678"
+  keyboardType="phone-pad"
   autoCapitalize="none"
-  value={email}
-  onChangeText={setEmail}
+  value={phoneNumber}
+  onChangeText={setPhoneNumber}
 />
       <Text style={styles.label}>Password</Text>
       <View style={styles.passwordContainer}>
