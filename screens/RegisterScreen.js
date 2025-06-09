@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import HeaderAndTab from './HeaderAndTab'; 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TabBar from './TabBar';
-export default function RegisterScreen({navigation}) {
+import api from '../utils/api'
+
+
+export default function RegisterScreen({ navigation }) {
   const [category, setCategory] = useState('');
   const [breed, setBreed] = useState('');
   const [gender, setGender] = useState('');
@@ -12,10 +15,39 @@ export default function RegisterScreen({navigation}) {
   const [sensorId, setSensorId] = useState('');
   const [age, setAge] = useState('');
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleAnimalRegister = () => {
-    console.log('Animal Registered');
-  };
+ 
+const handleAnimalRegister = async () => {
+  try {
+    const payload = {
+      category,
+      breed,
+      tag_id: tagNumber,
+      gender: gender.toUpperCase(),
+      age: parseInt(age), // convert to number
+      sensor_id: sensorId,
+    };
+
+    const response = await api.post('livestock/', payload);
+    console.log('Animal registered successfully:', response.data);
+
+    navigation.navigate('DashboardScreen', {
+  newAnimal: {
+    id: 'some-unique-id',
+    type: 'Cattle',          // match filter names exactly
+    tag_id: 'tag-001',       // full tag id string
+    temp: '36.5',            // example
+    motion: 'Active',
+    heart: '75',
+  }
+});
+
+  } catch (error) {
+    console.error('Error registering animal:', error.response?.data || error.message);
+    Alert.alert('Registration Error', 'Failed to register animal. Please try again.');
+  }
+};
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -34,7 +66,6 @@ export default function RegisterScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      
       <HeaderAndTab
         onMenuPress={() => console.log('Menu clicked')}
         onBellPress={() => console.log('Bell clicked')}
@@ -110,11 +141,17 @@ export default function RegisterScreen({navigation}) {
           keyboardType="numeric"
         />
 
-        <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('DashboardScreen')}>
-          <Text style={styles.registerButtonText}>Register</Text>
+        <TouchableOpacity
+          style={[styles.registerButton, loading && { opacity: 0.7 }]}
+          onPress={handleAnimalRegister}
+          disabled={loading}
+        >
+          <Text style={styles.registerButtonText}>
+            {loading ? "Registering..." : "Register"}
+          </Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>
-         <TabBar activeTab="Home" />
+      <TabBar activeTab="Home" />
     </View>
   );
 }

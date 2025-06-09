@@ -5,43 +5,42 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
+
+import { Ionicons } from '@expo/vector-icons';  // For plus icon
 
 import HeaderAndTab from './HeaderAndTab'; 
 import TabBar from './TabBar';             
 import LivestockCard from './LivestockCard';
 
-export default function DashboardScreen({ route }) {
-  // Start with existing animals or empty list
-  const [livestockData, setLivestockData] = useState([
-    { id: '1', type: 'Cow', tag: 250, temp: '-', motion: '-', heart: '-' },
-    { id: '2', type: 'Goat', tag: 183, temp: '-', motion:'-', heart: '-' },
-    { id: '3', type: 'Pig', tag: 145, temp: '-', motion: '-', heart: '-' },
-    { id: '4', type: 'Sheep', tag: 322, temp: '-', motion: '-', heart: '-' },
-  ]);
+export default function DashboardScreen({ route, navigation }) {
+  const [livestockData, setLivestockData] = useState([]);
+  const [activeFilter, setActiveFilter] = useState('All');
 
-  // Add new animal passed from register screen (if any)
   useEffect(() => {
     if (route.params?.newAnimal) {
       setLivestockData(prev => [...prev, route.params.newAnimal]);
     }
   }, [route.params?.newAnimal]);
 
-  const minAnimals = 10;
+  const filteredAnimals = livestockData.filter(animal => {
+    if (activeFilter === 'All') return true;
+    return animal.type === activeFilter;
+  });
 
-  // Fill placeholders if less than minAnimals
-  const displayedAnimals = [...livestockData];
-  while (displayedAnimals.length < minAnimals) {
-    displayedAnimals.push({
-      id: `placeholder-${displayedAnimals.length}`,
-      type: 'Add animal',
-      tag: '-',
-      temp: '-',
-      motion: '-',
-      heart: '-',
-      isPlaceholder: true,
-    });
-  }
+  const getTagNumber = (tag_id) => {
+    if (!tag_id) return '-';
+    const parts = tag_id.split('-');
+    return parts.length > 1 ? parts[1] : tag_id;
+  };
+
+  const filters = [
+    { name: 'All' },
+    { name: 'Cattle' },
+    { name: 'Sheep' },
+    { name: 'Goat' },
+  ];
 
   return (
     <View style={styles.container}>
@@ -51,57 +50,59 @@ export default function DashboardScreen({ route }) {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
-      
         <View style={styles.filtersRow}>
-          <Text style={[styles.filterTab, styles.activeFilter]}>All</Text>
-          {/* /* <Text style={styles.filterTab}>With Trackers</Text>
-          <Text style={styles.filterTab}>Without Trackers</Text> */ }
-        </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.animalFilters}>
-          {[
-            { name: 'Cows', count: '0', active: true },
-            { name: 'pigs', count: '0' },
-            { name: 'sheep', count: '0' },
-            { name: 'Goats', count: '0' },
-            { name: 'Ram', count: '0' },
-          ].map((item, index) => (
-            <View key={index} style={styles.animalChipWrapper}>
-              <Text
-                style={[
-                  styles.animalChip,
-                  item.active && styles.animalChipActive
-                ]}
-              >
-                {item.name}
+          {filters.map(filter => (
+            <TouchableOpacity 
+              key={filter.name} 
+              onPress={() => setActiveFilter(filter.name)}
+              style={[
+                styles.filterTab,
+                activeFilter === filter.name && styles.activeFilter,
+              ]}
+            >
+              <Text style={activeFilter === filter.name ? styles.filterTextActive : styles.filterText}>
+                {filter.name}
               </Text>
-              <View style={styles.animalBadge}>
-                <Text style={styles.badgeText}>{item.count}</Text>
-              </View>
-            </View>
+            </TouchableOpacity>
           ))}
-        </ScrollView>
-        <Text style={styles.totalCount}>{displayedAnimals.length}</Text>
-        <View style={styles.livestockSection}>
-          <FlatList
-            data={displayedAnimals}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.cardWrapper}>
-                <LivestockCard
-                  animalType={item.isPlaceholder ? 'Add animal' : item.type}
-                  tag={item.tag}
-                  temperature={item.temp}
-                  motion={item.motion}
-                  heartRate={item.heart}
-                  // Optionally you could style placeholder cards differently inside LivestockCard
-                />
-              </View>
-            )}
-            scrollEnabled={false}
-          />
         </View>
+
+        <Text style={styles.totalCount}>{filteredAnimals.length}</Text>
+
+        <View style={styles.livestockSection}>
+          {filteredAnimals.length === 0 ? (
+            <Text style={styles.noAnimalsText}>No animals registered yet.</Text>
+          ) : (
+            <FlatList
+              data={filteredAnimals}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <View style={styles.cardWrapper}>
+                  <LivestockCard
+                    animalType={item.type}
+                    tag={getTagNumber(item.tag_id)}
+                    temperature={item.temp ?? '-'}
+                    motion={item.motion ?? '-'}
+                    heartRate={item.heart ?? '-'}
+                  />
+                </View>
+              )}
+              scrollEnabled={false}
+            />
+          )}
+        </View>
+
         <View style={{ height: 80 }} />
       </ScrollView>
+
+      {/* Floating plus button */}
+      <TouchableOpacity
+        style={styles.floatingButton}
+        onPress={() => navigation.navigate('RegisterScreen')}
+        activeOpacity={0.7}
+      >
+        <Ionicons name="add" size={32} color="white" />
+      </TouchableOpacity>
 
       <TabBar activeTab="Home" />
     </View>
@@ -109,83 +110,66 @@ export default function DashboardScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  scrollContainer: {
-    padding: 16,
-    
-  },
-  filtersRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 12,
-  },
+  container: { flex: 1, backgroundColor: '#fff' },
+  scrollContainer: { padding: 16 },
+  filtersRow: { flexDirection: 'row', justifyContent: 'space-around', marginBottom: 16 },
   filterTab: {
     borderColor: '#bbb',
     borderWidth: 1,
     borderRadius: 25,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingVertical: 8,
+  },
+  activeFilter: {
+    backgroundColor: '#37833b',
+    borderWidth: 0,
+  },
+  filterText: {
     color: '#333',
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
   },
-  livestockSection: {
-    backgroundColor: '#f6f6f6', 
-    borderRadius: 10,
-    padding: 12,
-    marginTop: 12,
-  },
-  
-  cardWrapper: {
-    marginBottom: 12,
-  },
-  activeFilter: {
-    backgroundColor: '#37833b',
+  filterTextActive: {
     color: '#fff',
-    borderWidth: 0,
-  },
-  animalFilters: {
-    flexDirection: 'row',
-    marginBottom: 16,
-  },
-  animalChipWrapper: {
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  animalChip: {
-    borderColor: '#bbb',
-    borderWidth: 1,
-    borderRadius: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    color: '#333',
     fontSize: 14,
+    fontWeight: '500',
     textAlign: 'center',
   },
-  animalChipActive: {
-    backgroundColor: '#37833b',
-    color: '#fff',
-    borderWidth: 0,
+  livestockSection: {
+    backgroundColor: '#f6f6f6',
+    borderRadius: 10,
+    padding: 12,
+    minHeight: 100,
   },
-  animalBadge: {
-    backgroundColor: '#111',
-    borderRadius: 12,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    marginTop: 4,
-  },
-  badgeText: {
-    color: '#fff',
-    fontSize: 10,
-  },
+  cardWrapper: { marginBottom: 12 },
   totalCount: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 16,
+    textAlign: 'center',
+  },
+  noAnimalsText: {
+    textAlign: 'center',
+    color: '#888',
+    fontSize: 16,
+    paddingVertical: 40,
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 80, // above tab bar
+    right: 20,
+    backgroundColor: '#37833b',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
 });

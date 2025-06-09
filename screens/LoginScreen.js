@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../utils/api'; // Your Axios instance file
 
 export default function LoginScreen({ navigation }) {
@@ -24,9 +25,16 @@ export default function LoginScreen({ navigation }) {
  const handleLogin = async () => {
   try {
     const res = await api.post('/auth/login/', {
-      phone: phoneNumber, // ✅ match the backend expectation exactly
+      phone: phoneNumber,
       password,
     });
+
+    const token = res.data.access || res.data.token; // Adjust this if backend uses a different key
+
+    if (token) {
+      await AsyncStorage.setItem('accessToken', token);
+      console.log('Token saved:', token);
+    }
 
     console.log('Login successful:', res.data);
     navigation.navigate('DashboardScreen');
@@ -35,13 +43,10 @@ export default function LoginScreen({ navigation }) {
     Alert.alert('Login Failed', error.response?.data?.message || 'Invalid phone number or password');
   }
 };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login to your{"\n"}account as a Farmer</Text>
       <Text style={styles.subtitle}>Please sign in to your account</Text>
-
-     <Text style={styles.label}>Email Address</Text>
 <Text style={styles.label}>Phone Number</Text>
 <TextInput
   style={styles.input}

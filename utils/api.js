@@ -2,7 +2,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_BASE_URL = 'https://ilera.onrender.com/api/v1/'; 
+const API_BASE_URL = 'https://ilera.onrender.com/api/v1/';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -11,9 +11,9 @@ const api = axios.create({
   },
 });
 
-// Automatically attach token to each request
+// Attach token automatically
 api.interceptors.request.use(async (config) => {
-  const token = await AsyncStorage.getItem('refresh-token');
+  const token = await AsyncStorage.getItem('accessToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
