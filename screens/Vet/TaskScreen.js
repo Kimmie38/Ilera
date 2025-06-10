@@ -10,13 +10,13 @@ const doctors = [
   {
     name: 'Alex Otti',
     experience: 'A farmer dedicated to livestock farming especially goats....',
-    image: require('../assets/docs/famer1.png'),
+    image: require('../../assets/docs/famer1.png'),
     
   },
   {
     name: 'Dotun Babangida',
     experience: 'A farmer dedicated to livestock farming especially goats....',
-    image: require('../assets/docs/famer2.png'),
+    image: require('../../assets/docs/famer2.png'),
     available: false,
   },
   {
@@ -28,13 +28,13 @@ const doctors = [
   {
     name: 'Justice Adam',
     experience: 'A farmer dedicated to livestock farming especially goats....',
-    image: require('../assets/docs/famer4.png'),
+    image: require('../../assets/docs/famer4.png'),
     available: false,
   },
   {
     name: 'Jigga',
     experience: 'A farmer dedicated to livestock farming especially goats....',
-    image: require('../assets/docs/farmers5.jpg'),
+    image: require('../../assets/docs/farmers5.jpg'),
     available: false,
   },
 ];

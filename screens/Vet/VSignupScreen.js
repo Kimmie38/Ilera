@@ -7,7 +7,7 @@ import { Checkbox } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
-import api from '../utils/api';
+import api from '../../utils/api';
 
 export default function VSignupScreen({ navigation }) {
   useFocusEffect(
@@ -28,7 +28,7 @@ export default function VSignupScreen({ navigation }) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState('FARMER');
+  const [role, setRole] = useState('VET');
   const [agree, setAgree] = useState(false);
   const [secureText, setSecureText] = useState(true);
   const [secureConfirmText, setSecureConfirmText] = useState(true);

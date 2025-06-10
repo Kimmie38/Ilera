@@ -28,14 +28,14 @@ import PersonalScreen from './screens/PersonalScreen';
 import VideoScreen from './screens/VideoScreen';
 import Signout from './screens/Signout'
 import VSignupScreen from './screens/VSignupScreen';
-import VCodeVerification from './screens/VCodeVerification';
-import VMainScreen from './screens/VMainScreen';
-import TaskScreen from './screens/TaskScreen'
-import VProfileScreen from './screens/VProfileScreen';
-import VMoreScreen from './screens/VMoreScreen';
+import VCodeVerification from './screens/Vet/VCodeVerification';
+import VMainScreen from './screens/Vet/VMainScreen';
+import TaskScreen from './screens/Vet/TaskScreen'
+import VProfileScreen from './screens/Vet/VProfileScreen';
+import VMoreScreen from './screens/Vet/VMoreScreen';
 import LivestockScreen from './screens/LivestockScreen';
-import InfoScreen from './screens/InfoScreen';
-import VLoginScreen from './screens/VLoginScreen';
+import InfoScreen from './screens/Vet/InfoScreen';
+import VLoginScreen from './screens/Vet/VLoginScreen';
 import SplashScreen from './screens/SplashScreen';
 import SideMenu from './component/SideMenu';
 import OrderTrackerScreen from './hamburger/OrderTrackerScreen';
@@ -43,7 +43,7 @@ import CommunityScreen from './hamburger/CommunityScreen';
 import SupportScreen from './hamburger/SupportScreen';
 import TerminatedScreen from './hamburger/TerminatedScreen';
 import ProceedScreen from './hamburger/ProceedScreen';
-import VSignout from './screens/VSignout';
+import VSignout from './screens/Vet/VSignout';
 
 
 const Stack = createNativeStackNavigator();

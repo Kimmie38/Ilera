@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import api from '../../utils/api';
 
-export default function CodeVerificationScreen({ navigation }) {
-  const [code, setCode] = useState(['', '', '', '', '', ]);
+export default function VCodeVerification({ route, navigation }) {
+  const { phoneNumber } = route.params;
+  const [code, setCode] = useState(['', '', '', '', '']);
   const inputRefs = useRef([]);
-  const [timeLeft, setTimeLeft] = useState(180); 
+  const [timeLeft, setTimeLeft] = useState(180);
   const [isResendEnabled, setIsResendEnabled] = useState(false);
 
   useEffect(() => {
@@ -27,39 +29,59 @@ export default function CodeVerificationScreen({ navigation }) {
   };
 
   const handleChange = (value, index) => {
-  const newCode = [...code];
-  newCode[index] = value;
-  setCode(newCode);
+    const newCode = [...code];
+    newCode[index] = value;
+    setCode(newCode);
 
-  if (value && index < code.length - 1) {
-    inputRefs.current[index + 1]?.focus();
-  }
-};
+    if (value && index < code.length - 1) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
 
   const isCodeComplete = code.every(digit => digit !== '');
 
+  const handleVerify = async () => {
+    const codeString = code.join('');
+    try {
+      const response = await api.post('/otp/verify/', {
+          phone: phoneNumber,  // use this name only in the payload
+        code: codeString
+      });
+
+      if (response.status === 200) {
+        navigation.navigate('BioScreen');
+      } else {
+        console.warn('OTP verification failed');
+      }
+    } catch (error) {
+      console.error('Verification error:', error.response?.data || error.message);
+    }
+  };
+
   const handleResendOTP = () => {
     console.log('Resending OTP...');
-    setTimeLeft(180); 
+    setTimeLeft(180);
     setIsResendEnabled(false);
+
+    // Optional: Trigger resend endpoint here
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Code Verification</Text>
-      <Text style={styles.subtitle}>Please enter the code we sent to your phone number.</Text>
+      <Text style={styles.subtitle}>Please enter the code sent to {phoneNumber}.</Text>
 
       <View style={styles.otpContainer}>
         {code.map((digit, index) => (
-       <TextInput
-      key={index}
-       ref={(el) => (inputRefs.current[index] = el)}
-      style={styles.otpInput}
-      keyboardType="numeric"
-      maxLength={1}
-       value={digit}
-      onChangeText={(value) => handleChange(value, index)}
-/>
+          <TextInput
+            key={index}
+            ref={(el) => (inputRefs.current[index] = el)}
+            style={styles.otpInput}
+            keyboardType="numeric"
+            maxLength={1}
+            value={digit}
+            onChangeText={(value) => handleChange(value, index)}
+          />
         ))}
       </View>
 
@@ -76,10 +98,7 @@ export default function CodeVerificationScreen({ navigation }) {
       </View>
 
       {isCodeComplete && (
-        <TouchableOpacity
-          style={styles.verifyButton}
-          onPress={() => navigation.navigate('InfoScreen')}
-        >
+        <TouchableOpacity style={styles.verifyButton} onPress={handleVerify}>
           <Text style={styles.verifyButtonText}>Verify</Text>
         </TouchableOpacity>
       )}

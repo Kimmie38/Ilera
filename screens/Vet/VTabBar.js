@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import HomeIcon from '../assets/icons/home.svg';
-import TaskIcon from '../assets/icons/task.svg';
-import ProfileIcon from '../assets/icons/profile.svg';
+import HomeIcon from '../../assets/icons/home.svg';
+import TaskIcon from '../../assets/icons/task.svg';
+import ProfileIcon from '../../assets/icons/profile.svg';
 
 export default function VTabBar({ activeTab: externalActiveTab }) {
   const navigation = useNavigation();

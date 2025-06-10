@@ -1,41 +1,62 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../../utils/api'; // Your Axios instance file
 
 export default function VLoginScreen({ navigation }) {
-    useFocusEffect(
+  useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        BackHandler.exitApp(); 
+        BackHandler.exitApp();
         return true;
       };
-  
       BackHandler.addEventListener('hardwareBackPress', onBackPress);
-  
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     }, [])
   );
-  const [phone, setPhone] = useState('');
+
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+ const handleLogin = async () => {
+  try {
+    const res = await api.post('/auth/login/', {
+      phone: phoneNumber,
+      password,
+    });
+
+    const token = res.data.access || res.data.token; // Adjust this if backend uses a different key
+
+    if (token) {
+      await AsyncStorage.setItem('accessToken', token);
+      await AsyncStorage.setItem('isFirstTime', 'false');
+      navigation.replace('VMainScreen')
+      console.log('Token saved:', token);
+    }
+
+    console.log('Login successful:', res.data);
+  } catch (error) {
+    console.error('Login error:', error.response?.data || error.message);
+    Alert.alert('Login Failed', error.response?.data?.message || 'Invalid phone number or password');
+  }
+};
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login to your{"\n"}account as a Vet</Text>
       <Text style={styles.subtitle}>Please sign in to your account</Text>
-
-      <Text style={styles.label}>Phone Number</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="E.g 08034567890"
-        keyboardType="phone-pad"
-        value={phone}
-        onChangeText={setPhone}
-      />
-
+<Text style={styles.label}>Phone Number</Text>
+<TextInput
+  style={styles.input}
+  placeholder="E.g. 08012345678"
+  keyboardType="phone-pad"
+  autoCapitalize="none"
+  value={phoneNumber}
+  onChangeText={setPhoneNumber}
+/>
       <Text style={styles.label}>Password</Text>
       <View style={styles.passwordContainer}>
         <TextInput
@@ -46,11 +67,7 @@ export default function VLoginScreen({ navigation }) {
           onChangeText={setPassword}
         />
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Ionicons
-            name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-            size={24}
-            color="gray"
-          />
+          <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={24} color="gray" />
         </TouchableOpacity>
       </View>
 
@@ -58,12 +75,9 @@ export default function VLoginScreen({ navigation }) {
         <Text style={styles.forgotPassword}>Forgot password?</Text>
       </TouchableOpacity>
 
-     <TouchableOpacity
-      style={styles.signInButton}
-      onPress={() => navigation.navigate('VMainScreen')}
-    >
-      <Text style={styles.signInText}>Login</Text>
-    </TouchableOpacity>
+      <TouchableOpacity style={styles.signInButton} onPress={handleLogin}>
+        <Text style={styles.signInText}>Login</Text>
+      </TouchableOpacity>
 
       <View style={styles.signupContainer}>
         <Text style={styles.signupText}>Don't have an account? </Text>
@@ -74,6 +88,8 @@ export default function VLoginScreen({ navigation }) {
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
