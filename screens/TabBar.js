@@ -1,51 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HomeIcon from '../assets/icons/home.svg';
 import VetIcon from '../assets/icons/vet.svg';
 import VideosIcon from '../assets/icons/resources.svg';
 import ProfileIcon from '../assets/icons/profile.svg';
 
-export default function TabBar({ activeTab: externalActiveTab }) {
+export default function TabBar() {
   const navigation = useNavigation();
   const route = useRoute();
-
-  const [activeTab, setActiveTab] = useState(externalActiveTab || '');
 
   const routeNameToTab = {
     MainScreen: 'Home',
     VetScreen: 'Vet',
     VideoScreen: 'Videos',
     ProfileScreen: 'Profile',
+    DashboardScreen: 'Home', // Include Dashboard if it shares tab with Home
   };
 
-  useEffect(() => {
-    if (externalActiveTab) {
-      setActiveTab(externalActiveTab);
-    } else {
-      const tab = routeNameToTab[route.name];
-      if (tab) setActiveTab(tab);
-    }
-  }, [externalActiveTab, route.name]);
+  const activeTab = routeNameToTab[route.name] || '';
 
-  const handleTabPress = (tabName) => {
-    setActiveTab(tabName);
-    switch (tabName) {
-      case 'Home':
-        navigation.navigate('MainScreen');
-        break;
-      case 'Vet':
-        navigation.navigate('VetScreen');
-        break;
-      case 'Videos':
-        navigation.navigate('VideoScreen');
-        break;
-      case 'Profile':
-        navigation.navigate('ProfileScreen');
-        break;
-    }
-  };
+  
+ const handleTabPress = async (tabName) => {
+  switch (tabName) {
+    case 'Home':
+      try {
+        const isFirstTime = await AsyncStorage.getItem('isFirstTime');
+        console.log('isFirstTime value:', isFirstTime); // 🪵 Log the value
+
+        if (isFirstTime === 'true') {
+          console.log('Navigating to MainScreen');
+          navigation.navigate('MainScreen');
+        } else {
+          console.log('Navigating to DashboardScreen');
+          navigation.navigate('DashboardScreen');
+        }
+      } catch (error) {
+        console.error('Error reading AsyncStorage:', error);
+        navigation.navigate('MainScreen'); // Fallback
+      }
+      break;
+    case 'Vet':
+      navigation.navigate('VetScreen');
+      break;
+    case 'Videos':
+      navigation.navigate('VideoScreen');
+      break;
+    case 'Profile':
+      navigation.navigate('ProfileScreen');
+      break;
+  }
+};
 
   const tabs = [
     { name: 'Home', Icon: HomeIcon },

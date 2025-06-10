@@ -5,6 +5,7 @@ import TabBar from './TabBar';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -42,19 +43,32 @@ const doctors = [
 ];
 
 export default function VetScreen({navigation}) {
-   useFocusEffect(
-    React.useCallback(() => {
-      const onBackPress = () => {
-        navigation.navigate('MainScreen'); 
-        return true;
-      };
+  
+  useFocusEffect(
+  React.useCallback(() => {
+    const onBackPress = async () => {
+      try {
+        const isFirstTime = await AsyncStorage.getItem('isFirstTime');
+        if (isFirstTime === 'true') {
+          navigation.navigate('MainScreen');
+        } else {
+          navigation.navigate('DashboardScreen');
+        }
+      } catch (error) {
+        console.error('Error reading isFirstTime:', error);
+        navigation.navigate('DashboardScreen'); // fallback
+      }
+      return true; // prevent default
+    };
 
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, [])
-  );
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    };
+  }, [])
+);
+
   return (
     <View style={styles.container}>
       <HeaderAndTab/>

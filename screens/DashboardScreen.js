@@ -13,22 +13,33 @@ import { Ionicons } from '@expo/vector-icons';  // For plus icon
 import HeaderAndTab from './HeaderAndTab'; 
 import TabBar from './TabBar';             
 import LivestockCard from './LivestockCard';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
+import api from '../utils/api'
+
 
 export default function DashboardScreen({ route, navigation }) {
   const [livestockData, setLivestockData] = useState([]);
   const [activeFilter, setActiveFilter] = useState('All');
 
-  useEffect(() => {
-    if (route.params?.newAnimal) {
-      setLivestockData(prev => [...prev, route.params.newAnimal]);
-    }
-  }, [route.params?.newAnimal]);
+useFocusEffect(
+  useCallback(() => {
+    const fetchAnimals = async () => {
+      try {
+        const response = await api.get('livestock/'); // Adjust the endpoint if needed
+        setLivestockData(response.data); // Make sure it's an array
+      } catch (error) {
+        console.error('Error fetching animals:', error);
+      }
+    };
 
-  const filteredAnimals = livestockData.filter(animal => {
-    if (activeFilter === 'All') return true;
-    return animal.type === activeFilter;
-  });
-
+    fetchAnimals();
+  }, [])
+);
+ const filteredAnimals = livestockData.filter(animal => {
+  if (activeFilter === 'All') return true;
+  return animal.category?.toLowerCase() === activeFilter.toLowerCase();
+});
   const getTagNumber = (tag_id) => {
     if (!tag_id) return '-';
     const parts = tag_id.split('-');
@@ -79,7 +90,7 @@ export default function DashboardScreen({ route, navigation }) {
               renderItem={({ item }) => (
                 <View style={styles.cardWrapper}>
                   <LivestockCard
-                    animalType={item.type}
+                    animalType={item.category.charAt(0).toUpperCase() + item.category.slice(1)}
                     tag={getTagNumber(item.tag_id)}
                     temperature={item.temp ?? '-'}
                     motion={item.motion ?? '-'}

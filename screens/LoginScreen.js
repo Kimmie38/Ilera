@@ -33,11 +33,12 @@ export default function LoginScreen({ navigation }) {
 
     if (token) {
       await AsyncStorage.setItem('accessToken', token);
+      await AsyncStorage.setItem('isFirstTime', 'false');
+      navigation.replace('DashboardScreen')
       console.log('Token saved:', token);
     }
 
     console.log('Login successful:', res.data);
-    navigation.navigate('DashboardScreen');
   } catch (error) {
     console.error('Login error:', error.response?.data || error.message);
     Alert.alert('Login Failed', error.response?.data?.message || 'Invalid phone number or password');

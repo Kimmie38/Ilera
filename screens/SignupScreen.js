@@ -60,7 +60,7 @@ export default function SignupScreen({ navigation }) {
         password,
         role,
       })
-       await AsyncStorage.setItem('hasSignedUp', 'true');;
+       await AsyncStorage.setItem('isFirstTime', 'true');;
 
 // after successful signup
 navigation.navigate('CodeVerificationScreen', { phoneNumber});
