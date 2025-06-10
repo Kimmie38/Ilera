@@ -27,7 +27,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import PersonalScreen from './screens/PersonalScreen';
 import VideoScreen from './screens/VideoScreen';
 import Signout from './screens/Signout'
-import VSignupScreen from './screens/VSignupScreen';
+import VSignupScreen from './screens/Vet/VSignupScreen';
 import VCodeVerification from './screens/Vet/VCodeVerification';
 import VMainScreen from './screens/Vet/VMainScreen';
 import TaskScreen from './screens/Vet/TaskScreen'
@@ -56,13 +56,19 @@ export default function App() {
   const [initialRoute, setInitialRoute] = useState(null);
 
 
- useEffect(() => {
+useEffect(() => {
   async function loadResources() {
+    // Clear expired/old tokens on first launch
+    await AsyncStorage.removeItem('accessToken');
+    await AsyncStorage.removeItem('refresh-Token');
+
+    // Load fonts
     await Font.loadAsync({
       'Kodchasan-Regular': require('./assets/fonts/Kodchasan-Regular.ttf'),
       'Kodchasan-Bold': require('./assets/fonts/Kodchasan-Bold.ttf'),
     });
 
+    // Determine starting screen
     const hasSignedUp = await AsyncStorage.getItem('hasSignedUp');
     setInitialRoute(hasSignedUp === 'true' ? 'LoginScreen' : 'First');
 
@@ -71,6 +77,7 @@ export default function App() {
 
   loadResources();
 }, []);
+
 
   if (!fontsLoaded, !initialRoute) {
     return (

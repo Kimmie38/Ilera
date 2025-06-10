@@ -9,7 +9,7 @@ import {
   Alert,
   BackHandler,
 } from 'react-native';
-import HeaderAndTab from './HeaderAndTab';
+import HeaderAndTab from '../HeaderAndTab';
 import VTabBar from './VTabBar';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';

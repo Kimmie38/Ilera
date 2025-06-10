@@ -33,6 +33,7 @@ export default function SignupScreen({ navigation }) {
   const [agree, setAgree] = useState(false);
   const [secureText, setSecureText] = useState(true);
   const [secureConfirmText, setSecureConfirmText] = useState(true);
+  
 
   const handleUserRegister = async () => {
     if (!firstName || !lastName || !email || !phoneNumber || !password || !confirmPassword || !role) {
@@ -60,8 +61,20 @@ export default function SignupScreen({ navigation }) {
         password,
         role,
       })
-       await AsyncStorage.setItem('isFirstTime', 'true');;
+      
+      console.log('Signup response:', res.data); // ✅ This is now inside try, after res is defined
 
+    const { user } = res.data;
+
+    await AsyncStorage.multiSet([
+      ['isFirstTime', 'true'],
+      ['@name', `${user.first_name} ${user.last_name}`],
+      ['@firstName', user.first_name],
+      ['@lastName', user.last_name],
+      ['@email', user.email],
+      ['@phone', user.phone],
+      ['@role', user.role],
+    ]);
 // after successful signup
 navigation.navigate('CodeVerificationScreen', { phoneNumber});
 

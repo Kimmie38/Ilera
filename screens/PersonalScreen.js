@@ -1,15 +1,57 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import TabBar from './TabBar';
+import api from '../utils/api';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function PersonalScreen({ navigation }) {
-  const userData = {
-    fullName: 'Albert Magaji',
-    phone: '+234 80419606411',
-    email: 'albertmagaji@gmail.com',
-    address: '24 street, Dadin Kowa, Plateau State',
-  };
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchProfile = async () => {
+        try {
+          setLoading(true);
+          const response = await api.get('/profile/');
+          const data = response.data;
+
+          setUserData({
+            fullName: `${data.first_name} ${data.last_name}`,
+            phone: data.phone || '',
+            email: data.email || '',
+            address: data.profile?.location || '',
+            bio: data.profile?.bio || '',
+          });
+
+          console.log('Fetched profile:', data);
+        } catch (error) {
+          console.error('Error fetching profile:', error.response?.data || error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchProfile();
+    }, [])
+  );
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#4CAF50" />
+      </View>
+    );
+  }
+
+  if (!userData) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ color: '#888' }}>No profile data available.</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -17,41 +59,32 @@ export default function PersonalScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
-        <View style={{ width: 24 }} /> 
+        <View style={{ width: 24 }} />
       </View>
 
       <View style={styles.form}>
         <Text style={styles.label}>Full Name:</Text>
-        <TextInput
-          style={styles.input}
-          value={userData.fullName}
-          editable={false}
-          selectTextOnFocus={false}
-        />
+        <TextInput style={styles.input} value={userData.fullName} editable={false} />
 
         <Text style={styles.label}>Phone No:</Text>
-        <TextInput
-          style={styles.input}
-          value={userData.phone}
-          editable={false}
-          selectTextOnFocus={false}
-        />
+        <TextInput style={styles.input} value={userData.phone} editable={false} />
 
         <Text style={styles.label}>Email:</Text>
-        <TextInput
-          style={styles.input}
-          value={userData.email}
-          editable={false}
-          selectTextOnFocus={false}
-          keyboardType="email-address"
-        />
+        <TextInput style={styles.input} value={userData.email} editable={false} keyboardType="email-address" />
 
         <Text style={styles.label}>Address:</Text>
         <TextInput
-          style={[styles.input, { height: 80 }]}
+          style={[styles.input, { height: 60 }]}
           value={userData.address}
           editable={false}
-          selectTextOnFocus={false}
+          multiline
+        />
+
+        <Text style={styles.label}>Bio:</Text>
+        <TextInput
+          style={[styles.input, { height: 80 }]}
+          value={userData.bio}
+          editable={false}
           multiline
         />
       </View>
@@ -73,11 +106,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
     justifyContent: 'space-between',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#000',
   },
   form: {
     flex: 1,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
-import HeaderAndTab from './HeaderAndTab';
+import HeaderAndTab from '../HeaderAndTab';
 import VTabBar from './VTabBar';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
@@ -22,7 +22,7 @@ const doctors = [
   {
     name: 'Desmond Tinibu',
     experience: 'A farmer dedicated to livestock farming especially goats....',
-    image: require('../assets/docs/famer3.png'),
+    image: require('../../assets/docs/famer3.png'),
     available: false,
   },
   {

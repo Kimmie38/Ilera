@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import HeaderAndTab from './HeaderAndTab'; 
+import HeaderAndTab from '../HeaderAndTab'; 
 import VTabBar from './VTabBar';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';

@@ -7,53 +7,71 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  BackHandler,
 } from 'react-native';
 import HeaderAndTab from './HeaderAndTab';
 import TabBar from './TabBar';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
-import { BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../utils/api';
 
 export default function ProfileScreen({ navigation }) {
- useFocusEffect(
-  React.useCallback(() => {
-    const onBackPress = async () => {
-      try {
-        const isFirstTime = await AsyncStorage.getItem('isFirstTime');
-        if (isFirstTime === 'true') {
-          navigation.navigate('MainScreen');
-        } else {
-          navigation.navigate('DashboardScreen');
+  const [image, setImage] = useState(null);
+const [userName, setUserName] = useState('');
+const [phone, setPhone] = useState('');
+const [email, setEmail] = useState('');
+const [address, setAddress] = useState('');
+const [bio, setBio] = useState('');
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = async () => {
+        try {
+          const isFirstTime = await AsyncStorage.getItem('isFirstTime');
+          if (isFirstTime === 'true') {
+            navigation.navigate('MainScreen');
+          } else {
+            navigation.navigate('DashboardScreen');
+          }
+        } catch (error) {
+          console.error('Error reading isFirstTime:', error);
+          navigation.navigate('DashboardScreen'); // fallback
         }
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      };
+    }, [])
+  );
+
+useFocusEffect(
+  React.useCallback(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get('/profile/');
+        const { first_name, last_name, phone, email, profile } = res.data;
+
+        setUserName(`${first_name} ${last_name}`);
+        setPhone(phone || '');
+        setEmail(email || '');
+        setAddress(profile?.location || '');
+        setBio(profile?.bio || '');
+
+        console.log('Fetched profile:', res.data);
       } catch (error) {
-        console.error('Error reading isFirstTime:', error);
-        navigation.navigate('DashboardScreen'); // fallback
+        console.error('Failed to load profile:', error.response?.data || error.message);
       }
-      return true; // prevent default
     };
 
-    BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    };
+    fetchProfile();
   }, [])
 );
-  const [image, setImage] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(
-          'Permission Required',
-          'We need access to your media library to update your profile picture.'
-        );
-      }
-    })();
-  }, []);
 
   const pickImage = async () => {
     try {
@@ -72,17 +90,14 @@ export default function ProfileScreen({ navigation }) {
     }
   };
 
- 
   const handleOptionPress = (option) => {
     switch (option) {
       case 'Personal Data':
-        navigation.navigate('PersonalScreen'); 
+        navigation.navigate('PersonalScreen');
         break;
       case 'Help Center':
-
         break;
       case 'Request Account Deletion':
-       
         break;
       case 'Add another account':
         break;
@@ -93,7 +108,7 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-     <HeaderAndTab navigation={navigation} />
+      <HeaderAndTab navigation={navigation} />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.profileSection}>
@@ -110,7 +125,7 @@ export default function ProfileScreen({ navigation }) {
               <Feather name="camera" size={18} color="#fff" />
             </View>
           </TouchableOpacity>
-          <Text style={styles.userName}>Albert Magaji</Text>
+          <Text style={styles.userName}>{userName || 'Loading...'}</Text>
         </View>
 
         {/* Options */}
@@ -127,13 +142,13 @@ export default function ProfileScreen({ navigation }) {
 
         {/* Sign Out */}
         <TouchableOpacity
-      style={styles.signOutButton}
-      onPress={() => navigation.navigate('Signout')} 
-    >
-      <Text style={styles.signOutText}>
-        <MaterialIcons name="logout" size={16} color="#F00" /> Sign Out
-      </Text>
-    </TouchableOpacity>
+          style={styles.signOutButton}
+          onPress={() => navigation.navigate('Signout')}
+        >
+          <Text style={styles.signOutText}>
+            <MaterialIcons name="logout" size={16} color="#F00" /> Sign Out
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
 
       <TabBar activeTab="Profile" />
@@ -224,28 +239,27 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     color: '#333',
-    fontFamily:"Kodchasan-Bold",
+    fontFamily: 'Kodchasan-Bold',
   },
   optionArrow: {
     color: '#999',
   },
   signOutButton: {
-  marginTop: 100,
-  borderWidth: 1,
-  borderColor: '#D6D6D6',
-  borderRadius: 30,
-  alignSelf: 'center',
-  width: '80%',           
-  paddingVertical: 12,
-  alignItems: 'center',   
-  justifyContent: 'center', 
-  flexDirection: 'row',   
-  gap: 6,                 
-},
-
-signOutText: {
-  color: '#f00',
-  fontSize: 16,
-  fontWeight: '500',
-},
+    marginTop: 100,
+    borderWidth: 1,
+    borderColor: '#D6D6D6',
+    borderRadius: 30,
+    alignSelf: 'center',
+    width: '80%',
+    paddingVertical: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 6,
+  },
+  signOutText: {
+    color: '#f00',
+    fontSize: 16,
+    fontWeight: '500',
+  },
 });

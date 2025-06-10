@@ -1,17 +1,10 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Base URL
-const API_BASE_URL = 'https://ilera.onrender.com/api/v1/';
-
 const api = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: 'https://ilera.onrender.com/api/v1/',
 });
 
-// Attach token automatically to requests
 api.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem('accessToken');
   if (token) {
@@ -20,27 +13,32 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
-// Response interceptor to handle token expiration or invalid token
 api.interceptors.response.use(
-  response => response,
-  async error => {
+  (response) => response,
+  async (error) => {
     const originalRequest = error.config;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      error.response.data?.code === 'token_not_valid'
-    ) {
-      // Token expired or invalid - clear tokens
-      await AsyncStorage.removeItem('accessToken');
-      await AsyncStorage.removeItem('refresh-Token');
+    // Only retry once
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
 
-      // Optionally you can redirect user to login screen here, but you
-      // would need access to navigation which is tricky here.
-      // Instead, you can emit an event or handle this in your screens.
+      try {
+        const refreshToken = await AsyncStorage.getItem('refresh-Token');
+        const response = await axios.post('https://ilera.onrender.com/api/v1/refresh-token/', {
+          refresh: refreshToken,
+        });
 
-      // Reject error so your screens know what happened
-      return Promise.reject(error);
+        const newAccessToken = response.data.access;
+        await AsyncStorage.setItem('accessToken', newAccessToken);
+
+        api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+        return api(originalRequest); // Retry the original request
+      } catch (err) {
+        console.error('Token refresh failed:', err);
+        // Optional: Logout the user here
+      }
     }
 
     return Promise.reject(error);

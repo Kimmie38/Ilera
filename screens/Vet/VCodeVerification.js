@@ -49,7 +49,7 @@ export default function VCodeVerification({ route, navigation }) {
       });
 
       if (response.status === 200) {
-        navigation.navigate('BioScreen');
+        navigation.navigate('InfoScreen');
       } else {
         console.warn('OTP verification failed');
       }
