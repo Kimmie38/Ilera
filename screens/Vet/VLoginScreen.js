@@ -8,10 +8,10 @@ import api from '../../utils/api'; // Your Axios instance file
 
 export default function VLoginScreen({ navigation }) {
   useFocusEffect(
-    React.useCallback(() => {
-      const onBackPress = () => {
-        BackHandler.exitApp();
-        return true;
+        React.useCallback(() => {
+            const onBackPress = () => {
+              navigation.navigate('LoginRegister');
+              return true;
       };
       BackHandler.addEventListener('hardwareBackPress', onBackPress);
       return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);

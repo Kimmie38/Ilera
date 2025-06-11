@@ -45,6 +45,7 @@ import SupportScreen from './hamburger/SupportScreen';
 import TerminatedScreen from './hamburger/TerminatedScreen';
 import ProceedScreen from './hamburger/ProceedScreen';
 import VSignout from './screens/Vet/VSignout';
+import LoginRegister from './screens/LoginRegister';
 
 
 const Stack = createNativeStackNavigator();
@@ -71,7 +72,7 @@ useEffect(() => {
 
     // Determine starting screen
     const hasSignedUp = await AsyncStorage.getItem('hasSignedUp');
-    setInitialRoute(hasSignedUp === 'true' ? 'DashboardScreen' : 'First');
+    setInitialRoute(hasSignedUp === 'true' ? 'LoginRegister' : 'First');
 
     setFontsLoaded(true);
   }
@@ -128,7 +129,8 @@ useEffect(() => {
       <Stack.Screen name="Terminated" component={TerminatedScreen}options={{ headerShown: false }} />
       <Stack.Screen name="Proceed" component={ProceedScreen}options={{ headerShown: false }} />
        <Stack.Screen name="SideMenu" component={SideMenu}options={{ headerShown: false }} />
-          <Stack.Screen name="NotificationScreen" component={NotificationScreen}options={{ headerShown: false }} />
+      <Stack.Screen name="NotificationScreen" component={NotificationScreen}options={{ headerShown: false }} />
+       <Stack.Screen name="LoginRegister" component={LoginRegister}options={{ headerShown: false }} />
       
     </Stack.Navigator>
   </NavigationContainer>
