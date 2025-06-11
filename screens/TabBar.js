@@ -7,6 +7,7 @@ import HomeIcon from '../assets/icons/home.svg';
 import VetIcon from '../assets/icons/vet.svg';
 import VideosIcon from '../assets/icons/resources.svg';
 import ProfileIcon from '../assets/icons/profile.svg';
+import PersonalScreen from './PersonalScreen';
 
 export default function TabBar() {
   const navigation = useNavigation();
@@ -17,6 +18,7 @@ export default function TabBar() {
     VetScreen: 'Vet',
     VideoScreen: 'Videos',
     ProfileScreen: 'Profile',
+    PersonalScreen: 'Profile',
     DashboardScreen: 'Home', // Include Dashboard if it shares tab with Home
   };
 

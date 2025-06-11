@@ -38,6 +38,7 @@ import InfoScreen from './screens/Vet/InfoScreen';
 import VLoginScreen from './screens/Vet/VLoginScreen';
 import SplashScreen from './screens/SplashScreen';
 import SideMenu from './component/SideMenu';
+import NotificationScreen from './screens/NotificationScreen';
 import OrderTrackerScreen from './hamburger/OrderTrackerScreen';
 import CommunityScreen from './hamburger/CommunityScreen';
 import SupportScreen from './hamburger/SupportScreen';
@@ -127,6 +128,7 @@ useEffect(() => {
       <Stack.Screen name="Terminated" component={TerminatedScreen}options={{ headerShown: false }} />
       <Stack.Screen name="Proceed" component={ProceedScreen}options={{ headerShown: false }} />
        <Stack.Screen name="SideMenu" component={SideMenu}options={{ headerShown: false }} />
+          <Stack.Screen name="NotificationScreen" component={NotificationScreen}options={{ headerShown: false }} />
       
     </Stack.Navigator>
   </NavigationContainer>

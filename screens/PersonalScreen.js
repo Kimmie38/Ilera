@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginBottom: 6,
     color: '#555',
+    fontFamily:'Kodchasan-Regular',
   },
   input: {
     borderBottomWidth: 1,
@@ -123,5 +124,6 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     marginBottom: 20,
     color: '#000',
+    fontFamily:'Kodchasan-Regular',
   },
 });

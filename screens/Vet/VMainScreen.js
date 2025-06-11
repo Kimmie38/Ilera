@@ -1,23 +1,25 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import HeaderAndTab from '../HeaderAndTab'; 
-import VTabBar from './VTabBar';
+import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native';
+import HeaderAndTab from '../HeaderAndTab'; // adjust path if needed
+import TabBar from './VTabBar';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function VMainScreen({ navigation }) {
+
+export default function MainScreen({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
-        navigation.replace('VLoginScreen');
-        return true; 
+        navigation.replace('LoginScreen'); 
+        return true;
       };
-  
+
       BackHandler.addEventListener('hardwareBackPress', onBackPress);
-  
       return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     }, [])
   );
+
   return (
     <View style={styles.container}>
       <HeaderAndTab
@@ -27,15 +29,28 @@ export default function VMainScreen({ navigation }) {
         onTabPress={(tab) => console.log(`${tab} tab clicked`)}
       />
 
-      {/* Body */}
       <View style={styles.body}>
-        <Text style={styles.noAnimalsText}>no current appointment</Text>
-        <Text style={styles.subText}>
-          Please be patient while farmers request your service
-        </Text>
+        {/* Image added here */}
+        <Image
+          source={require('../../assets/image2.png')} // Adjust path if needed
+          style={styles.image}
+          resizeMode="contain"
+        />
 
+        <Text style={styles.noAnimalsText}>No current appointments</Text>
+        <Text style={styles.subText}>
+          Please be patient while farmers request You Service
+        </Text>
       </View>
-       <VTabBar activeTab="Home" />
+       <TouchableOpacity
+              style={styles.floatingButton}
+              onPress={() => navigation.navigate('RegisterScreen')}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="add" size={32} color="white" />
+            </TouchableOpacity>
+
+      <TabBar activeTab="Home" />
     </View>
   );
 }
@@ -51,6 +66,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 80,
+    paddingHorizontal: 20,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 30,
   },
   noAnimalsText: {
     fontFamily: 'Kodchasan-Bold',
@@ -64,18 +85,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     textAlign: 'center',
-    marginBottom: 40,
-  },
-  registerButton: {
-    backgroundColor: 'green',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-  },
-  registerButtonText: {
-    fontFamily: 'Kodchasan-Regular',
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
   },
 });

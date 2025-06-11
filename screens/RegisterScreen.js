@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Keyboard, Alert } 
 import { Picker } from '@react-native-picker/picker';
 import HeaderAndTab from './HeaderAndTab'; 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import TabBar from './TabBar';
 import api from '../utils/api'
 
@@ -34,18 +35,18 @@ const handleAnimalRegister = async () => {
 
     navigation.navigate('DashboardScreen', {
   newAnimal: {
-    id: 'some-unique-id',
-    type: 'Cattle',          // match filter names exactly
-    tag_id: 'tag-001',       // full tag id string
-    temp: '36.5',            // example
+      id: 'some-unique-id',
+    type: 'Cattle',
+    tag_id: 'tag-001',
+    temp: '36.5',
     motion: 'Active',
     heart: '75',
+    gender: 'Male',      
+    age: '2 years',
   }
 });
 
   } catch (error) {
-    console.error('Error registering animal:', error.response?.data || error.message);
-    Alert.alert('Registration Error', 'Failed to register animal. Please try again.');
   }
 };
   useEffect(() => {
@@ -135,8 +136,8 @@ const handleAnimalRegister = async () => {
         <Text style={styles.label}>Animal's Age</Text>
         <TextInput
           style={styles.input}
-          value={age}
-          onChangeText={setAge}
+          value={age?.toString()} // make sure age shows correctly if it's a number
+          onChangeText={(text) => setAge(parseInt(text) || 0)} // force it to be a number
           placeholder="Enter Age"
           keyboardType="numeric"
         />

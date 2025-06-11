@@ -14,8 +14,18 @@ import VTabBar from './VTabBar';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
+import api from '../../utils/api';
+
 
 export default function VProfileScreen({ navigation }) {
+  const [image, setImage] = useState(null);
+  const [userName, setUserName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [bio, setBio] = useState('');
+  
+
   useFocusEffect(
     React.useCallback(() => {
       const onBackPress = () => {
@@ -28,20 +38,28 @@ export default function VProfileScreen({ navigation }) {
     }, [])
   );
 
-  const [image, setImage] = useState(null);
-  const [availability, setAvailability] = useState(false);
+  useFocusEffect(
+  React.useCallback(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get('/profile/');
+        const { first_name, last_name, phone, email, profile } = res.data;
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(
-          'Permission Required',
-          'We need access to your media library to update your profile picture.'
-        );
+        setUserName(`${first_name} ${last_name}`);
+        setPhone(phone || '');
+        setEmail(email || '');
+        setAddress(profile?.location || '');
+        setBio(profile?.bio || '');
+
+        console.log('Fetched profile:', res.data);
+      } catch (error) {
+        console.error('Failed to load profile:', error.response?.data || error.message);
       }
-    })();
-  }, []);
+    };
+
+    fetchProfile();
+  }, [])
+);
 
   const pickImage = async () => {
     try {
@@ -78,7 +96,7 @@ export default function VProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <HeaderAndTab title="Profile" />
+      <HeaderAndTab navigation={navigation} />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.profileSection}>
@@ -95,41 +113,22 @@ export default function VProfileScreen({ navigation }) {
               <Feather name="camera" size={18} color="#fff" />
             </View>
           </TouchableOpacity>
-          <Text style={styles.userName}>Albert Magaji</Text>
+          <Text style={styles.userName}>{userName || 'Loading...'}</Text>
         </View>
 
+        {/* Options */}
         <View style={styles.optionsList}>
-          {['Personal Data', 'Help Center', 'Request Account Deletion', 'Add another account'].map(
-            (label) => (
-              <OptionItem
-                key={label}
-                label={label}
-                icon={getIconForLabel(label)}
-                onPress={() => handleOptionPress(label)}
-              />
-            )
-          )}
-        </View>
-        <View style={styles.availabilityRow}>
-          <View style={styles.availabilityLeft}>
-            <Ionicons name="accessibility-outline" size={20} style={styles.optionIcon} />
-            <Text style={styles.optionLabel}>Availability</Text>
-          </View>
-          <TouchableOpacity
-            style={[
-              styles.toggleContainer,
-              availability ? styles.toggleOn : styles.toggleOff,
-            ]}
-            onPress={() => setAvailability(!availability)}
-          >
-            <View
-              style={[
-                styles.toggleThumb,
-                availability ? styles.toggleThumbOn : styles.toggleThumbOff,
-              ]}
+          {['Personal Data', 'Help Center', 'Request Account Deletion', 'Add another account'].map((label) => (
+            <OptionItem
+              key={label}
+              label={label}
+              icon={getIconForLabel(label)}
+              onPress={() => handleOptionPress(label)}
             />
-          </TouchableOpacity>
+          ))}
         </View>
+
+        {/* Sign Out */}
         <TouchableOpacity
           style={styles.signOutButton}
           onPress={() => navigation.navigate('VSignout')}
@@ -204,16 +203,16 @@ const styles = StyleSheet.create({
   },
   userName: {
     marginTop: 10,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
     color: '#000',
+    fontFamily: 'Kodchasan-Bold',
   },
   optionsList: {
     marginTop: 10,
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#ddd',
-    fontFamily:"Kodchasan-Regular",
   },
   optionItem: {
     flexDirection: 'row',
@@ -229,69 +228,27 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     color: '#333',
-    fontFamily:"Kodchasan-Bold",
+    fontFamily: 'Kodchasan-Bold',
   },
   optionArrow: {
     color: '#999',
   },
-  availabilityRow: {
-    flexDirection: 'row',
+  signOutButton: {
+    marginTop: 100,
+    borderWidth: 1,
+    borderColor: '#D6D6D6',
+    borderRadius: 30,
+    alignSelf: 'center',
+    width: '80%',
+    paddingVertical: 12,
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 15,
-    borderBottomColor: '#eee',
-    borderBottomWidth: 1,
-    paddingHorizontal: 2,
-  },
-  availabilityLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  toggleContainer: {
-    width: 42,
-    height: 24,
-    borderRadius: 12,
-    padding: 2,
     justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 6,
   },
-  toggleOn: {
-    backgroundColor: '#4CAF50',
+  signOutText: {
+    color: '#f00',
+    fontSize: 16,
+    fontWeight: '500',
   },
-  toggleOff: {
-    backgroundColor: '#ccc',
-  },
-  toggleThumb: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: '#fff',
-    position: 'absolute',
-  },
-  toggleThumbOn: {
-    right: 2,
-  },
-  toggleThumbOff: {
-    left: 2,
-  },
- signOutButton: {
-  marginTop: 100,
-  borderWidth: 1,
-  borderColor: '#D6D6D6',
-  borderRadius: 30,
-  alignSelf: 'center',
-  width: '80%',           
-  paddingVertical: 12,
-  alignItems: 'center',   
-  justifyContent: 'center', 
-  flexDirection: 'row',   
-  gap: 6,                 
-},
-
-signOutText: {
-  color: '#f00',
-  fontSize: 16,
-  fontWeight: '500',
-},
-
 });

@@ -39,10 +39,9 @@ export default function VLoginScreen({ navigation }) {
     }
 
     console.log('Login successful:', res.data);
-  } catch (error) {
-    console.error('Login error:', error.response?.data || error.message);
-    Alert.alert('Login Failed', error.response?.data?.message || 'Invalid phone number or password');
-  }
+    } catch (err) {
+        Alert.alert('Registration Failed', JSON.stringify( 'An error occurred'));
+      }
 };
   return (
     <View style={styles.container}>

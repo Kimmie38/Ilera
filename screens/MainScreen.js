@@ -1,26 +1,27 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native';
 import HeaderAndTab from './HeaderAndTab'; // adjust path if needed
 import TabBar from './TabBar';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
 
 export default function MainScreen({ navigation }) {
   useFocusEffect(
-  React.useCallback(() => {
-    const onBackPress = () => {
-      navigation.replace('LoginScreen'); 
-      return true;
-    };
+    React.useCallback(() => {
+      const onBackPress = () => {
+        navigation.replace('LoginScreen'); 
+        return true;
+      };
 
-    BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
 
-    return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-  }, [])
-);
   return (
     <View style={styles.container}>
-
       <HeaderAndTab
         onMenuPress={() => console.log('Hamburger clicked')}
         onBellPress={() => console.log('Bell clicked')}
@@ -28,21 +29,28 @@ export default function MainScreen({ navigation }) {
         onTabPress={(tab) => console.log(`${tab} tab clicked`)}
       />
 
-      
       <View style={styles.body}>
+        {/* Image added here */}
+        <Image
+          source={require('../assets/image.png')} // Adjust path if needed
+          style={styles.image}
+          resizeMode="contain"
+        />
+
         <Text style={styles.noAnimalsText}>No Animals Registered</Text>
         <Text style={styles.subText}>
           Please Click the register button{"\n"}to register your animals and{"\n"}track their health
         </Text>
-
-        <TouchableOpacity
-          style={styles.registerButton}
-          onPress={() => navigation.navigate('RegisterScreen')}
-        >
-          <Text style={styles.registerButtonText}>Register Animals</Text>
-        </TouchableOpacity>
       </View>
-       <TabBar activeTab="Home" />
+       <TouchableOpacity
+              style={styles.floatingButton}
+              onPress={() => navigation.navigate('RegisterScreen')}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="add" size={32} color="white" />
+            </TouchableOpacity>
+
+      <TabBar activeTab="Home" />
     </View>
   );
 }
@@ -58,6 +66,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 80,
+    paddingHorizontal: 20,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 30,
   },
   noAnimalsText: {
     fontFamily: 'Kodchasan-Bold',
@@ -71,18 +85,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     textAlign: 'center',
-    marginBottom: 40,
-  },
-  registerButton: {
-    backgroundColor: 'green',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-  },
-  registerButtonText: {
-    fontFamily: 'Kodchasan-Regular',
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
   },
 });

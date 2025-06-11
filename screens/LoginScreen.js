@@ -29,19 +29,16 @@ export default function LoginScreen({ navigation }) {
       password,
     });
 
-    const token = res.data.access || res.data.token; // Adjust this if backend uses a different key
+    const token = res.data.access || res.data.token; 
 
     if (token) {
       await AsyncStorage.setItem('accessToken', token);
       await AsyncStorage.setItem('isFirstTime', 'false');
       navigation.replace('DashboardScreen')
-      console.log('Token saved:', token);
     }
 
-    console.log('Login successful:', res.data);
   } catch (error) {
-    console.error('Login error:', error.response?.data || error.message);
-    Alert.alert('Login Failed', error.response?.data?.message || 'Invalid phone number or password');
+    Alert.alert('Login Failed', 'Invalid phone number or password');
   }
 };
   return (

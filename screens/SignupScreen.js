@@ -62,8 +62,6 @@ export default function SignupScreen({ navigation }) {
         role,
       })
       
-      console.log('Signup response:', res.data); // ✅ This is now inside try, after res is defined
-
     const { user } = res.data;
 
     await AsyncStorage.multiSet([
@@ -79,8 +77,7 @@ export default function SignupScreen({ navigation }) {
 navigation.navigate('CodeVerificationScreen', { phoneNumber});
 
     } catch (err) {
-      console.error('Registration error:', err.response?.data || err.message);
-      Alert.alert('Registration Failed', JSON.stringify(err.response?.data || 'An error occurred'));
+      Alert.alert('Registration Failed');
     }
   };
 

@@ -2,96 +2,110 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import HeaderAndTab from '../HeaderAndTab';
 import VTabBar from './VTabBar';
+import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const doctors = [
-  {
-    name: 'Alex Otti',
-    experience: 'A farmer dedicated to livestock farming especially goats....',
-    image: require('../../assets/docs/famer1.png'),
-    
-  },
-  {
-    name: 'Dotun Babangida',
-    experience: 'A farmer dedicated to livestock farming especially goats....',
-    image: require('../../assets/docs/famer2.png'),
-    available: false,
-  },
-  {
-    name: 'Desmond Tinibu',
-    experience: 'A farmer dedicated to livestock farming especially goats....',
-    image: require('../../assets/docs/famer3.png'),
-    available: false,
-  },
-  {
-    name: 'Justice Adam',
-    experience: 'A farmer dedicated to livestock farming especially goats....',
-    image: require('../../assets/docs/famer4.png'),
-    available: false,
-  },
-  {
-    name: 'Jigga',
-    experience: 'A farmer dedicated to livestock farming especially goats....',
-    image: require('../../assets/docs/farmers5.jpg'),
-    available: false,
-  },
-];
 
-export default function TaskScreen({navigation}) {
-    useFocusEffect(
-      React.useCallback(() => {
-        const onBackPress = () => {
-          navigation.replace('VMainScreen'); 
-          return true;
-        };
-    
-        BackHandler.addEventListener('hardwareBackPress', onBackPress);
-    
-        return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-      }, [])
-    );
+
+
+export default function VetScreen({navigation}) {
+  
+  useFocusEffect(
+  React.useCallback(() => {
+    const onBackPress = async () => {
+      try {
+        const isFirstTime = await AsyncStorage.getItem('isFirstTime');
+        if (isFirstTime === 'true') {
+          navigation.navigate('MainScreen');
+        } else {
+          navigation.navigate('DashboardScreen');
+        }
+      } catch (error) {
+        console.error('Error reading isFirstTime:', error);
+        navigation.navigate('DashboardScreen'); // fallback
+      }
+      return true; // prevent default
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    };
+  }, [])
+);
+
   return (
     <View style={styles.container}>
-      <HeaderAndTab
-        onMenuPress={() => console.log('Hamburger clicked')}
-        onBellPress={() => console.log('Bell clicked')}
-        activeTab="Task"
-        onTabPress={(tab) => console.log(`${tab} tab clicked`)}/>
+      <HeaderAndTab/>
 
-      <Text style={styles.sectionTitle}>Farmers Requesting your Service</Text>
+      {/* Search Bar */}
+      <TextInput style={styles.searchInput} placeholder="Search for Farmers" />
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
-        {doctors.map((doc, index) => (
-          <View key={index} style={styles.card}>
-            <Image source={doc.image} style={styles.avatar} />
-            <View style={styles.info}>
-              <Text style={styles.name}>{doc.name}</Text>
-              <Text style={styles.experience}>{doc.experience}</Text>
-              <View style={styles.statusRow}>
-                <View
-                />
-              </View>
-            </View>
-           <TouchableOpacity onPress={() => navigation.push('VMoreScreen', { doctor: doc })}
-            style={styles.frontButton}>
-              <Ionicons name="arrow-forward" size={15} color="#333" />
-            </TouchableOpacity>
+
+      <View style={styles.container}>
+          
+           {/* Body */}
+           
+           <View style={styles.body}>
+            <Image
+                source={require('../../assets/image2.png')} // Adjust path if needed
+                 style={styles.image}
+                 resizeMode="contain"
+                   />
+            
+             <Text style={styles.noAnimalsText}>No Farmer has requested Your service</Text>
+             <Text style={styles.subText}>
+               
+             </Text>
+           </View>
+                  <VTabBar activeTab ="Task" />
+         </View>
           </View>
-        ))}
-      </ScrollView>
-     <VTabBar activeTab="Task" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  searchInput: {
+       );
+     }
+     
+     const styles = StyleSheet.create({
+       container: {
+         flex: 1,
+         backgroundColor: '#fff',
+         
+       },
+       body: {
+         flex: 1,
+         justifyContent: 'center',
+         alignItems: 'center',
+         paddingBottom: 80,
+       },
+       noAnimalsText: {
+         fontFamily: 'Kodchasan-Bold',
+         fontSize: 17,
+         marginBottom: 10,
+         color: '#000',
+         textAlign: 'center',
+       },
+       subText: {
+         fontFamily: 'Kodchasan-Regular',
+         fontSize: 14,
+         color: '#666',
+         textAlign: 'center',
+         marginBottom: 40,
+       },
+       registerButton: {
+         backgroundColor: 'green',
+         paddingVertical: 12,
+         paddingHorizontal: 30,
+         borderRadius: 25,
+       },
+       registerButtonText: {
+         fontFamily: 'Kodchasan-Regular',
+         color: '#fff',
+         fontSize: 14,
+         fontWeight: '600',
+       },
+         searchInput: {
     marginHorizontal: 20,
     marginTop: 12,
     backgroundColor: '#f6f6f6',
@@ -100,21 +114,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Kodchasan-Regular',
   },
-   frontButton:{
-      padding: 6,
-  backgroundColor: '#DDDDDE',
-  borderRadius: 30,
-  marginTop:50,
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.2,
-  shadowRadius: 4,
-  elevation: 5,
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 30,
   },
   sectionTitle: {
-    marginHorizontal: 50,
+    marginHorizontal: 80,
     marginVertical: 12,
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: 'Kodchasan-Bold',
     color: '#333',
   },
@@ -133,10 +141,22 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginRight: 14,
   },
+  frontButton:{
+      padding: 6,
+  backgroundColor: '#DDDDDE',
+  borderRadius: 30,
+  marginTop:50,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+  elevation: 5,
+  },
   info: {
     flex: 1,
   },
   name: {
+    fontWeight: 'bold',
     fontSize: 14,
     fontFamily: 'Kodchasan-Bold',
     color: '#111',
@@ -167,4 +187,5 @@ const styles = StyleSheet.create({
     color: '#888',
     paddingHorizontal: 8,
   },
-});
+     });
+     

@@ -9,38 +9,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-const doctors = [
-  {
-    name: 'Dr. Muhamadu Rufai',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('../assets/docs/doc1.jpg'),
-    available: false,
-  },
-  {
-    name: 'Dr. Olu Kolapo',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('../assets/docs/doc2.jpg'),
-    available: false,
-  },
-  {
-    name: 'Dr. Ikenna Chidi',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('../assets/docs/doc3.jpg'),
-    available: false,
-  },
-  {
-    name: 'Dr. Fabura Amaka',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('../assets/docs/doc4.jpg'),
-    available: false,
-  },
-  {
-    name: 'Dr. Tanko Amina',
-    experience: '10 years working experience goats, cows, pigs and lots...',
-    image: require('../assets/docs/doc5.jpg'),
-    available: false,
-  },
-];
 
 export default function VetScreen({navigation}) {
   
@@ -76,46 +44,68 @@ export default function VetScreen({navigation}) {
       {/* Search Bar */}
       <TextInput style={styles.searchInput} placeholder="Search for Doctors" />
 
-      {/* Section Title */}
-      <Text style={styles.sectionTitle}>Vet Doctors Near You</Text>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
-        {doctors.map((doc, index) => (
-          <View key={index} style={styles.card}>
-            <Image source={doc.image} style={styles.avatar} />
-            <View style={styles.info}>
-              <Text style={styles.name}>{doc.name}</Text>
-              <Text style={styles.experience}>{doc.experience}</Text>
-              <View style={styles.statusRow}>
-                <View
-                  style={[
-                    styles.statusDot,
-                    { backgroundColor: doc.available? '#32cd32' : '#ccc' },
-                  ]}
-                />
-                <Text style={styles.statusText}>
-                  {doc.available ? 'Available' : 'Unavailable'}
-                </Text>
-              </View>
-            </View>
-           <TouchableOpacity onPress={() => navigation.push('MoreScreen', { doctor: doc })}
-            style={styles.frontButton}>
-                       <Ionicons name="arrow-forward" size={15} color="#333" />
-            </TouchableOpacity>
+      <View style={styles.container}>
+          
+           {/* Body */}
+           
+           <View style={styles.body}>
+            <Image
+                source={require('../assets/image2.png')} // Adjust path if needed
+                 style={styles.image}
+                 resizeMode="contain"
+                   />
+            
+             <Text style={styles.noAnimalsText}>No Registered Vets </Text>
+             <Text style={styles.subText}>
+               
+             </Text>
+           </View>
+                  <TabBar activeTab ="Video" />
+         </View>
           </View>
-        ))}
-      </ScrollView>
-              <TabBar activeTab="Vet" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  searchInput: {
+       );
+     }
+     
+     const styles = StyleSheet.create({
+       container: {
+         flex: 1,
+         backgroundColor: '#fff',
+         
+       },
+       body: {
+         flex: 1,
+         justifyContent: 'center',
+         alignItems: 'center',
+         paddingBottom: 80,
+       },
+       noAnimalsText: {
+         fontFamily: 'Kodchasan-Bold',
+         fontSize: 17,
+         marginBottom: 10,
+         color: '#000',
+         textAlign: 'center',
+       },
+       subText: {
+         fontFamily: 'Kodchasan-Regular',
+         fontSize: 14,
+         color: '#666',
+         textAlign: 'center',
+         marginBottom: 40,
+       },
+       registerButton: {
+         backgroundColor: 'green',
+         paddingVertical: 12,
+         paddingHorizontal: 30,
+         borderRadius: 25,
+       },
+       registerButtonText: {
+         fontFamily: 'Kodchasan-Regular',
+         color: '#fff',
+         fontSize: 14,
+         fontWeight: '600',
+       },
+         searchInput: {
     marginHorizontal: 20,
     marginTop: 12,
     backgroundColor: '#f6f6f6',
@@ -123,6 +113,11 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 14,
     fontFamily: 'Kodchasan-Regular',
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 30,
   },
   sectionTitle: {
     marginHorizontal: 80,
@@ -192,4 +187,5 @@ const styles = StyleSheet.create({
     color: '#888',
     paddingHorizontal: 8,
   },
-});
+     });
+     

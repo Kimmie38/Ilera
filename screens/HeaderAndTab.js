@@ -19,8 +19,8 @@ export default function HeaderAndTab() {
         <TouchableOpacity onPress={toggleMenu}>
           <MenuIcon width={24} height={24} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('Bell pressed')}>
-          <BellIcon width={24} height={24} />
+        <TouchableOpacity onPress={() => navigation.navigate('NotificationScreen')}>
+       <BellIcon width={24} height={24} />
         </TouchableOpacity>
       </View>
 

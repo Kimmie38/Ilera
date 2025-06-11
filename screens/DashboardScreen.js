@@ -140,12 +140,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
+    fontFamily:'Kodchasan-Bold',
   },
   filterTextActive: {
     color: '#fff',
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
+    fontFamily:'Kodchasan-Bold'
   },
   livestockSection: {
     backgroundColor: '#f6f6f6',

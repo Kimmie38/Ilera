@@ -215,9 +215,10 @@ const styles = StyleSheet.create({
   },
   userName: {
     marginTop: 10,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
     color: '#000',
+    fontFamily: 'Kodchasan-Bold',
   },
   optionsList: {
     marginTop: 10,

@@ -37,10 +37,9 @@ export default function BioScreen({ navigation }) {
     await AsyncStorage.setItem('@bio', bio);
 
     navigation.navigate('MainScreen');
-  } catch (error) {
-    console.error('Update failed:', error.response?.data || error.message);
-    Alert.alert('Submission Failed', 'Failed to submit. Please try again.');
-  }
+    } catch (err) {
+        Alert.alert('Registration Failed', JSON.stringify( 'An error occurred'));
+      }
 };
 
   return (

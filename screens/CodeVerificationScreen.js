@@ -53,9 +53,9 @@ export default function CodeVerificationScreen({ route, navigation }) {
       } else {
         console.warn('OTP verification failed');
       }
-    } catch (error) {
-      console.error('Verification error:', error.response?.data || error.message);
-    }
+      } catch (err) {
+          Alert.alert('Registration Failed', JSON.stringify( 'An error occurred'));
+        }
   };
 
   const handleResendOTP = () => {

@@ -63,8 +63,7 @@ export default function VSignupScreen({ navigation }) {
       navigation.navigate('VCodeVerificationScreen');
 
     } catch (err) {
-      console.error('Registration error:', err.response?.data || err.message);
-      Alert.alert('Registration Failed', JSON.stringify(err.response?.data || 'An error occurred'));
+      Alert.alert('Registration Failed', JSON.stringify( 'An error occurred'));
     }
   };
 
