@@ -7,7 +7,6 @@ import HomeIcon from '../assets/icons/home.svg';
 import VetIcon from '../assets/icons/vet.svg';
 import VideosIcon from '../assets/icons/resources.svg';
 import ProfileIcon from '../assets/icons/profile.svg';
-import PersonalScreen from './PersonalScreen';
 
 export default function TabBar() {
   const navigation = useNavigation();

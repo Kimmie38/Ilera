@@ -71,7 +71,7 @@ useEffect(() => {
 
     // Determine starting screen
     const hasSignedUp = await AsyncStorage.getItem('hasSignedUp');
-    setInitialRoute(hasSignedUp === 'true' ? 'LoginScreen' : 'First');
+    setInitialRoute(hasSignedUp === 'true' ? 'DashboardScreen' : 'First');
 
     setFontsLoaded(true);
   }

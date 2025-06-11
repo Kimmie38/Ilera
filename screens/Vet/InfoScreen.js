@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,14 +10,58 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../../utils/api';  
 
-const InfoScreen = ({navigation}) => {
+export default function InfoScreen({ navigation }) {
+  const [farmAddress, setFarmAddress] = useState('');
+  const [bio, setBio] = useState('');
+
+  const handleGoBack = () => {
+    if (navigation && navigation.goBack) {
+      navigation.goBack();
+    } else {
+      console.log('Go back pressed');
+    }
+  };
+
+ const handleSubmit = async () => {
+  if (!farmAddress || !bio) {
+    Alert.alert('Missing Fields', 'Please fill in all the fields.');
+    return;
+  }
+
+  try {
+    const response = await api.patch('/profile/', {
+      profile: {
+        bio: bio,
+        location: farmAddress,
+      },
+    });
+
+    console.log('Profile updated:', response.data);
+
+    await AsyncStorage.setItem('@farm_address', farmAddress);
+    await AsyncStorage.setItem('@bio', bio);
+
+    navigation.navigate('VMainScreen');
+    } catch (err) {
+        Alert.alert('Registration Failed', JSON.stringify( 'An error occurred'));
+      }
+};
+
   return (
+      <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          style={{ flex: 1 }}
+        >
+    
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-        <TouchableOpacity style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="black" />
-        </TouchableOpacity>
+         <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
+           <ArrowBackIcon width={24} height={24} />
+             </TouchableOpacity>
+        
 
         <Text style={styles.title}>Verify that you are a Vet</Text>
         <Text style={styles.subtitle}>
@@ -37,6 +82,8 @@ const InfoScreen = ({navigation}) => {
             style={styles.textInput}
             placeholder="Vom, Azi compound"
             placeholderTextColor="#999"
+            value={farmAddress}
+            onChangeText={setFarmAddress}
           />
           <Ionicons name="location-sharp" size={20} color="black" />
         </View>
@@ -47,23 +94,21 @@ const InfoScreen = ({navigation}) => {
         </Text>
         <TextInput
           style={[styles.input, styles.textArea]}
-          multiline
+           multiline
+            value={bio}
+            onChangeText={setBio}
           numberOfLines={4}
           textAlignVertical="top"
         />
 
-         <TouchableOpacity
-      style={styles.button}
-      onPress={() => navigation.navigate('VMainScreen')}
-    >
-      <Text style={styles.buttonText}>Register</Text>
-    </TouchableOpacity>
+       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+             <Text style={styles.submitButtonText}>Submit</Text>   
+             </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
+     </KeyboardAvoidingView>
   );
 };
-
-export default InfoScreen;
 
 const styles = StyleSheet.create({
   safeArea: {
