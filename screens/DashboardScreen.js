@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -8,43 +8,77 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { Ionicons } from '@expo/vector-icons';  // For plus icon
-
-import HeaderAndTab from './HeaderAndTab'; 
-import TabBar from './TabBar';             
-import LivestockCard from './LivestockCard';
+import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback } from 'react';
-import api from '../utils/api'
 
+import HeaderAndTab from './HeaderAndTab';
+import TabBar from './TabBar';
+import LivestockCard from './LivestockCard';
+import api from '../utils/api';
+
+import io from 'socket.io-client';
+
+const SOCKET_URL = 'http://YOUR_BACKEND_SOCKET_URL'; 
 
 export default function DashboardScreen({ route, navigation }) {
   const [livestockData, setLivestockData] = useState([]);
   const [activeFilter, setActiveFilter] = useState('All');
+  const [sensorUpdates, setSensorUpdates] = useState({});
 
-useFocusEffect(
-  useCallback(() => {
-    const fetchAnimals = async () => {
-      try {
-        const response = await api.get('livestock/'); // Adjust the endpoint if needed
-        setLivestockData(response.data); // Make sure it's an array
-      } catch (error) {
-        console.error('Error fetching animals:', error);
-      }
+  // Fetch animal data from backend
+  useFocusEffect(
+    useCallback(() => {
+      const fetchAnimals = async () => {
+        try {
+          const response = await api.get('livestock/');
+          setLivestockData(response.data);
+        } catch (error) {
+          console.error('Error fetching animals:', error);
+        }
+      };
+
+      fetchAnimals();
+    }, [])
+  );
+
+  // Connect to WebSocket and listen for sensor updates
+  useEffect(() => {
+    const socket = io(SOCKET_URL);
+
+    socket.on('connect', () => {
+      console.log('Connected to socket');
+
+      // Join room or subscribe to device updates (dummy device ID for now)
+      socket.emit('join_device', { device_id: 'dummy-id-123' });
+    });
+
+    socket.on('sensor_data', (data) => {
+      console.log('Sensor data received:', data);
+      setSensorUpdates(prev => ({
+        ...prev,
+        [data.device_id]: data,
+      }));
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from socket');
+    });
+
+    return () => {
+      socket.disconnect();
     };
+  }, []);
 
-    fetchAnimals();
-  }, [])
-);
- const filteredAnimals = livestockData.filter(animal => {
-  if (activeFilter === 'All') return true;
-  return animal.category?.toLowerCase() === activeFilter.toLowerCase();
-});
   const getTagNumber = (tag_id) => {
     if (!tag_id) return '-';
     const parts = tag_id.split('-');
     return parts.length > 1 ? parts[1] : tag_id;
   };
+
+  const filteredAnimals = livestockData.filter(animal => {
+    if (activeFilter === 'All') return true;
+    return animal.category?.toLowerCase() === activeFilter.toLowerCase();
+  });
 
   const filters = [
     { name: 'All' },
@@ -87,17 +121,22 @@ useFocusEffect(
             <FlatList
               data={filteredAnimals}
               keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.cardWrapper}>
-                  <LivestockCard
-                    animalType={item.category.charAt(0).toUpperCase() + item.category.slice(1)}
-                    tag={getTagNumber(item.tag_id)}
-                    temperature={item.temp ?? '-'}
-                    motion={item.motion ?? '-'}
-                    heartRate={item.heart ?? '-'}
-                  />
-                </View>
-              )}
+              renderItem={({ item }) => {
+                const deviceId = item.sensor_device?.device_id || 'dummy-id-123';
+                const sensorData = sensorUpdates[deviceId] || {};
+
+                return (
+                  <View style={styles.cardWrapper}>
+                    <LivestockCard
+                      animalType={item.category.charAt(0).toUpperCase() + item.category.slice(1)}
+                      tag={getTagNumber(item.tag_id)}
+                      temperature={sensorData.temperature ?? item.temp ?? '-'}
+                      motion={sensorData.steps ?? item.motion ?? '-'}
+                      heartRate={sensorData.heart_rate ?? item.heart ?? '-'}
+                    />
+                  </View>
+                );
+              }}
               scrollEnabled={false}
             />
           )}
